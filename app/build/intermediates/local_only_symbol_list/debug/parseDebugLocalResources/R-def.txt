@@ -1,0 +1,28 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color colorAccent
+color colorAccentContainer
+color colorPrimary
+color colorPrimaryContainer
+color colorPrimaryDark
+color success_green
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id btn_bluetooth_detect
+id btn_rescan
+id btn_start_detection
+id lv_devices
+id surface_view
+id tv_scan_status
+id tv_status
+layout activity_device_list
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Base.Theme.MyApplication
+style Theme.MyApplication
+xml backup_rules
+xml data_extraction_rules
