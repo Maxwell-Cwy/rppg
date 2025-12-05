@@ -1,0 +1,199 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.myapplication"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="35"
+9        android:targetSdkVersion="36" />
+10
+11    <!-- ==================== 所有需要的权限（完美适配 Android 6~15） ==================== -->
+12
+13
+14    <!-- Android 12+ 新蓝牙权限（推荐写法，不会吓人提示“访问位置”） -->
+15    <uses-permission
+15-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:5-9:58
+16        android:name="android.permission.BLUETOOTH_SCAN"
+16-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:22-70
+17        android:usesPermissionFlags="neverForLocation" />
+17-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:9:9-55
+18    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+18-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:5-76
+18-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:22-73
+19
+20    <!-- 兼容 Android 11 及以下的旧蓝牙权限 -->
+21    <uses-permission android:name="android.permission.BLUETOOTH" />
+21-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:5-68
+21-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:22-65
+22    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+22-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:5-74
+22-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:22-71
+23
+24    <!-- 相机 + 麦克风（视频录制必须） -->
+25    <uses-permission android:name="android.permission.CAMERA" />
+25-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:5-65
+25-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:22-62
+26    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+26-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:18:5-71
+26-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:18:22-68
+27
+28    <!-- 网络（上传数据） -->
+29    <uses-permission android:name="android.permission.INTERNET" />
+29-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:21:5-67
+29-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:21:22-64
+30
+31    <!-- Android 13+ 读取视频文件 -->
+32    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+32-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:5-75
+32-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:22-72
+33
+34    <!-- 兼容 Android 12 及以下读取视频（只在 12 及以下生效） -->
+35    <uses-permission
+35-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:27:5-28:38
+36        android:name="android.permission.READ_EXTERNAL_STORAGE"
+36-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:27:22-77
+37        android:maxSdkVersion="32" />
+37-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:28:9-35
+38
+39    <permission
+39-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
+40        android:name="com.example.myapplication.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+40-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
+41        android:protectionLevel="signature" />
+41-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
+42
+43    <uses-permission android:name="com.example.myapplication.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- 可选：如果你以后要后台扫描，可以加这个（目前不需要可删） -->
+43-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
+43-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
+44    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+45    <application
+45-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
+46        android:allowBackup="true"
+46-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:34:9-35
+47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+47-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
+48        android:dataExtractionRules="@xml/data_extraction_rules"
+48-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:35:9-65
+49        android:debuggable="true"
+50        android:extractNativeLibs="false"
+51        android:fullBackupContent="@xml/backup_rules"
+51-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:36:9-54
+52        android:icon="@mipmap/ic_launcher"
+52-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:37:9-43
+53        android:label="@string/app_name"
+53-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:38:9-41
+54        android:roundIcon="@mipmap/ic_launcher_round"
+54-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:39:9-54
+55        android:supportsRtl="true"
+55-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:40:9-35
+56        android:testOnly="true"
+57        android:theme="@style/Theme.MyApplication" >
+57-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:41:9-51
+58
+59        <!-- 主界面（启动页） -->
+60        <activity
+60-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:45:9-52:20
+61            android:name="com.example.myapplication.MainActivity"
+61-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:46:13-41
+62            android:exported="true" >
+62-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:47:13-36
+63            <intent-filter>
+63-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:48:13-51:29
+64                <action android:name="android.intent.action.MAIN" />
+64-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:49:17-69
+64-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:49:25-66
+65
+66                <category android:name="android.intent.category.LAUNCHER" />
+66-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:50:17-77
+66-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:50:27-74
+67            </intent-filter>
+68        </activity>
+69
+70        <!-- 蓝牙设备选择页面（必须声明！否则点击“蓝牙检测”会直接崩溃） -->
+71        <activity
+71-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:55:9-63:20
+72            android:name="com.example.myapplication.DeviceListActivity"
+72-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:56:13-47
+73            android:exported="false"
+73-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:57:13-37
+74            android:parentActivityName="com.example.myapplication.MainActivity" >
+74-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:58:13-55
+75
+76            <!-- 可选：返回箭头能回到 MainActivity -->
+77            <meta-data
+77-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:60:13-62:49
+78                android:name="android.support.PARENT_ACTIVITY"
+78-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:61:17-63
+79                android:value=".MainActivity" />
+79-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:62:17-46
+80        </activity>
+81
+82        <provider
+82-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+83            android:name="androidx.startup.InitializationProvider"
+83-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+84            android:authorities="com.example.myapplication.androidx-startup"
+84-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+85            android:exported="false" >
+85-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+86            <meta-data
+86-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+87                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+87-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+88                android:value="androidx.startup" />
+88-->[androidx.emoji2:emoji2:1.3.0] C:\Users\407-34\.gradle\caches\8.13\transforms\72ec89c057b8fc4b4d994e150decb50c\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+89            <meta-data
+89-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\407-34\.gradle\caches\8.13\transforms\897872ba1c1dd1648314bcfe0cfaedfa\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+90                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+90-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\407-34\.gradle\caches\8.13\transforms\897872ba1c1dd1648314bcfe0cfaedfa\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+91                android:value="androidx.startup" />
+91-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\407-34\.gradle\caches\8.13\transforms\897872ba1c1dd1648314bcfe0cfaedfa\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+92            <meta-data
+92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+93                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+93-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+94                android:value="androidx.startup" />
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+95        </provider>
+96
+97        <receiver
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+98            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+99            android:directBootAware="false"
+99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+100            android:enabled="true"
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+101            android:exported="true"
+101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+102            android:permission="android.permission.DUMP" >
+102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+103            <intent-filter>
+103-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+104                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+105            </intent-filter>
+106            <intent-filter>
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+107                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+108            </intent-filter>
+109            <intent-filter>
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+110                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+111            </intent-filter>
+112            <intent-filter>
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+113                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\407-34\.gradle\caches\8.13\transforms\bea3b492cb8e4ad7544cb12b04b6af24\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+114            </intent-filter>
+115        </receiver>
+116    </application>
+117
+118</manifest>
