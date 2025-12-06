@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-67:12
 MERGED from [androidx.databinding:viewbinding:8.13.1] C:\Users\407-34\.gradle\caches\8.13\transforms\34a393ae25230c309ed80d32748b08cd\transformed\viewbinding-8.13.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\407-34\.gradle\caches\8.13\transforms\2b4fd5c3825f5ddf57119c98d6814122\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -53,58 +53,58 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\User
 MERGED from [androidx.print:print:1.0.0] C:\Users\407-34\.gradle\caches\8.13\transforms\07c7f6d9d81b0575b34b164f5dc77aec\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\407-34\.gradle\caches\8.13\transforms\196846137ec2dda4640ec916bf971492\transformed\annotation-experimental-1.4.0\AndroidManifest.xml:2:1-7:12
 	package
-		INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 	xmlns:tools
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:3:5-51
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
-		INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.BLUETOOTH_SCAN
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:5-9:58
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:8:5-9:58
 	android:usesPermissionFlags
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:9:9-55
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:9:9-55
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:22-70
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:8:22-70
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:5-76
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:10:5-76
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:22-73
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:10:22-73
 uses-permission#android.permission.BLUETOOTH
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:5-68
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:13:5-68
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:22-65
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:13:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:5-74
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:14:5-74
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:22-71
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:14:22-71
 uses-permission#android.permission.CAMERA
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:5-65
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:17:5-65
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:22-62
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:17:22-62
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:18:5-71
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:18:5-71
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:18:22-68
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:18:22-68
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:21:5-67
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:21:5-67
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:21:22-64
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:21:22-64
 uses-permission#android.permission.READ_MEDIA_VIDEO
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:5-75
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:24:5-75
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:22-72
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:24:22-72
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:27:5-28:38
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:27:5-28:38
 	android:maxSdkVersion
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:28:9-35
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:28:9-35
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:27:22-77
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:27:22-77
 application
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\407-34\.gradle\caches\8.13\transforms\2b4fd5c3825f5ddf57119c98d6814122\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -126,61 +126,61 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\407-34\.gradle\cac
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\407-34\.gradle\caches\8.13\transforms\f48c5a1c8c1128e0861d7820c4df6efe\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\407-34\.gradle\caches\8.13\transforms\f48c5a1c8c1128e0861d7820c4df6efe\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 	android:extractNativeLibs
-		INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:40:9-35
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:40:9-35
 	android:label
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:38:9-41
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:38:9-41
 	android:fullBackupContent
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:36:9-54
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:36:9-54
 	android:roundIcon
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:39:9-54
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:39:9-54
 	tools:targetApi
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:42:9-29
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:42:9-29
 	android:icon
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:37:9-43
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:37:9-43
 	android:allowBackup
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:34:9-35
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:34:9-35
 	android:theme
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:41:9-51
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:41:9-51
 	android:dataExtractionRules
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:35:9-65
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:35:9-65
 activity#com.example.myapplication.MainActivity
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:45:9-52:20
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:45:9-52:20
 	android:exported
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:47:13-36
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:47:13-36
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:46:13-41
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:46:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:48:13-51:29
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:48:13-51:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:49:17-69
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:49:17-69
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:49:25-66
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:49:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:50:17-77
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:50:17-77
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:50:27-74
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:50:27-74
 activity#com.example.myapplication.DeviceListActivity
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:55:9-63:20
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:55:9-63:20
 	android:parentActivityName
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:58:13-55
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:58:13-55
 	android:exported
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:57:13-37
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:57:13-37
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:56:13-47
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:56:13-47
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:60:13-62:49
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:60:13-62:49
 	android:value
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:62:17-46
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:62:17-46
 	android:name
-		ADDED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:61:17-63
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:61:17-63
 uses-sdk
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 MERGED from [androidx.databinding:viewbinding:8.13.1] C:\Users\407-34\.gradle\caches\8.13\transforms\34a393ae25230c309ed80d32748b08cd\transformed\viewbinding-8.13.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.databinding:viewbinding:8.13.1] C:\Users\407-34\.gradle\caches\8.13\transforms\34a393ae25230c309ed80d32748b08cd\transformed\viewbinding-8.13.1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:20:5-44
@@ -278,9 +278,9 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\407-34\.gradle\caches\8.13\tra
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\407-34\.gradle\caches\8.13\transforms\196846137ec2dda4640ec916bf971492\transformed\annotation-experimental-1.4.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\407-34\.gradle\caches\8.13\transforms\196846137ec2dda4640ec916bf971492\transformed\annotation-experimental-1.4.0\AndroidManifest.xml:5:5-44
 	android:targetSdkVersion
-		INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
 service#androidx.camera.core.impl.MetadataHolderService
 ADDED from [androidx.camera:camera-core:1.3.4] C:\Users\407-34\.gradle\caches\8.13\transforms\ee237fd1fd8f7dd90c0842fa56d9eb85\transformed\camera-core-1.3.4\AndroidManifest.xml:29:9-33:78
 MERGED from [androidx.camera:camera-camera2:1.3.4] C:\Users\407-34\.gradle\caches\8.13\transforms\002a7082a744892850cc544977b42c04\transformed\camera-camera2-1.3.4\AndroidManifest.xml:24:9-33:19
