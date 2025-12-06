@@ -13,48 +13,48 @@
 13
 14    <!-- Android 12+ 新蓝牙权限（推荐写法，不会吓人提示“访问位置”） -->
 15    <uses-permission
-15-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:5-9:58
+15-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:8:5-9:58
 16        android:name="android.permission.BLUETOOTH_SCAN"
-16-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:22-70
+16-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:8:22-70
 17        android:usesPermissionFlags="neverForLocation" />
-17-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:9:9-55
+17-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:9:9-55
 18    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-18-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:5-76
-18-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:22-73
+18-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:10:5-76
+18-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:10:22-73
 19
 20    <!-- 兼容 Android 11 及以下的旧蓝牙权限 -->
 21    <uses-permission android:name="android.permission.BLUETOOTH" />
-21-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:5-68
-21-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:22-65
+21-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:13:5-68
+21-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:13:22-65
 22    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-22-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:5-74
-22-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:22-71
+22-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:14:5-74
+22-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:14:22-71
 23
 24    <!-- 相机 + 麦克风（视频录制必须） -->
 25    <uses-permission android:name="android.permission.CAMERA" />
-25-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:5-65
-25-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:22-62
+25-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:17:5-65
+25-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:17:22-62
 26    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-26-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:18:5-71
-26-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:18:22-68
+26-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:18:5-71
+26-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:18:22-68
 27
 28    <!-- 网络（上传数据） -->
 29    <uses-permission android:name="android.permission.INTERNET" />
-29-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:21:5-67
-29-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:21:22-64
+29-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:21:5-67
+29-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:21:22-64
 30
 31    <!-- Android 13+ 读取视频文件 -->
 32    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-32-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:5-75
-32-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:22-72
+32-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:24:5-75
+32-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:24:22-72
 33
 34    <!-- 兼容 Android 12 及以下读取视频（只在 12 及以下生效） -->
 35    <uses-permission
-35-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:27:5-28:38
+35-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:27:5-28:38
 36        android:name="android.permission.READ_EXTERNAL_STORAGE"
-36-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:27:22-77
+36-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:27:22-77
 37        android:maxSdkVersion="32" />
-37-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:28:9-35
+37-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:28:9-35
 38
 39    <permission
 39-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
@@ -68,65 +68,65 @@
 43-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
 44    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
 45    <application
-45-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
+45-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:33:5-65:19
 46        android:allowBackup="true"
-46-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:34:9-35
+46-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:34:9-35
 47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 47-->[androidx.core:core:1.13.0] C:\Users\407-34\.gradle\caches\8.13\transforms\6b005a3146981f640eca9d3f58b04747\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
 48        android:dataExtractionRules="@xml/data_extraction_rules"
-48-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:35:9-65
+48-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:35:9-65
 49        android:debuggable="true"
 50        android:extractNativeLibs="false"
 51        android:fullBackupContent="@xml/backup_rules"
-51-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:36:9-54
+51-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:36:9-54
 52        android:icon="@mipmap/ic_launcher"
-52-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:37:9-43
+52-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:37:9-43
 53        android:label="@string/app_name"
-53-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:38:9-41
+53-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:38:9-41
 54        android:roundIcon="@mipmap/ic_launcher_round"
-54-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:39:9-54
+54-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:39:9-54
 55        android:supportsRtl="true"
-55-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:40:9-35
+55-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:40:9-35
 56        android:testOnly="true"
 57        android:theme="@style/Theme.MyApplication" >
-57-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:41:9-51
+57-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:41:9-51
 58
 59        <!-- 主界面（启动页） -->
 60        <activity
-60-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:45:9-52:20
+60-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:45:9-52:20
 61            android:name="com.example.myapplication.MainActivity"
-61-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:46:13-41
+61-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:46:13-41
 62            android:exported="true" >
-62-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:47:13-36
+62-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:47:13-36
 63            <intent-filter>
-63-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:48:13-51:29
+63-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:48:13-51:29
 64                <action android:name="android.intent.action.MAIN" />
-64-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:49:17-69
-64-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:49:25-66
+64-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:49:17-69
+64-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:49:25-66
 65
 66                <category android:name="android.intent.category.LAUNCHER" />
-66-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:50:17-77
-66-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:50:27-74
+66-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:50:17-77
+66-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:50:27-74
 67            </intent-filter>
 68        </activity>
 69
 70        <!-- 蓝牙设备选择页面（必须声明！否则点击“蓝牙检测”会直接崩溃） -->
 71        <activity
-71-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:55:9-63:20
+71-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:55:9-63:20
 72            android:name="com.example.myapplication.DeviceListActivity"
-72-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:56:13-47
+72-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:56:13-47
 73            android:exported="false"
-73-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:57:13-37
+73-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:57:13-37
 74            android:parentActivityName="com.example.myapplication.MainActivity" >
-74-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:58:13-55
+74-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:58:13-55
 75
 76            <!-- 可选：返回箭头能回到 MainActivity -->
 77            <meta-data
-77-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:60:13-62:49
+77-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:60:13-62:49
 78                android:name="android.support.PARENT_ACTIVITY"
-78-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:61:17-63
+78-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:61:17-63
 79                android:value=".MainActivity" />
-79-->C:\Users\407-34\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:62:17-46
+79-->C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:62:17-46
 80        </activity>
 81
 82        <!--
