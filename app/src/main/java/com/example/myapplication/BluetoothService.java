@@ -213,10 +213,24 @@ public class BluetoothService {
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
 
-            if (isReceivingData && characteristic.getValue() != null) {
-                String hexData = HexUtils.bytesToHex(characteristic.getValue());
+            byte[] data = characteristic.getValue();
+            if (data != null && data.length > 0) {
+                String hexData = HexUtils.bytesToHex(data);
+
+                // 强制打印！打开 Logcat 搜索 BLE_RAW 就能看到
+                Log.e("BLE_RAW", "收到血氧原始数据: " + hexData);
+
+                // 重点：打印长度！
+                if (hexData.contains("23 95")) {
+                    Log.e("OXIMETER_95", "收到95包，长度=" + data.length + " 内容=" + hexData);
+                }
+                // 强制保存到 OximeterData（不管有没有开始接收）
                 mOximeterData.addData(hexData);
-                mMainHandler.post(() -> mListener.onDataReceived(hexData));
+
+                // 只有在正式开始检测后才显示到界面
+                if (isReceivingData) {
+                    mMainHandler.post(() -> mListener.onDataReceived(hexData));
+                }
             }
         }
 

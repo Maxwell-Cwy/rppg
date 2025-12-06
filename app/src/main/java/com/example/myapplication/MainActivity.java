@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -15,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import com.example.myapplication.model.DetectionTimeStamp;
 import com.example.myapplication.model.OximeterData;
+import androidx.camera.view.PreviewView;
+import com.example.myapplication.utils.DataSaver;
+
+
+
 
 /**
  * 主界面：控制整体流程（蓝牙连接→开始检测→数据上传）
@@ -33,8 +37,7 @@ public class MainActivity extends AppCompatActivity implements
     private Button btnBluetoothDetect;   // 蓝牙检测按钮
     private Button btnStartDetection;    // 开始检测按钮
     private TextView tvStatus;           // 状态显示
-    private SurfaceView surfaceView;     // 视频预览
-
+    private PreviewView previewView;    // 视频预览
     // 核心服务
     private BluetoothService bluetoothService;  // 蓝牙服务
     private VideoRecorder videoRecorder;        // 视频录制服务
@@ -80,8 +83,7 @@ public class MainActivity extends AppCompatActivity implements
         btnBluetoothDetect = findViewById(R.id.btn_bluetooth_detect);
         btnStartDetection = findViewById(R.id.btn_start_detection);
         tvStatus = findViewById(R.id.tv_status);
-        surfaceView = findViewById(R.id.surface_view);
-
+        previewView = findViewById(R.id.preview_view);   // 正确
         // 设置状态文本初始值
         tvStatus.setText("请点击「蓝牙检测」按钮选择设备\n" +
                 "当前状态：蓝牙未连接");
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements
         // 蓝牙服务（传入当前Activity作为回调）
         bluetoothService = new BluetoothService(this, this);
         // 视频录制服务（传入预览界面）
-        videoRecorder = new VideoRecorder(this, this, surfaceView);
+        videoRecorder = new VideoRecorder(this, this, previewView);
         // 数据上传服务
         uploadService = new DataUploadService(this);
         // 初始化时间戳模型
@@ -164,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             // 显示视频预览界面
-            surfaceView.setVisibility(View.VISIBLE);
+
+            previewView.setVisibility(View.VISIBLE);
 
             // 更新状态
             tvStatus.setText("准备开始检测...\n" +
@@ -291,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements
         btnStartDetection.setAlpha(0.5f);
 
         // 隐藏视频预览
-        surfaceView.setVisibility(View.GONE);
+        previewView.setVisibility(View.GONE);
     }
 
     /**
@@ -362,7 +365,21 @@ public class MainActivity extends AppCompatActivity implements
         // 获取蓝牙收集的数据
         OximeterData oximeterData = bluetoothService.getCollectedData();
 
-        // 上传所有数据（蓝牙数据+视频+时间戳）
+// 先保存到本地（类似于上传逻辑）
+        try {
+            DataSaver.saveAllData(this, videoPath, oximeterData, detectionTimeStamp);
+            tvStatus.setText(tvStatus.getText().toString() + "\n" +
+                    "✅ 本地数据保存成功");
+            Toast.makeText(this, "数据已保存到本地", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            tvStatus.setText(tvStatus.getText().toString() + "\n" +
+                    "❌ 本地数据保存失败: " + e.getMessage());
+            Toast.makeText(this, "本地保存失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        // 再上传数据（保持原逻辑）
+        tvStatus.setText(tvStatus.getText().toString() + "\n" +
+                "正在上传数据到后端...");
         uploadService.uploadAllData(oximeterData, videoPath, detectionTimeStamp, this);
     }
 
@@ -382,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements
         btnBluetoothDetect.setAlpha(1.0f);
 
         // 隐藏视频预览
-        surfaceView.setVisibility(View.GONE);
+        previewView.setVisibility(View.GONE);
     }
 
     // ==================== DataUploadService.UploadListener 回调 ====================
@@ -402,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements
         resetButtonState();
 
         // 隐藏视频预览
-        surfaceView.setVisibility(View.GONE);
+        previewView.setVisibility(View.GONE);
     }
 
     /**
@@ -420,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements
         resetButtonState();
 
         // 隐藏视频预览
-        surfaceView.setVisibility(View.GONE);
+        previewView.setVisibility(View.GONE);
     }
 
     /**
@@ -480,7 +497,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (videoRecorder != null && videoRecorder.isRecording() && surfaceView.getVisibility() == View.VISIBLE) {
+        if (videoRecorder != null && videoRecorder.isRecording() && previewView.getVisibility() == View.VISIBLE) {
             videoRecorder.releaseResources(); // 重新初始化预览
         }
     }

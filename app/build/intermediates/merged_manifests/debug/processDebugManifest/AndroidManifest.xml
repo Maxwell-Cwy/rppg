@@ -79,6 +79,19 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <!--
+        Service for holding metadata. Cannot be instantiated.
+        Metadata will be merged from other manifests.
+        -->
+        <service
+            android:name="androidx.camera.core.impl.MetadataHolderService"
+            android:enabled="false"
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+        </service>
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.example.myapplication.androidx-startup"

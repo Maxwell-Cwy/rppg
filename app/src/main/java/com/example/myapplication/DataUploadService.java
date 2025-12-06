@@ -165,20 +165,33 @@ public class DataUploadService {
         /**
          * 创建血氧数据JSON字符串
          */
+        /**
+         * 创建血氧数据JSON字符串（已适配你最新的 OximeterData.java）
+         */
         private String createOximeterDataJson() throws JSONException {
             JSONObject json = new JSONObject();
-            // 血氧值（示例，实际需从数据中解析）
-            json.put("spo2", mOximeterData.getSpo2Value());
-            // 脉搏率（示例，实际需从数据中解析）
-            json.put("pulse_rate", mOximeterData.getPulseRate());
-            // 原始数据列表（JSON数组）
-            JSONObject dataJson = new JSONObject();
-            for (int i = 0; i < mOximeterData.getDataList().size(); i++) {
-                dataJson.put("data_" + i, mOximeterData.getDataList().get(i));
-            }
-            json.put("raw_data", dataJson);
-            // 数据总数
-            json.put("data_count", mOximeterData.getDataList().size());
+
+            // 实时值（最新一包数据）
+            json.put("spo2", mOximeterData.getSpo2());           // 实时血氧
+            json.put("pulse_rate", mOximeterData.getPr());        // 实时心率
+            json.put("temperature", mOximeterData.getTemperature());
+            json.put("pi", mOximeterData.getPi());
+            json.put("respiration_rate", mOximeterData.getRespirationRate());
+            json.put("probe_status", mOximeterData.getProbeStatus());
+            json.put("battery_level", mOximeterData.getBatteryLevel());
+
+            // 统计值（全程平均、最低、最高）
+            json.put("avg_spo2", mOximeterData.getAvgSpo2());
+            json.put("min_spo2", mOximeterData.getMinSpo2());
+            json.put("max_spo2", mOximeterData.getMaxSpo2());
+            json.put("avg_pr", mOximeterData.getAvgPr());
+            json.put("min_pr", mOximeterData.getMinPr());
+            json.put("max_pr", mOximeterData.getMaxPr());
+
+            // 原始数据（可选：如果后端要原始波形）
+            json.put("raw_data_count", mOximeterData.getCount());
+            json.put("start_time", mOximeterData.getStartTime());
+
             return json.toString();
         }
 
