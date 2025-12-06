@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 保留app命名空间，用于Material3属性 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
     android:gravity="center_horizontal"
-    android:background="@color/white"> <!-- 背景色，避免与主题冲突 -->
+    android:background="@color/white">
 
-    <!-- 视频预览区域（Material3无冲突，保持不变） -->
-    <SurfaceView
-        android:id="@+id/surface_view"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/preview_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginBottom="20dp"
         android:visibility="gone"
-        android:background="@color/black"/> <!-- 黑色背景，便于预览 -->
+        android:background="@color/black"
+        app:scaleType="fillCenter" />
 
-    <!-- 状态文本（Material3兼容，保持不变） -->
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="请先连接蓝牙设备"
+        android:text="请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接"
         android:textSize="18sp"
+        android:textColor="@color/black"
         android:gravity="center"
         android:minLines="4"
-        android:layout_marginBottom="30dp"
-        android:textColor="@color/black"/> <!-- 文本黑色，与白色背景对比 -->
+        android:layout_marginBottom="30dp" />
 
-    <!-- 蓝牙检测按钮（Material3兼容的MaterialButton） -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_bluetooth_detect"
         android:layout_width="match_parent"
@@ -40,9 +36,8 @@
         android:text="蓝牙检测（选择设备）"
         android:textSize="18sp"
         android:padding="15dp"
-        android:layout_marginBottom="20dp" /> <!-- 主题定义的白色文本 -->
+        android:layout_marginBottom="20dp" />
 
-    <!-- 开始检测按钮（默认禁用，Material3兼容） -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_start_detection"
         android:layout_width="match_parent"

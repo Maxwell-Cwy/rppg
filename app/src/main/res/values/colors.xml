@@ -12,5 +12,5 @@
     <!-- 基础颜色 -->
     <color name="white">#FFFFFF</color>                          <!-- 文本白色 -->
     <color name="success_green">#4CAF50</color>                  <!-- 连接成功提示色（绿色） -->
-    <color name="black">#000000</color>                          <!-- SurfaceView背景色（黑色） -->
+    <color name="black">#000000</color>                          <!-- previewView背景色（黑色） -->
 </resources>

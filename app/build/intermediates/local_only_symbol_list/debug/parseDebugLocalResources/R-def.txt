@@ -14,7 +14,7 @@ id btn_bluetooth_detect
 id btn_rescan
 id btn_start_detection
 id lv_devices
-id surface_view
+id preview_view
 id tv_scan_status
 id tv_status
 layout activity_device_list
