@@ -44,7 +44,7 @@ public class VideoRecorder {
 
     public interface VideoListener {
         void onVideoStarted(String videoPath, String startTime);
-        void onVideoFinished(String videoPath);
+        void onVideoFinished(String videoPath, String endTime);  // 修改：添加endTime
         void onVideoError(String errorMsg);
     }
 
@@ -87,9 +87,17 @@ public class VideoRecorder {
                         .prepareRecording(context, options)
                         .start(ContextCompat.getMainExecutor(context), recordEvent -> {
                             if (recordEvent instanceof VideoRecordEvent.Start) {
-                                listener.onVideoStarted(videoFile.getAbsolutePath(), TimeUtils.getPreciseTimeStamp());
+                                String startTime = TimeUtils.getPreciseTimeStamp();
+                                listener.onVideoStarted(videoFile.getAbsolutePath(), startTime);
                                 new android.os.Handler(android.os.Looper.getMainLooper())
-                                        .postDelayed(this::stopRecording, durationMillis);
+                                        .postDelayed(() -> {
+                                            stopRecording();
+                                            // 校验时长（可选：读取文件元数据或计算时间差）
+                                            long actualDuration = System.currentTimeMillis() - TimeUtils.parseTimeToMillis(startTime);  // 需实现parseTimeToMillis
+                                            if (Math.abs(actualDuration - durationMillis) > 1000) {  // 允许1s偏差
+                                                listener.onVideoError("视频时长不符: " + (actualDuration / 1000) + "秒");
+                                            }
+                                        }, durationMillis);
 
                             } else if (recordEvent instanceof VideoRecordEvent.Finalize) {
                                 VideoRecordEvent.Finalize finalizeEvent = (VideoRecordEvent.Finalize) recordEvent;
@@ -97,7 +105,8 @@ public class VideoRecorder {
                                     listener.onVideoError("录制失败：" + finalizeEvent.getError());
                                 } else {
                                     String path = videoFile.getAbsolutePath();
-                                    listener.onVideoFinished(path);
+                                    String endTime = TimeUtils.getPreciseTimeStamp();
+                                    listener.onVideoFinished(path,endTime);
                                 }
                                 currentRecording = null;
                             }
@@ -112,6 +121,7 @@ public class VideoRecorder {
 
     public void stopRecording() {
         if (currentRecording != null) {
+            String endTime = TimeUtils.getPreciseTimeStamp();  // 记录结束时间
             currentRecording.stop();
             currentRecording = null;
         }

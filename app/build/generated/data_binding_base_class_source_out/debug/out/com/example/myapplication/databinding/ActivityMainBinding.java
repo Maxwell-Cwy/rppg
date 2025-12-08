@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,22 +26,36 @@ public final class ActivityMainBinding implements ViewBinding {
   public final MaterialButton btnBluetoothDetect;
 
   @NonNull
+  public final MaterialButton btnManualUpload;
+
+  @NonNull
   public final MaterialButton btnStartDetection;
 
   @NonNull
   public final PreviewView previewView;
 
   @NonNull
+  public final ProgressBar progressUpload;
+
+  @NonNull
   public final TextView tvStatus;
 
+  @NonNull
+  public final TextView tvUploadProgress;
+
   private ActivityMainBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnBluetoothDetect, @NonNull MaterialButton btnStartDetection,
-      @NonNull PreviewView previewView, @NonNull TextView tvStatus) {
+      @NonNull MaterialButton btnBluetoothDetect, @NonNull MaterialButton btnManualUpload,
+      @NonNull MaterialButton btnStartDetection, @NonNull PreviewView previewView,
+      @NonNull ProgressBar progressUpload, @NonNull TextView tvStatus,
+      @NonNull TextView tvUploadProgress) {
     this.rootView = rootView;
     this.btnBluetoothDetect = btnBluetoothDetect;
+    this.btnManualUpload = btnManualUpload;
     this.btnStartDetection = btnStartDetection;
     this.previewView = previewView;
+    this.progressUpload = progressUpload;
     this.tvStatus = tvStatus;
+    this.tvUploadProgress = tvUploadProgress;
   }
 
   @Override
@@ -76,6 +91,12 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btn_manual_upload;
+      MaterialButton btnManualUpload = ViewBindings.findChildViewById(rootView, id);
+      if (btnManualUpload == null) {
+        break missingId;
+      }
+
       id = R.id.btn_start_detection;
       MaterialButton btnStartDetection = ViewBindings.findChildViewById(rootView, id);
       if (btnStartDetection == null) {
@@ -88,14 +109,26 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.progress_upload;
+      ProgressBar progressUpload = ViewBindings.findChildViewById(rootView, id);
+      if (progressUpload == null) {
+        break missingId;
+      }
+
       id = R.id.tv_status;
       TextView tvStatus = ViewBindings.findChildViewById(rootView, id);
       if (tvStatus == null) {
         break missingId;
       }
 
-      return new ActivityMainBinding((LinearLayout) rootView, btnBluetoothDetect, btnStartDetection,
-          previewView, tvStatus);
+      id = R.id.tv_upload_progress;
+      TextView tvUploadProgress = ViewBindings.findChildViewById(rootView, id);
+      if (tvUploadProgress == null) {
+        break missingId;
+      }
+
+      return new ActivityMainBinding((LinearLayout) rootView, btnBluetoothDetect, btnManualUpload,
+          btnStartDetection, previewView, progressUpload, tvStatus, tvUploadProgress);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

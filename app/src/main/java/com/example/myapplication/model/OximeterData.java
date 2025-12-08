@@ -194,16 +194,19 @@ public class OximeterData {
                 sb.append(String.format("  ├ 平均值域：%d ~ %d %%\n", minSpo2 == 999 ? 0 : minSpo2, maxSpo2));
                 sb.append(String.format("  └ 平均：%.1f %%\n", sumSpo2 * 1.0 / validCount));
             }
-        }
+        }else sb.append("当前血氧: 错误\n");
         if (pr >= 0) {
             sb.append(String.format("当前心率 PR：   %3d bpm\n", pr));
             if (validCount > 0) {
                 sb.append(String.format("  ├ 平均：%d bpm\n", sumPr / validCount));
             }
         }
+        else sb.append("当前心率: 错误\n");
         if (temperature > 0) sb.append(String.format("体温：         %.1f ℃\n", temperature));
+        else sb.append("温度： 错误\n");
         if (pi >= 0) sb.append(String.format("灌注指数 PI：  %.2f%%\n", pi));
         if (respirationRate > 0) sb.append(String.format("呼吸率：       %d 次/分\n", respirationRate));
+        else sb.append("呼吸率： 错误\n");
 
         if (batteryLevel >= 0) {
             String[] bats = {"电量空", "电量低", "电量中等", "电量充足"};

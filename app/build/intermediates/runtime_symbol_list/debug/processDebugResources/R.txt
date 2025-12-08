@@ -3156,6 +3156,7 @@ int id bounceBoth 0x7f08005f
 int id bounceEnd 0x7f080060
 int id bounceStart 0x7f080061
 int id btn_bluetooth_detect 0x7f080062
+int id btn_manual_upload 0x7f0801fc
 int id btn_rescan 0x7f080063
 int id btn_start_detection 0x7f080064
 int id buttonPanel 0x7f080065
@@ -3422,6 +3423,7 @@ int id pressed 0x7f080169
 int id preview_view 0x7f08016a
 int id progress_circular 0x7f08016b
 int id progress_horizontal 0x7f08016c
+int id progress_upload 0x7f0801fd
 int id radio 0x7f08016d
 int id ratio 0x7f08016e
 int id rectangles 0x7f08016f
@@ -3542,6 +3544,7 @@ int id transition_transform 0x7f0801e1
 int id triangle 0x7f0801e2
 int id tv_scan_status 0x7f0801e3
 int id tv_status 0x7f0801e4
+int id tv_upload_progress 0x7f0801fe
 int id unchecked 0x7f0801e5
 int id uniform 0x7f0801e6
 int id unlabeled 0x7f0801e7

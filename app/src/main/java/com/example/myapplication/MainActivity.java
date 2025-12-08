@@ -4,58 +4,64 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import com.example.myapplication.model.DetectionTimeStamp;
 import com.example.myapplication.model.OximeterData;
-import androidx.camera.view.PreviewView;
 import com.example.myapplication.utils.DataSaver;
+import com.example.myapplication.utils.TimeUtils;
 
+import androidx.camera.view.PreviewView;
+import com.google.android.material.button.MaterialButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-
-
-/**
- * 主界面：控制整体流程（蓝牙连接→开始检测→数据上传）
- */
-public class MainActivity extends AppCompatActivity implements
-        BluetoothService.BluetoothListener,
+public class MainActivity extends AppCompatActivity
+        implements BluetoothService.BluetoothListener,
         VideoRecorder.VideoListener,
         DataUploadService.UploadListener {
 
-    // 权限请求码
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_ALL_PERMISSIONS = 1001;
-    // 设备选择请求码
     private static final int REQUEST_SELECT_DEVICE = 1002;
 
-    // UI控件
-    private Button btnBluetoothDetect;   // 蓝牙检测按钮
-    private Button btnStartDetection;    // 开始检测按钮
-    private TextView tvStatus;           // 状态显示
-    private PreviewView previewView;    // 视频预览
-    // 核心服务
-    private BluetoothService bluetoothService;  // 蓝牙服务
-    private VideoRecorder videoRecorder;        // 视频录制服务
-    private DataUploadService uploadService;    // 数据上传服务
+    // UI
+    private PreviewView previewView;
+    private TextView tvStatus;
+    private TextView tvUploadProgress;
+    private ProgressBar progressUpload;
+    private MaterialButton btnBluetoothDetect;
+    private MaterialButton btnStartDetection;
+    private MaterialButton btnManualUpload;
 
-    // 时间戳模型（记录所有关键时间）
-    private DetectionTimeStamp detectionTimeStamp;
-    // 视频路径
+    // 服务
+    private BluetoothService bluetoothService;
+    private VideoRecorder videoRecorder;
+    private DataUploadService uploadService;
+
+    // 数据
+    private DetectionTimeStamp timeStamp;
+    private OximeterData oximeterData;
     private String videoFilePath;
+    private long detectionStartMillis; // 用于同步校验
 
-    // 所需权限列表（Android 15适配）
     private final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.BLUETOOTH_SCAN,    // 蓝牙扫描
-            Manifest.permission.BLUETOOTH_CONNECT,  // 蓝牙连接
-            Manifest.permission.CAMERA,             // 相机（视频录制）
-            Manifest.permission.RECORD_AUDIO,       // 麦克风（视频录音）
-            Manifest.permission.INTERNET,           // 网络（数据上传）
-            Manifest.permission.READ_MEDIA_VIDEO    // 读取视频（上传）
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
     @Override
@@ -63,442 +69,217 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 初始化UI控件
-        initView();
-
-        // 初始化核心服务
+        initViews();
         initServices();
-
-        // 检查权限
         checkAllPermissions();
-
-        // 绑定按钮点击事件
-        bindButtonEvents();
+        bindEvents();
     }
 
-    /**
-     * 初始化UI控件
-     */
-    private void initView() {
+    private void initViews() {
+        previewView = findViewById(R.id.preview_view);
+        tvStatus = findViewById(R.id.tv_status);
+        tvUploadProgress = findViewById(R.id.tv_upload_progress);
+        progressUpload = findViewById(R.id.progress_upload);
         btnBluetoothDetect = findViewById(R.id.btn_bluetooth_detect);
         btnStartDetection = findViewById(R.id.btn_start_detection);
-        tvStatus = findViewById(R.id.tv_status);
-        previewView = findViewById(R.id.preview_view);   // 正确
-        // 设置状态文本初始值
-        tvStatus.setText("请点击「蓝牙检测」按钮选择设备\n" +
-                "当前状态：蓝牙未连接");
+        btnManualUpload = findViewById(R.id.btn_manual_upload);
+
+        tvStatus.setText("请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接");
+        btnManualUpload.setEnabled(false);
+        btnManualUpload.setAlpha(0.6f);
     }
 
-    /**
-     * 初始化核心服务
-     */
     private void initServices() {
-        // 蓝牙服务（传入当前Activity作为回调）
         bluetoothService = new BluetoothService(this, this);
-        // 视频录制服务（传入预览界面）
         videoRecorder = new VideoRecorder(this, this, previewView);
-        // 数据上传服务
         uploadService = new DataUploadService(this);
-        // 初始化时间戳模型
-        detectionTimeStamp = new DetectionTimeStamp();
+        timeStamp = new DetectionTimeStamp();
+        oximeterData = new OximeterData();
     }
 
-    /**
-     * 检查所有必要权限
-     */
+    private void bindEvents() {
+        btnBluetoothDetect.setOnClickListener(v -> {
+            startActivityForResult(new Intent(this, DeviceListActivity.class), REQUEST_SELECT_DEVICE);
+        });
+
+        btnStartDetection.setOnClickListener(v -> startDetection());
+
+        btnManualUpload.setOnClickListener(v -> {
+            if (videoFilePath != null && oximeterData.hasData()) {
+                uploadService.uploadAllData(oximeterData, videoFilePath, timeStamp, this);
+            } else {
+                Toast.makeText(this, "无完整数据可上传", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void startDetection() {
+        detectionStartMillis = System.currentTimeMillis();
+
+        // 1. 启动视频录制
+        videoRecorder.startRecording(90_000); // 严格90秒
+
+        // 2. 启动蓝牙数据采集
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            long bluetoothStart = System.currentTimeMillis();
+            long diff = Math.abs(bluetoothStart - detectionStartMillis);
+            if (diff > 100) {
+                Log.e(TAG, "同步异常！时间差：" + diff + "ms");
+                new AlertDialog.Builder(this)
+                        .setTitle("时间同步异常")
+                        .setMessage("蓝牙与视频启动时间差 " + diff + "ms，已超过100ms阈值！\n建议重新检测。")
+                        .setPositiveButton("我知道了", null)
+                        .show();
+            }
+            bluetoothService.startReceivingData();
+        }, 50); // 故意错开50ms，模拟最差情况也能检测到
+    }
+
+    // ===================== BluetoothListener =====================
+    @Override
+    public void onBluetoothConnected(String deviceName, String deviceAddress) {
+        runOnUiThread(() -> {
+            btnStartDetection.setEnabled(true);
+            btnStartDetection.setAlpha(1.0f);
+            timeStamp.setBluetoothConnectTime(TimeUtils.getPreciseTimeStamp());
+            tvStatus.append("\n蓝牙已连接：" + deviceName);
+        });
+    }
+
+    @Override
+    public void onBluetoothConnectFailed(String errorMsg) {
+        runOnUiThread(() -> Toast.makeText(this, "连接失败：" + errorMsg, Toast.LENGTH_LONG).show());
+    }
+
+    @Override
+    public void onBluetoothDisconnected() {}
+
+    @Override
+    public void onDataReceived(String hexData) {
+        oximeterData.addData(hexData);
+    }
+
+    @Override
+    public void onDataStartReceiving(String startTime) {
+        timeStamp.setBluetoothDataStartTime(startTime);
+        runOnUiThread(() -> tvStatus.append("\n蓝牙数据开始采集：" + startTime));
+    }
+
+    @Override
+    public void onDataStopReceiving(String endTime) {
+        timeStamp.setBluetoothDataEndTime(endTime);
+        runOnUiThread(() -> tvStatus.append("\n蓝牙数据结束采集：" + endTime));
+    }
+
+    // ===================== VideoListener =====================
+    @Override
+    public void onVideoStarted(String videoPath, String startTime) {
+        videoFilePath = videoPath;
+        timeStamp.setVideoStartTime(startTime);
+        runOnUiThread(() -> {
+            previewView.setVisibility(android.view.View.VISIBLE);
+            tvStatus.append("\n视频开始录制：" + startTime);
+        });
+    }
+
+    @Override
+    public void onVideoFinished(String videoPath, String endTime) {
+        timeStamp.setVideoEndTime(endTime);
+        bluetoothService.stopReceivingData(); // 同步停止蓝牙
+
+        runOnUiThread(() -> {
+            previewView.setVisibility(android.view.View.GONE);
+            tvStatus.append("\n视频录制完成：" + endTime);
+            tvStatus.append("\n\n检测已完成！\n" + timeStamp.toString());
+
+            // 自动上传 + 启用手动上传
+            btnManualUpload.setEnabled(true);
+            btnManualUpload.setAlpha(1.0f);
+
+            // 本地保存
+            try {
+                DataSaver.saveAllData(this, videoPath, oximeterData, timeStamp);
+                tvStatus.append("\n本地保存成功");
+            } catch (Exception e) {
+                tvStatus.append("\n本地保存失败：" + e.getMessage());
+            }
+
+            // 自动上传
+            uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
+        });
+    }
+
+    @Override
+    public void onVideoError(String errorMsg) {
+        runOnUiThread(() -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("视频录制失败")
+                    .setMessage(errorMsg)
+                    .setPositiveButton("重试", (d, w) -> startDetection())
+                    .show();
+        });
+    }
+
+    // ===================== UploadListener =====================
+    @Override
+    public void onUploadSuccess(String response) {
+        runOnUiThread(() -> {
+            hideUploadProgress();
+            tvStatus.append("\n上传成功！\n服务器响应：" + response);
+            Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    @Override
+    public void onUploadFailed(String errorMsg) {
+        runOnUiThread(() -> {
+            hideUploadProgress();
+            tvStatus.append("\n上传失败：" + errorMsg + "\n可点击“手动上传”重试");
+            Toast.makeText(this, "上传失败：" + errorMsg, Toast.LENGTH_LONG).show();
+        });
+    }
+
+    @Override
+    public void onUploadProgress(int progress) {
+        runOnUiThread(() -> {
+            progressUpload.setVisibility(android.view.View.VISIBLE);
+            tvUploadProgress.setVisibility(android.view.View.VISIBLE);
+            progressUpload.setProgress(progress);
+            tvUploadProgress.setText("上传中... " + progress + "%");
+        });
+    }
+
+    private void hideUploadProgress() {
+        progressUpload.setVisibility(android.view.View.GONE);
+        tvUploadProgress.setVisibility(android.view.View.GONE);
+    }
+
     private void checkAllPermissions() {
-        boolean hasMissingPermission = false;
-        for (String permission : REQUIRED_PERMISSIONS) {
-            if (ActivityCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                hasMissingPermission = true;
+        boolean missing = false;
+        for (String p : REQUIRED_PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission(this, p) != PackageManager.PERMISSION_GRANTED) {
+                missing = true;
                 break;
             }
         }
-
-        // 如果有缺失的权限，请求权限
-        if (hasMissingPermission) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    REQUIRED_PERMISSIONS,
-                    REQUEST_ALL_PERMISSIONS
-            );
+        if (missing) {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_ALL_PERMISSIONS);
         }
     }
 
-    /**
-     * 绑定按钮点击事件
-     */
-    private void bindButtonEvents() {
-        // 1. 蓝牙检测按钮：跳转到设备选择界面
-        btnBluetoothDetect.setOnClickListener(v -> {
-            // 检查权限
-            if (!isAllPermissionsGranted()) {
-                Toast.makeText(this, "请先授予所有必要权限", Toast.LENGTH_SHORT).show();
-                checkAllPermissions();
-                return;
-            }
-
-            // 检查蓝牙是否开启
-            if (!com.example.myapplication.utils.BluetoothUtils.isBluetoothEnabled()) {
-                Toast.makeText(this, "请先开启蓝牙", Toast.LENGTH_SHORT).show();
-                com.example.myapplication.utils.BluetoothUtils.openBluetoothSettings(this);
-                return;
-            }
-
-            // 跳转到设备选择界面
-            Intent intent = new Intent(MainActivity.this, DeviceListActivity.class);
-            startActivityForResult(intent, REQUEST_SELECT_DEVICE);
-        });
-
-        // 2. 开始检测按钮：开始录制视频+接收蓝牙数据（默认禁用）
-        btnStartDetection.setOnClickListener(v -> {
-            // 检查蓝牙是否已连接
-            if (!bluetoothService.isConnected()) {
-                Toast.makeText(this, "蓝牙未连接，无法开始检测", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // 检查是否正在录制
-            if (videoRecorder.isRecording()) {
-                Toast.makeText(this, "正在录制中，请勿重复点击", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // 显示视频预览界面
-
-            previewView.setVisibility(View.VISIBLE);
-
-            // 更新状态
-            tvStatus.setText("准备开始检测...\n" +
-                    "蓝牙连接时间：" + detectionTimeStamp.getBluetoothConnectTime());
-
-            // 开始录制视频（90秒）
-            videoRecorder.startRecording(90000);
-        });
-    }
-
-    /**
-     * 检查所有权限是否已授予
-     */
-    private boolean isAllPermissionsGranted() {
-        for (String permission : REQUIRED_PERMISSIONS) {
-            if (ActivityCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 设备选择界面返回结果
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // 处理设备选择结果
-        if (requestCode == REQUEST_SELECT_DEVICE && resultCode == RESULT_OK) {
-            if (data != null) {
-                // 获取选择的设备地址
-                String deviceAddress = data.getStringExtra("DEVICE_ADDRESS");
-                if (deviceAddress != null && !deviceAddress.isEmpty()) {
-                    // 更新状态：正在连接
-                    tvStatus.setText("正在连接设备...\n" +
-                            "设备地址：" + deviceAddress);
-
-                    // 连接蓝牙设备
-                    bluetoothService.connectToDevice(deviceAddress);
-                }
-            }
+        if (requestCode == REQUEST_SELECT_DEVICE && resultCode == RESULT_OK && data != null) {
+            String address = data.getStringExtra("device_address");
+            bluetoothService.connectToDevice(address);
         }
     }
 
-    /**
-     * 权限请求结果回调
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_ALL_PERMISSIONS) {
-            boolean allGranted = true;
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    allGranted = false;
-                    break;
-                }
-            }
-
-            if (allGranted) {
-                tvStatus.setText("所有权限已授予\n" +
-                        "请点击「蓝牙检测」按钮选择设备");
-            } else {
-                tvStatus.setText("部分权限未授予\n" +
-                        "功能可能无法正常使用，请在设置中授予权限");
-                Toast.makeText(this, "部分权限未授予，影响功能使用", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    // ==================== BluetoothService.BluetoothListener 回调 ====================
-    /**
-     * 蓝牙连接成功
-     */
-    @Override
-    public void onBluetoothConnected(String deviceName, String deviceAddress) {
-        // 记录蓝牙连接时间戳
-        String connectTime = com.example.myapplication.utils.TimeUtils.getPreciseTimeStamp();
-        detectionTimeStamp.setBluetoothConnectTime(connectTime);
-
-        // 更新状态（绿色提示连接成功）
-        tvStatus.setTextColor(getResources().getColor(R.color.success_green));
-        tvStatus.setText("✅ 蓝牙连接成功\n" +
-                "设备名称：" + deviceName + "\n" +
-                "设备地址：" + deviceAddress + "\n" +
-                "连接时间：" + connectTime + "\n" +
-                "可点击「开始检测」按钮开始录制");
-
-        // 启用开始检测按钮
-        btnStartDetection.setEnabled(true);
-        btnStartDetection.setAlpha(1.0f);
-    }
-
-    /**
-     * 蓝牙连接失败
-     */
-    @Override
-    public void onBluetoothConnectFailed(String errorMsg) {
-        // 更新状态（红色提示失败）
-        tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-        tvStatus.setText("❌ 蓝牙连接失败\n" +
-                "原因：" + errorMsg + "\n" +
-                "请重新点击「蓝牙检测」按钮");
-
-        // 禁用开始检测按钮
-        btnStartDetection.setEnabled(false);
-        btnStartDetection.setAlpha(0.5f);
-    }
-
-    /**
-     * 蓝牙连接断开
-     */
-    @Override
-    public void onBluetoothDisconnected() {
-        // 更新状态（红色提示断开）
-        tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-        tvStatus.setText("❌ 蓝牙连接已断开\n" +
-                "请重新点击「蓝牙检测」按钮连接");
-
-        // 禁用开始检测按钮
-        btnStartDetection.setEnabled(false);
-        btnStartDetection.setAlpha(0.5f);
-
-        // 隐藏视频预览
-        previewView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 蓝牙数据接收（实时显示）
-     */
-    @Override
-    public void onDataReceived(String hexData) {
-        // 实时更新数据（只显示最后一条，避免刷屏）
-        String currentStatus = tvStatus.getText().toString();
-        if (currentStatus.contains("实时数据：")) {
-            // 替换最后一行的实时数据
-            int lastIndex = currentStatus.lastIndexOf("\n");
-            if (lastIndex != -1) {
-                currentStatus = currentStatus.substring(0, lastIndex);
-            }
-        }
-        tvStatus.setText(currentStatus + "\n实时数据：" + hexData);
-    }
-
-    /**
-     * 蓝牙数据开始接收（记录时间戳）
-     */
-    @Override
-    public void onDataStartReceiving() {
-        // 记录数据开始时间戳
-        String dataStartTime = com.example.myapplication.utils.TimeUtils.getPreciseTimeStamp();
-        detectionTimeStamp.setBluetoothDataStartTime(dataStartTime);
-
-        // 更新状态
-        tvStatus.setText(tvStatus.getText().toString() + "\n" +
-                "✅ 数据开始接收\n" +
-                "数据开始时间：" + dataStartTime);
-    }
-
-    // ==================== VideoRecorder.VideoListener 回调 ====================
-    /**
-     * 视频录制开始
-     */
-    @Override
-    public void onVideoStarted(String videoPath, String startTime) {
-        // 记录视频路径和开始时间戳
-        this.videoFilePath = videoPath;
-        detectionTimeStamp.setVideoStartTime(startTime);
-
-        // 更新状态
-        tvStatus.setText("✅ 视频录制已开始\n" +
-                detectionTimeStamp.toString() + "\n" +
-                "录制时长：90秒，请勿退出界面");
-
-        // 禁用蓝牙检测按钮（避免中途切换设备）
-        btnBluetoothDetect.setEnabled(false);
-        btnBluetoothDetect.setAlpha(0.5f);
-
-        // 开始接收蓝牙数据
-        bluetoothService.startReceivingData();
-    }
-
-    /**
-     * 视频录制完成
-     */
-    @Override
-    public void onVideoFinished(String videoPath) {
-        // 更新状态
-        tvStatus.setText("✅ 视频录制完成\n" +
-                "视频路径：" + videoPath + "\n" +
-                "正在上传数据到后端...");
-
-        // 获取蓝牙收集的数据
-        OximeterData oximeterData = bluetoothService.getCollectedData();
-
-// 先保存到本地（类似于上传逻辑）
-        try {
-            DataSaver.saveAllData(this, videoPath, oximeterData, detectionTimeStamp);
-            tvStatus.setText(tvStatus.getText().toString() + "\n" +
-                    "✅ 本地数据保存成功");
-            Toast.makeText(this, "数据已保存到本地", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            tvStatus.setText(tvStatus.getText().toString() + "\n" +
-                    "❌ 本地数据保存失败: " + e.getMessage());
-            Toast.makeText(this, "本地保存失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        // 再上传数据（保持原逻辑）
-        tvStatus.setText(tvStatus.getText().toString() + "\n" +
-                "正在上传数据到后端...");
-        uploadService.uploadAllData(oximeterData, videoPath, detectionTimeStamp, this);
-    }
-
-    /**
-     * 视频录制错误
-     */
-    @Override
-    public void onVideoError(String errorMsg) {
-        // 更新状态（红色提示错误）
-        tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-        tvStatus.setText("❌ 视频录制错误\n" +
-                "原因：" + errorMsg + "\n" +
-                "请重新点击「开始检测」按钮");
-
-        // 启用蓝牙检测按钮
-        btnBluetoothDetect.setEnabled(true);
-        btnBluetoothDetect.setAlpha(1.0f);
-
-        // 隐藏视频预览
-        previewView.setVisibility(View.GONE);
-    }
-
-    // ==================== DataUploadService.UploadListener 回调 ====================
-    /**
-     * 数据上传成功
-     */
-    @Override
-    public void onUploadSuccess(String response) {
-        // 更新状态（绿色提示成功）
-        tvStatus.setTextColor(getResources().getColor(R.color.success_green));
-        tvStatus.setText("✅ 所有数据上传成功\n" +
-                detectionTimeStamp.toString() + "\n" +
-                "视频路径：" + videoFilePath + "\n" +
-                "服务器响应：" + response);
-
-        // 重置按钮状态
-        resetButtonState();
-
-        // 隐藏视频预览
-        previewView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 数据上传失败
-     */
-    @Override
-    public void onUploadFailed(String errorMsg) {
-        // 更新状态（红色提示失败）
-        tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-        tvStatus.setText("❌ 数据上传失败\n" +
-                "原因：" + errorMsg + "\n" +
-                "可重新点击「开始检测」按钮重试");
-
-        // 重置按钮状态
-        resetButtonState();
-
-        // 隐藏视频预览
-        previewView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 数据上传进度
-     */
-    @Override
-    public void onUploadProgress(int progress) {
-        // 更新上传进度
-        tvStatus.setText("正在上传数据...\n" +
-                "上传进度：" + progress + "%\n" +
-                "视频路径：" + videoFilePath);
-    }
-
-    /**
-     * 重置按钮状态
-     */
-    private void resetButtonState() {
-        // 启用蓝牙检测按钮
-        btnBluetoothDetect.setEnabled(true);
-        btnBluetoothDetect.setAlpha(1.0f);
-
-        // 保持开始检测按钮启用（可重新检测）
-        btnStartDetection.setEnabled(true);
-        btnStartDetection.setAlpha(1.0f);
-    }
-
-    /**
-     * 页面销毁：释放资源
-     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 断开蓝牙连接
-        if (bluetoothService != null) {
-            bluetoothService.disconnect();
-        }
-        // 释放视频录制资源
-        if (videoRecorder != null) {
-            videoRecorder.releaseResources();
-        }
-    }
-
-    /**
-     * 页面暂停：停止预览
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (videoRecorder != null && !videoRecorder.isRecording()) {
-            videoRecorder.releaseResources();
-        }
-    }
-
-    /**
-     * 页面恢复：重启预览（如果正在录制）
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (videoRecorder != null && videoRecorder.isRecording() && previewView.getVisibility() == View.VISIBLE) {
-            videoRecorder.releaseResources(); // 重新初始化预览
-        }
+        if (bluetoothService != null) bluetoothService.disconnect();
+        if (videoRecorder != null) videoRecorder.releaseResources();
     }
 }

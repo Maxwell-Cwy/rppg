@@ -1,5 +1,6 @@
 package com.example.myapplication.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -48,5 +49,31 @@ public class TimeUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(
                 "yyyy年MM月dd日 HH:mm:ss", Locale.CHINA);
         return sdf.format(new Date());
+    }
+
+    private static final ThreadLocal<SimpleDateFormat> PRECISE_SDF =
+            ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()));
+
+    /**
+     * 将 "2025-04-05 15:22:33.456" 格式的时间戳解析为毫秒值
+     */
+    public static long parseTimeToMillis(String preciseTime) {
+        if (preciseTime == null || preciseTime.isEmpty()) {
+            return 0L;
+        }
+        try {
+            Date date = PRECISE_SDF.get().parse(preciseTime);
+            return date != null ? date.getTime() : 0L;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 方便直接调用：返回当前时间的毫秒值（等价于 System.currentTimeMillis()）
+     */
+    public static long currentTimeMillis() {
+        return System.currentTimeMillis();
     }
 }

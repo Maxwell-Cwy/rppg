@@ -16,6 +16,8 @@ import androidx.core.app.ActivityCompat;
 import com.example.myapplication.model.OximeterData;
 import com.example.myapplication.utils.HexUtils;
 import com.example.myapplication.utils.BluetoothUtils;
+import com.example.myapplication.utils.TimeUtils;
+
 import java.util.UUID;
 
 public class BluetoothService {
@@ -46,13 +48,16 @@ public class BluetoothService {
     private final Handler mMainHandler = new Handler(Looper.getMainLooper());
     private boolean isReceivingData = false;
     private boolean isConnected = false;
+    private String bluetoothDataStartTime;
+    private String bluetoothDataEndTime;
 
     public interface BluetoothListener {
         void onBluetoothConnected(String deviceName, String deviceAddress);
         void onBluetoothConnectFailed(String errorMsg);
         void onBluetoothDisconnected();
         void onDataReceived(String hexData);
-        void onDataStartReceiving();
+        void onDataStartReceiving(String startTime);  // 只保留这个有参数版本
+        void onDataStopReceiving(String endTime);
     }
 
     public BluetoothService(Context context, BluetoothListener listener) {
@@ -109,14 +114,25 @@ public class BluetoothService {
                 sendData(START_MEASURE_CMD);
                 Thread.sleep(500);
 
-                isReceivingData = true;
-                mMainHandler.post(() -> mListener.onDataStartReceiving());
+                isReceivingData = true;  // 只设置一次
 
             } catch (InterruptedException e) {
                 Log.e(TAG, "发送命令线程中断: " + e.getMessage());
                 mMainHandler.post(() -> mListener.onBluetoothConnectFailed("发送测量命令失败"));
             }
         }).start();
+
+        bluetoothDataStartTime = TimeUtils.getPreciseTimeStamp();  // 记录开始
+        mMainHandler.post(() -> mListener.onDataStartReceiving(bluetoothDataStartTime));  // 只调用有参数版本
+    }
+
+    // 新增停止方法
+    public void stopReceivingData() {
+        bluetoothDataEndTime = TimeUtils.getPreciseTimeStamp();  // 记录结束
+        isReceivingData = false;
+        // 可发送停止命令给设备（如果协议支持）
+        sendData(new byte[] { /* 停止命令 */ });
+        mMainHandler.post(() -> mListener.onDataStopReceiving(bluetoothDataEndTime));  // 新回调
     }
 
     private void sendData(byte[] data) {
