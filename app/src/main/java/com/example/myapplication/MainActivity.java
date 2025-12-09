@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT_DEVICE && resultCode == RESULT_OK && data != null) {
-            String address = data.getStringExtra("device_address");
+            String address = data.getStringExtra("DEVICE_ADDRESS");
             bluetoothService.connectToDevice(address);
         }
     }
