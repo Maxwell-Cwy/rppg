@@ -1,101 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="@color/white">
 
-    <!-- 1. 视频预览（检测时显示） -->
+    <!-- 全屏摄像头预览（初始隐藏） -->
     <androidx.camera.view.PreviewView
         android:id="@+id/preview_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone"
-        android:background="@android:color/black"
-        app:scaleType="fillCenter" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    <!-- 2. 状态显示区（改用 ScrollView + TextView，防止内容太多显示不全） -->
-    <ScrollView
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_exit_preview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_gravity="top|start"
+        android:layout_margin="16dp"
+        android:text="返回"
+        android:textColor="@android:color/white"
+        app:backgroundTint="#80000000"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tv_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:lineSpacingExtra="4dp"
-            android:padding="12dp"
-            android:background="#F5F5F5"
-            android:layout_marginBottom="16dp" />
-    </ScrollView>
-
-    <!-- 3. 按钮区 -->
+    <!-- 原始操作界面 -->
     <LinearLayout
+        android:id="@+id/layout_control"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- 蓝牙检测按钮 -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_bluetooth_detect"
+        <!-- 状态显示区 -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="1. 蓝牙检测（选择设备）"
-            android:textSize="17sp"
-            android:layout_marginBottom="12dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:lineSpacingExtra="4dp"
+                android:padding="12dp"
+                android:background="#F5F5F5"
+                android:layout_marginBottom="16dp" />
+        </ScrollView>
 
-        <!-- 开始检测按钮 -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_start_detection"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="2. 开始检测（90秒）"
-            android:textSize="17sp"
-            android:enabled="false"
-            android:alpha="0.5"
-            android:layout_marginBottom="12dp" />
-
-        <!-- 手动上传按钮（关键！需求明确要求） -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_manual_upload"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="手动上传数据"
-            android:textSize="17sp"
-            android:enabled="false"
-            android:alpha="0.5"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_marginBottom="12dp" />
-
-        <!-- 进度条（上传时显示） -->
-        <ProgressBar
-            android:id="@+id/progress_upload"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:max="100"
-            android:progress="0"
-            android:visibility="gone"
-            android:layout_marginTop="8dp" />
-
-        <!-- 进度文字 -->
-        <TextView
-            android:id="@+id/tv_upload_progress"
+        <!-- 按钮区 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="14sp"
-            android:gravity="center"
-            android:visibility="gone" />
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_bluetooth_detect"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="1. 蓝牙检测（选择设备)"
+                android:textSize="17sp"
+                android:layout_marginBottom="12dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_start_detection"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="2. 开始检测（90秒）"
+                android:textSize="17sp"
+                android:enabled="false"
+                android:alpha="0.5"
+                android:layout_marginBottom="12dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_manual_upload"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="手动上传数据"
+                android:textSize="17sp"
+                android:enabled="false"
+                android:alpha="0.5"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginBottom="12dp" />
+            <ProgressBar
+                android:id="@+id/progress_upload"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone"
+                android:layout_marginTop="8dp" />
+            <TextView
+                android:id="@+id/tv_upload_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="14sp"
+                android:gravity="center"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

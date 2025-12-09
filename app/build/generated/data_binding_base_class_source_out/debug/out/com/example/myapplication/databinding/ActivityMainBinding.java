@@ -4,6 +4,7 @@ package com.example.myapplication.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,16 +21,22 @@ import java.lang.String;
 
 public final class ActivityMainBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final FrameLayout rootView;
 
   @NonNull
   public final MaterialButton btnBluetoothDetect;
+
+  @NonNull
+  public final MaterialButton btnExitPreview;
 
   @NonNull
   public final MaterialButton btnManualUpload;
 
   @NonNull
   public final MaterialButton btnStartDetection;
+
+  @NonNull
+  public final LinearLayout layoutControl;
 
   @NonNull
   public final PreviewView previewView;
@@ -43,15 +50,18 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final TextView tvUploadProgress;
 
-  private ActivityMainBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnBluetoothDetect, @NonNull MaterialButton btnManualUpload,
-      @NonNull MaterialButton btnStartDetection, @NonNull PreviewView previewView,
+  private ActivityMainBinding(@NonNull FrameLayout rootView,
+      @NonNull MaterialButton btnBluetoothDetect, @NonNull MaterialButton btnExitPreview,
+      @NonNull MaterialButton btnManualUpload, @NonNull MaterialButton btnStartDetection,
+      @NonNull LinearLayout layoutControl, @NonNull PreviewView previewView,
       @NonNull ProgressBar progressUpload, @NonNull TextView tvStatus,
       @NonNull TextView tvUploadProgress) {
     this.rootView = rootView;
     this.btnBluetoothDetect = btnBluetoothDetect;
+    this.btnExitPreview = btnExitPreview;
     this.btnManualUpload = btnManualUpload;
     this.btnStartDetection = btnStartDetection;
+    this.layoutControl = layoutControl;
     this.previewView = previewView;
     this.progressUpload = progressUpload;
     this.tvStatus = tvStatus;
@@ -60,7 +70,7 @@ public final class ActivityMainBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public FrameLayout getRoot() {
     return rootView;
   }
 
@@ -91,6 +101,12 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btn_exit_preview;
+      MaterialButton btnExitPreview = ViewBindings.findChildViewById(rootView, id);
+      if (btnExitPreview == null) {
+        break missingId;
+      }
+
       id = R.id.btn_manual_upload;
       MaterialButton btnManualUpload = ViewBindings.findChildViewById(rootView, id);
       if (btnManualUpload == null) {
@@ -100,6 +116,12 @@ public final class ActivityMainBinding implements ViewBinding {
       id = R.id.btn_start_detection;
       MaterialButton btnStartDetection = ViewBindings.findChildViewById(rootView, id);
       if (btnStartDetection == null) {
+        break missingId;
+      }
+
+      id = R.id.layout_control;
+      LinearLayout layoutControl = ViewBindings.findChildViewById(rootView, id);
+      if (layoutControl == null) {
         break missingId;
       }
 
@@ -127,8 +149,9 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((LinearLayout) rootView, btnBluetoothDetect, btnManualUpload,
-          btnStartDetection, previewView, progressUpload, tvStatus, tvUploadProgress);
+      return new ActivityMainBinding((FrameLayout) rootView, btnBluetoothDetect, btnExitPreview,
+          btnManualUpload, btnStartDetection, layoutControl, previewView, progressUpload, tvStatus,
+          tvUploadProgress);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
