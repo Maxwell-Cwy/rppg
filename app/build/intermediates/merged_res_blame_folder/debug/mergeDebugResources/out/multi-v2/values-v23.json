@@ -4,7 +4,7 @@
             "outputFile": "com.example.myapplication.app-mergeDebugResources-34:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\407-34\\.gradle\\caches\\8.13\\transforms\\dd6034123330cc82f305c47c250beb1c\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\cwy\\.gradle\\caches\\8.13\\transforms\\dd6034123330cc82f305c47c250beb1c\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\407-34\\.gradle\\caches\\8.13\\transforms\\5f90bdefc5a1b666c0bd72a4a523a38b\\transformed\\appcompat-1.7.1\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\cwy\\.gradle\\caches\\8.13\\transforms\\5f90bdefc5a1b666c0bd72a4a523a38b\\transformed\\appcompat-1.7.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -34,7 +34,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\407-34\\.gradle\\caches\\8.13\\transforms\\da7bf66283cbe9c63e0170eaa355fbde\\transformed\\material-1.10.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\cwy\\.gradle\\caches\\8.13\\transforms\\da7bf66283cbe9c63e0170eaa355fbde\\transformed\\material-1.10.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,5,9,13,16,21,25,28,31,34,39,42,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",

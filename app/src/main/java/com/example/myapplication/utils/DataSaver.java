@@ -55,30 +55,68 @@ public class DataSaver {
             throw new RuntimeException("保存失败: " + e.getMessage(), e);
         }
     }
-
     private static String generateJson(OximeterData data, DetectionTimeStamp ts) {
-        return "{\n" +
-                "  \"device_model\": \"" + Build.MODEL + "\",\n" +
-                "  \"detect_start_time\": \"" + data.getStartTime() + "\",\n" +
-                "  \"bluetooth_connect_time\": \"" + safe(ts != null ? ts.getBluetoothConnectTime() : null) + "\",\n" +
-                "  \"data_start_time\": \"" + safe(ts != null ? ts.getBluetoothDataStartTime() : null) + "\",\n" +
-                "  \"video_start_time\": \"" + safe(ts != null ? ts.getVideoStartTime() : null) + "\",\n" +
-                "  \"total_packets\": " + data.getCount() + ",\n" +
-                "  \"valid_packets\": " + data.getValidCount() + ",\n" +
-                "  \"avg_spo2\": " + (data.getAvgSpo2() >= 0 ? data.getAvgSpo2() : "null") + ",\n" +
-                "  \"min_spo2\": " + (data.getMinSpo2() >= 0 ? data.getMinSpo2() : "null") + ",\n" +
-                "  \"max_spo2\": " + data.getMaxSpo2() + ",\n" +
-                "  \"avg_pr\": " + (data.getAvgPr() >= 0 ? data.getAvgPr() : "null") + ",\n" +
-                "  \"min_pr\": " + (data.getMinPr() >= 0 ? data.getMinPr() : "null") + ",\n" +
-                "  \"max_pr\": " + data.getMaxPr() + ",\n" +
-                "  \"temperature\": " + (data.getTemperature() > 0 ? String.format("%.1f", data.getTemperature()) : "null") + ",\n" +
-                "  \"pi\": " + (data.getPi() >= 0 ? String.format("%.2f", data.getPi()) : "null") + ",\n" +
-                "  \"respiration_rate\": " + (data.getRespirationRate() > 0 ? data.getRespirationRate() : "null") + ",\n" +
-                "  \"probe_status\": \"" + data.getProbeStatus() + "\",\n" +
-                "  \"battery_level\": " + data.getBatteryLevel() + "\n" +
-                "}";
-    }
+        try {
+            // ========== 基础信息（你原来就有的）==========
+            StringBuilder json = new StringBuilder();
+            json.append("{\n");
+            json.append("  \"device_model\": \"").append(Build.MODEL).append("\",\n");
+            json.append("  \"detect_start_time\": \"").append(data.getStartTime()).append("\",\n");
+            json.append("  \"bluetooth_connect_time\": \"").append(safe(ts != null ? ts.getBluetoothConnectTime() : null)).append("\",\n");
+            json.append("  \"data_start_time\": \"").append(safe(ts != null ? ts.getBluetoothDataStartTime() : null)).append("\",\n");
+            json.append("  \"video_start_time\": \"").append(safe(ts != null ? ts.getVideoStartTime() : null)).append("\",\n");
+            json.append("  \"total_packets\": ").append(data.getCount()).append(",\n");
+            json.append("  \"valid_packets\": ").append(data.getValidCount()).append(",\n");
 
+            // ========== 统计值（你原来就有的）==========
+            json.append("  \"avg_spo2\": ").append(data.getAvgSpo2() >= 0 ? data.getAvgSpo2() : "null").append(",\n");
+            json.append("  \"min_spo2\": ").append(data.getMinSpo2() >= 0 ? data.getMinSpo2() : "null").append(",\n");
+            json.append("  \"max_spo2\": ").append(data.getMaxSpo2()).append(",\n");
+            json.append("  \"avg_pr\": ").append(data.getAvgPr() >= 0 ? data.getAvgPr() : "null").append(",\n");
+            json.append("  \"min_pr\": ").append(data.getMinPr() >= 0 ? data.getMinPr() : "null").append(",\n");
+            json.append("  \"max_pr\": ").append(data.getMaxPr()).append(",\n");
+            json.append("  \"temperature\": ").append(data.getTemperature() > 0 ? String.format("%.1f", data.getTemperature()) : "null").append(",\n");
+            json.append("  \"pi\": ").append(data.getPi() >= 0 ? String.format("%.2f", data.getPi()) : "null").append(",\n");
+            json.append("  \"respiration_rate\": ").append(data.getRespirationRate() > 0 ? data.getRespirationRate() : "null").append(",\n");
+            json.append("  \"probe_status\": \"").append(data.getProbeStatus()).append("\",\n");
+            json.append("  \"battery_level\": ").append(data.getBatteryLevel()).append(",\n");
+
+            // ========== PPG 完整波形数据（新增，带采样率）==========
+            json.append("  \"ppg_sample_rate_hz\": 5,\n");
+            json.append("  \"ppg_data\": [\n");
+            var ppgList = data.getPpgList();
+            var barList = data.getBarList();
+            int ppgSize = Math.min(ppgList.size(), barList.size());
+            for (int i = 0; i < ppgSize; i++) {
+                json.append("    {\"index\":").append(i)
+                        .append(",\"wave\":").append(ppgList.get(i))
+                        .append(",\"bar\":").append(barList.get(i)).append("}");
+                if (i < ppgSize - 1) json.append(",");
+                json.append("\n");
+            }
+            json.append("  ],\n");
+
+            // ========== HRV 数据（新增）==========
+            json.append("  \"hrv_sample_rate\": \"1_pack_per_10_beats\",\n");
+            json.append("  \"hrv_data\": [\n");
+            var hrvList = data.getHrvList();
+            for (int i = 0; i < hrvList.size(); i++) {
+                json.append("    ").append(hrvList.get(i));
+                if (i < hrvList.size() - 1) json.append(",");
+                json.append("\n");
+            }
+            json.append("  ],\n");
+
+            json.append("  \"raw_hex_data\": \"").append(data.toHexString().replace("\"", "\\\"")).append("\"\n");
+            json.append("}");
+
+            return json.toString();
+
+        } catch (Exception e) {
+            Log.e(TAG, "生成JSON失败", e);
+            return "{\"error\": \"generate json failed\"}";
+        }
+    }
     private static String safe(String s) {
         return s != null ? s : "";
     }

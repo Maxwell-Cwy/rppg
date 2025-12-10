@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import com.example.myapplication.model.DetectionTimeStamp;
 import com.example.myapplication.model.OximeterData;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -167,20 +170,25 @@ public class DataUploadService {
          */
         /**
          * 创建血氧数据JSON字符串（已适配你最新的 OximeterData.java）
+         /**
+         * 创建血氧数据JSON字符串（新增PPG、HRV、电池包统计）
+         */
+        /**
+         * 创建血氧数据JSON字符串（专业版：含完整PPG列表 + HRV列表 + 采样率）
          */
         private String createOximeterDataJson() throws JSONException {
             JSONObject json = new JSONObject();
 
-            // 实时值（最新一包数据）
-            json.put("spo2", mOximeterData.getSpo2());           // 实时血氧
-            json.put("pulse_rate", mOximeterData.getPr());        // 实时心率
+            // ========== 实时生理参数 ==========
+            json.put("spo2", mOximeterData.getSpo2());
+            json.put("pulse_rate", mOximeterData.getPr());
             json.put("temperature", mOximeterData.getTemperature());
             json.put("pi", mOximeterData.getPi());
             json.put("respiration_rate", mOximeterData.getRespirationRate());
             json.put("probe_status", mOximeterData.getProbeStatus());
             json.put("battery_level", mOximeterData.getBatteryLevel());
 
-            // 统计值（全程平均、最低、最高）
+            // ========== 统计值 ==========
             json.put("avg_spo2", mOximeterData.getAvgSpo2());
             json.put("min_spo2", mOximeterData.getMinSpo2());
             json.put("max_spo2", mOximeterData.getMaxSpo2());
@@ -188,13 +196,37 @@ public class DataUploadService {
             json.put("min_pr", mOximeterData.getMinPr());
             json.put("max_pr", mOximeterData.getMaxPr());
 
-            // 原始数据（可选：如果后端要原始波形）
-            json.put("raw_data_count", mOximeterData.getCount());
-            json.put("start_time", mOximeterData.getStartTime());
+            // ========== PPG 完整波形数据（带采样率）==========
+            JSONArray ppgArray = new JSONArray();
+            List<Integer> ppgList = mOximeterData.getPpgList();
+            List<Integer> barList = mOximeterData.getBarList();
+            int ppgSize = Math.min(ppgList.size(), barList.size());
+
+            for (int i = 0; i < ppgSize; i++) {
+                JSONObject point = new JSONObject();
+                point.put("index", i);
+                point.put("wave", ppgList.get(i));   // 0~127
+                point.put("bar", barList.get(i));    // 脉搏强度棒图 0~15
+                ppgArray.put(point);
+            }
+            json.put("ppg_data", ppgArray);
+            json.put("ppg_sample_rate_hz", 5);  // 协议固定：5Hz，每200ms一包，每包10个点
+
+            // ========== HRV 数据（RR间期列表）==========
+            JSONArray hrvArray = new JSONArray();
+            for (Integer rr : mOximeterData.getHrvList()) {
+                hrvArray.put(rr);  // 单位：毫秒
+            }
+            json.put("hrv_data", hrvArray);
+            json.put("hrv_sample_rate", "1_pack_per_10_beats"); // 协议：每10次心跳发一包
+
+            // ========== 原始包（用于校验和回溯）==========
+            json.put("total_packet_count", mOximeterData.getCount());
+            json.put("raw_hex_data", mOximeterData.toHexString());
+            json.put("detection_start_time", mOximeterData.getStartTime());
 
             return json.toString();
         }
-
         /**
          * 创建时间戳JSON字符串
          */

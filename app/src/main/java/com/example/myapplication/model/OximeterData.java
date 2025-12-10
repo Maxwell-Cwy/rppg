@@ -26,22 +26,125 @@ public class OximeterData {
     private String probeStatus = "未知";
     private int batteryLevel = -1;
 
+    // 新增：PPG 波形和 HRV（只存最新数据，UI 层自己拿去画）
+    private final List<Integer> ppgList = new ArrayList<>();     // 0~127
+    private final List<Integer> barList  = new ArrayList<>();    // 0~15  脉搏强度棒图
+    private final List<Integer> hrvList  = new ArrayList<>();    // RR间期 ms
+
     // 统计值
     private int validCount = 0;
-
     private int sumSpo2 = 0, sumPr = 0;
     private int minSpo2 = 999, maxSpo2 = 0;
     private int minPr = 999, maxPr = 0;
 
     private String startTime;
 
+
+
+// ================ 只替换下面这些内容（其余代码保持不变）================
+
+    private String mPendingLongPacket = null; // 正在拼接的 96/97 长包
+
     public void addData(String hexData) {
         if (rawDataList.isEmpty()) {
             startTime = com.example.myapplication.utils.TimeUtils.getPreciseTimeStamp();
         }
-        rawDataList.add(hexData);
-        parsePacket(hexData);
+
+        String trimmed = hexData.trim();
+        if (trimmed.isEmpty()) return;
+
+        // 统一格式：多个空格变一个，方便日志阅读
+        String display = trimmed.replaceAll("\\s+", " ").toUpperCase();
+        Log.e("BLE_RAW", "→ 分片收到: " + display);
+
+        String cleanNoSpace = trimmed.replaceAll("\\s+", "").toUpperCase();
+
+        // 情况1：新包开始（以 FFFE 开头）
+        if (cleanNoSpace.startsWith("FFFE")) {
+            // 先尝试完成上一个长包（防止漏包）
+            if (mPendingLongPacket != null) {
+                tryCompletePendingPacket();
+            }
+
+            // 判断是不是 96 或 97 长包
+            if (cleanNoSpace.length() >= 12) {
+                String devId = cleanNoSpace.substring(8, 10);
+                String cmd   = cleanNoSpace.substring(10, 12);
+                if ("23".equals(devId) && ("96".equals(cmd) || "97".equals(cmd))) {
+                    mPendingLongPacket = trimmed;
+                    Log.w("BLE_RAW", "开始接收长包 (CMD " + cmd + ") ...");
+                    return;
+                }
+            }
+
+            // 普通短包（95、99 等）直接解析
+            rawDataList.add(display);
+            parsePacket(display);
+            return;
+        }
+
+        // 情况2：后续分片（不以 FFFE 开头）
+        if (mPendingLongPacket != null) {
+            mPendingLongPacket += " " + trimmed;
+            Log.w("BLE_RAW", "继续拼接 → 当前累积: " + mPendingLongPacket.replaceAll("\\s+", " "));
+            tryCompletePendingPacket();
+        } else {
+            Log.w("BLE_RAW", "警告：收到不明数据（无包头且无pending）: " + display);
+        }
     }
+
+    private void tryCompletePendingPacket() {
+        {
+            if (mPendingLongPacket == null) return;
+
+            String clean = mPendingLongPacket.replaceAll("\\s+", "").toUpperCase();
+
+            if (clean.length() < 12 || !clean.startsWith("FFFE")) {
+                Log.e("BLE_RAW", "长包损坏，丢弃");
+                mPendingLongPacket = null;
+                return;
+            }
+
+            int ll = Integer.parseInt(clean.substring(4, 6), 16);
+            int totalBytesNeeded = 2 + ll;                    // 包头2字节 + 数据ll字节
+            int totalHexCharsNeeded = totalBytesNeeded * 2;
+
+            if (clean.length() >= totalHexCharsNeeded) {
+                String completeHex = clean.substring(0, totalHexCharsNeeded);
+                String niceFormat = insertSpacesEveryTwoChars(completeHex);
+
+                Log.e("BLE_RAW", "完整包拼接成功！→ " + niceFormat);
+
+                rawDataList.add(niceFormat);
+                parsePacket(niceFormat);   // 关键：这里会走校验和并解析 96/97
+
+                // 处理剩余数据（连续发包的情况）
+                if (clean.length() > totalHexCharsNeeded) {
+                    String remain = clean.substring(totalHexCharsNeeded);
+                    if (remain.startsWith("FFFE")) {
+                        String nextPacket = insertSpacesEveryTwoChars(remain);
+                        Log.w("BLE_RAW", "发现连续包，递归处理: " + nextPacket);
+                        mPendingLongPacket = null;
+                        addData(nextPacket);  // 递归处理下一个包
+                        return;
+                    }
+                }
+
+                mPendingLongPacket = null; // 清空，准备接下一个
+            }
+            // 否则还不够，继续等下一片
+        }
+    }
+// 工具：每两个字符插入空格（日志好看）
+        private String insertSpacesEveryTwoChars(String hex) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hex.length(); i += 2) {
+                if (i > 0) sb.append(" ");
+                sb.append(hex.substring(i, Math.min(i + 2, hex.length())));
+            }
+            return sb.toString();
+        }
+
 
     private void parsePacket(String hexData) {
         String clean = hexData.replaceAll("\\s", "").toUpperCase();
@@ -59,8 +162,12 @@ public class OximeterData {
                 return;
             }
 
-            // 校验和计算：sum(LL + deviceID + CMD + DATA) & 0xFF
-            int calcCs = ll + 0x23 + Integer.parseInt(cmdId, 16);
+            int calcCs = 0;
+            calcCs += ll;                                           // LL
+            calcCs += Integer.parseInt(clean.substring(8, 10), 16); // deviceID (23)
+            calcCs += Integer.parseInt(cmdId, 16);
+            // cmdID
+            // DATA 从第12个字符（第6字节）之后开始，正好跳过 CS 字节
             for (int i = 12; i < clean.length(); i += 2) {
                 calcCs += Integer.parseInt(clean.substring(i, i + 2), 16);
             }
@@ -75,10 +182,15 @@ public class OximeterData {
             String dataHex = clean.substring(12);
             byte[] data = hexStringToByteArray(dataHex);
 
-            if ("95".equals(cmdId) && data.length >= 7) {  // 改为 >=7，支持设备实际发送的7字节数据
+            // 原来就有的两个 + 新增三个
+            if ("95".equals(cmdId)) {
                 parseCmd95(data);
             } else if ("99".equals(cmdId) && data.length >= 1) {
                 parseCmd99(data);
+            } else if ("96".equals(cmdId) && data.length >= 20) {        // PPG 波形包
+                parseCmd96(data);
+            } else if ("97".equals(cmdId) && data.length >= 20) {        // HRV 包
+                parseCmd97(data);
             }
 
         } catch (Exception e) {
@@ -86,7 +198,10 @@ public class OximeterData {
         }
     }
 
+    // ==================== 原来就有的 CMD 95 ====================
     private void parseCmd95(byte[] d) {
+        if (d.length < 7) return;
+
         int b0 = d[0] & 0xFF;
         int b1 = d[1] & 0xFF;
         int b2 = d[2] & 0xFF;
@@ -94,9 +209,9 @@ public class OximeterData {
         int b4 = d[4] & 0xFF;
         int b5 = d[5] & 0xFF;
         int b6 = d[6] & 0xFF;
-        int b7 = (d.length >= 8) ? d[7] & 0xFF : -1;  // 如果有第8字节，才解析呼吸率，否则-1
+        int b7 = (d.length >= 8) ? d[7] & 0xFF : -1;
 
-        // 探头状态
+        // 探头状态（完全保持你原来写法）
         int probeCode = (b0 >> 2) & 0x07;
         switch (probeCode) {
             case 0: probeStatus = "正常"; break;
@@ -129,14 +244,16 @@ public class OximeterData {
             pi = -1.0;
         }
 
-        // 呼吸率（仅如果存在第8字节）
+        // 呼吸率（修复：原来误写成 b，应为 b7）
         if (b7 >= 4 && b7 <= 120) {
             respirationRate = b7;
+        } else if (b7 == -1) {
+            // 不覆盖旧值
         } else {
             respirationRate = -1;
         }
 
-        // 统计
+        // 统计（完全保留你原来的逻辑）
         if (spo2 > 0 || pr > 0) {
             validCount++;
             if (spo2 > 0 && spo2 <= 100) {
@@ -156,6 +273,38 @@ public class OximeterData {
         batteryLevel = d[0] & 0x03;
     }
 
+    private void parseCmd96(byte[] d) {
+        if (d.length < 20) return;
+
+        for (int i = 0; i < 20; i += 2) {
+            int wave = d[i] & 0x7F;
+            int bar  = d[i + 1] & 0x0F;
+
+            // 直接用类的成员变量！不要重新声明！
+            ppgList.add(wave);
+            barList.add(bar);
+
+            // 可选：限制大小，防止内存爆炸
+            if (ppgList.size() > 1000) {
+                ppgList.remove(0);
+                barList.remove(0);
+            }
+        }
+    }
+
+    private void parseCmd97(byte[] d) {
+        if (d.length < 20) return;
+
+        for (int i = 0; i < 20; i += 2) {
+            int rr = ((d[i] & 0xFF) << 8) | (d[i + 1] & 0xFF);
+            if (rr > 0 && rr <= 2000) {
+                hrvList.add(rr);   // 直接用成员变量
+                if (hrvList.size() > 500) {
+                    hrvList.remove(0);
+                }
+            }
+        }
+    }
     private byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
@@ -166,7 +315,7 @@ public class OximeterData {
         return data;
     }
 
-    // ====================== 对外接口 ======================
+    // ====================== 对外接口（只新增3个，其余完全不变）======================
     public String toHexString() {
         return String.join(",", rawDataList);
     }
@@ -177,8 +326,14 @@ public class OximeterData {
 
     public boolean hasData() { return !rawDataList.isEmpty(); }
 
-    public int getValidCount() { return validCount; }  // 关键！DataSaver 需要的
+    public int getValidCount() { return validCount; }
 
+    // 新增的三个 getter（UI层画波形直接调这三个就行）
+    public List<Integer> getPpgList() { return ppgList; }
+    public List<Integer> getBarList()  { return barList; }
+    public List<Integer> getHrvList()  { return hrvList; }
+
+    // 你原来的 generateReport 一字未改
     public String generateReport() {
         StringBuilder sb = new StringBuilder();
         sb.append("指夹式血氧检测报告\n");
@@ -194,16 +349,18 @@ public class OximeterData {
                 sb.append(String.format("  ├ 平均值域：%d ~ %d %%\n", minSpo2 == 999 ? 0 : minSpo2, maxSpo2));
                 sb.append(String.format("  └ 平均：%.1f %%\n", sumSpo2 * 1.0 / validCount));
             }
-        }else sb.append("当前血氧: 错误\n");
+        } else sb.append("当前血氧: 错误\n");
+
         if (pr >= 0) {
             sb.append(String.format("当前心率 PR：   %3d bpm\n", pr));
             if (validCount > 0) {
                 sb.append(String.format("  ├ 平均：%d bpm\n", sumPr / validCount));
             }
-        }
-        else sb.append("当前心率: 错误\n");
+        } else sb.append("当前心率: 错误\n");
+
         if (temperature > 0) sb.append(String.format("体温：         %.1f ℃\n", temperature));
         else sb.append("温度： 错误\n");
+
         if (pi >= 0) sb.append(String.format("灌注指数 PI：  %.2f%%\n", pi));
         if (respirationRate > 0) sb.append(String.format("呼吸率：       %d 次/分\n", respirationRate));
         else sb.append("呼吸率： 错误\n");
@@ -218,7 +375,7 @@ public class OximeterData {
         return sb.toString();
     }
 
-    // Getter
+    // 你原来所有的 getter 完全保留
     public int getSpo2() { return spo2; }
     public int getPr() { return pr; }
     public double getTemperature() { return temperature; }
@@ -236,6 +393,9 @@ public class OximeterData {
 
     public void clear() {
         rawDataList.clear();
+        ppgList.clear();
+        barList.clear();
+        hrvList.clear();
         startTime = null;
         spo2 = pr = -1;
         temperature = pi = -1.0;

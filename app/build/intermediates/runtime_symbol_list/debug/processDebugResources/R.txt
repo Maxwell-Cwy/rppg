@@ -3156,7 +3156,7 @@ int id bounceBoth 0x7f08005f
 int id bounceEnd 0x7f080060
 int id bounceStart 0x7f080061
 int id btn_bluetooth_detect 0x7f080062
-int id btn_exit_preview 0x7f080202
+int id btn_exit_preview 0x7f080063
 int id btn_manual_upload 0x7f080064
 int id btn_rescan 0x7f080065
 int id btn_start_detection 0x7f080066
@@ -3298,7 +3298,7 @@ int id jumpToEnd 0x7f0800ed
 int id jumpToStart 0x7f0800ee
 int id labeled 0x7f0800ef
 int id layout 0x7f0800f0
-int id layout_control 0x7f080201
+int id layout_control 0x7f0800f1
 int id left 0x7f0800f2
 int id leftToRight 0x7f0800f3
 int id legacy 0x7f0800f4

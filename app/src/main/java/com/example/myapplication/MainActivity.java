@@ -25,6 +25,9 @@ import com.google.android.material.button.MaterialButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+
 public class MainActivity extends AppCompatActivity
         implements BluetoothService.BluetoothListener,
         VideoRecorder.VideoListener,
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private DetectionTimeStamp timeStamp;
     private OximeterData oximeterData;
     private String videoFilePath;
+
 
     private boolean isDetectionInProgress = false;
     private boolean shouldSaveAndUpload = false;
@@ -210,6 +214,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onDataReceived(String hexData) {
         oximeterData.addData(hexData);
@@ -268,6 +273,7 @@ public class MainActivity extends AppCompatActivity
                 btnManualUpload.setAlpha(1.0f);
 
                 try {
+
                     DataSaver.saveAllData(this, videoPath, oximeterData, timeStamp);
                     tvStatus.append("\n本地保存成功");
                 } catch (Exception e) {
@@ -284,6 +290,8 @@ public class MainActivity extends AppCompatActivity
             uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
         });
     }
+
+
 
     @Override
     public void onVideoError(String errorMsg) {
