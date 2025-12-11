@@ -124,7 +124,8 @@ public class BluetoothService {
         }).start();
 
         bluetoothDataStartTime = TimeUtils.getPreciseTimeStamp();  // 记录开始
-        //mMainHandler.post(() -> mListener.onDataStartReceiving(bluetoothDataStartTime));  // 只调用有参数版本
+        Log.e("Time","记录时间："+bluetoothDataStartTime);
+        mMainHandler.post(() -> mListener.onDataStartReceiving(bluetoothDataStartTime));  // 只调用有参数版本
     }
 
 
@@ -234,11 +235,6 @@ public class BluetoothService {
             byte[] data = characteristic.getValue();
             if (data != null && data.length > 0) {
                 String hexData = HexUtils.bytesToHex(data);
-
-
-
-                // 强制保存到 OximeterData（不管有没有开始接收）
-                //mOximeterData.addData(hexData);
 
                 // 只有在正式开始检测后才显示到界面
                 if (isReceivingData) {

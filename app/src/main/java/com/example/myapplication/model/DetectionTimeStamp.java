@@ -66,7 +66,7 @@ public class DetectionTimeStamp {
         return "蓝牙连接成功: " + bluetoothConnectTime + "\n" +
                 "视频开始录制: " + videoStartTime + "\n" +
                 "数据开始检测: " + bluetoothDataStartTime + "\n" +
-                "蓝牙数据结束: " + bluetoothDataEndTime + "\n" +  // 新增
+//                "蓝牙数据结束: " + bluetoothDataEndTime + "\n" +  // 新增
                 "视频结束: " + videoEndTime;  // 新增
     }
 }

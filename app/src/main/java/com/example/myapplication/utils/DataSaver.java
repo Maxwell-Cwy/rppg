@@ -55,13 +55,13 @@ public class DataSaver {
             throw new RuntimeException("保存失败: " + e.getMessage(), e);
         }
     }
-    private static String generateJson(OximeterData data, DetectionTimeStamp ts) {
+    public static String generateJson(OximeterData data, DetectionTimeStamp ts) {
         try {
             // ========== 基础信息（你原来就有的）==========
             StringBuilder json = new StringBuilder();
             json.append("{\n");
             json.append("  \"device_model\": \"").append(Build.MODEL).append("\",\n");
-            json.append("  \"detect_start_time\": \"").append(data.getStartTime()).append("\",\n");
+//            json.append("  \"detect_start_time\": \"").append(data.getStartTime()).append("\",\n");
             json.append("  \"bluetooth_connect_time\": \"").append(safe(ts != null ? ts.getBluetoothConnectTime() : null)).append("\",\n");
             json.append("  \"data_start_time\": \"").append(safe(ts != null ? ts.getBluetoothDataStartTime() : null)).append("\",\n");
             json.append("  \"video_start_time\": \"").append(safe(ts != null ? ts.getVideoStartTime() : null)).append("\",\n");

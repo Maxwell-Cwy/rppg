@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import com.example.myapplication.model.DetectionTimeStamp;
 import com.example.myapplication.model.OximeterData;
+import com.example.myapplication.utils.DataSaver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,7 @@ import java.util.UUID;
  */
 public class DataUploadService {
     // 后端API地址（请替换为你的实际后端地址）
-    private static final String UPLOAD_API_URL = "http://your-backend-domain.com/api/oximeter/upload";
+    private static final String UPLOAD_API_URL = "http://39.97.6.220:9112/api/open/fileResource/uploadVideo";
     // 边界符（文件上传用）
     private static final String BOUNDARY = UUID.randomUUID().toString();
     // 换行符
@@ -108,16 +109,14 @@ public class DataUploadService {
                 // 获取输出流（写入请求体）
                 DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
 
-                // 1. 写入蓝牙数据（JSON格式）
-                writeDataPart(outputStream, "oximeter_data", createOximeterDataJson().getBytes("UTF-8"));
+                // 1. 写入扩展JSON数据（与本地保存一致）
+                String extendJson = DataSaver.generateJson(mOximeterData, mTimeStamp);
+                writeDataPart(outputStream, "extendData", extendJson.getBytes("UTF-8"));
 
-                // 2. 写入时间戳数据（JSON格式）
-                writeDataPart(outputStream, "time_stamp", createTimeStampJson().getBytes("UTF-8"));
+                // 2. 写入视频文件（带进度）
+                writeFilePart(outputStream, "file", new File(mVideoPath));
 
-                // 3. 写入视频文件（带进度）
-                writeFilePart(outputStream, "video_file", new File(mVideoPath));
-
-                // 4. 写入结束边界
+                // 3. 写入结束边界
                 outputStream.writeBytes("--" + BOUNDARY + "--" + LINE_END);
                 outputStream.flush();
                 outputStream.close();
@@ -163,80 +162,6 @@ public class DataUploadService {
             } else {
                 mListener.onUploadFailed("未知错误");
             }
-        }
-
-        /**
-         * 创建血氧数据JSON字符串
-         */
-        /**
-         * 创建血氧数据JSON字符串（已适配你最新的 OximeterData.java）
-         /**
-         * 创建血氧数据JSON字符串（新增PPG、HRV、电池包统计）
-         */
-        /**
-         * 创建血氧数据JSON字符串（专业版：含完整PPG列表 + HRV列表 + 采样率）
-         */
-        private String createOximeterDataJson() throws JSONException {
-            JSONObject json = new JSONObject();
-
-            // ========== 实时生理参数 ==========
-            json.put("spo2", mOximeterData.getSpo2());
-            json.put("pulse_rate", mOximeterData.getPr());
-            json.put("temperature", mOximeterData.getTemperature());
-            json.put("pi", mOximeterData.getPi());
-            json.put("respiration_rate", mOximeterData.getRespirationRate());
-            json.put("probe_status", mOximeterData.getProbeStatus());
-            json.put("battery_level", mOximeterData.getBatteryLevel());
-
-            // ========== 统计值 ==========
-            json.put("avg_spo2", mOximeterData.getAvgSpo2());
-            json.put("min_spo2", mOximeterData.getMinSpo2());
-            json.put("max_spo2", mOximeterData.getMaxSpo2());
-            json.put("avg_pr", mOximeterData.getAvgPr());
-            json.put("min_pr", mOximeterData.getMinPr());
-            json.put("max_pr", mOximeterData.getMaxPr());
-
-            // ========== PPG 完整波形数据（带采样率）==========
-            JSONArray ppgArray = new JSONArray();
-            List<Integer> ppgList = mOximeterData.getPpgList();
-            List<Integer> barList = mOximeterData.getBarList();
-            int ppgSize = Math.min(ppgList.size(), barList.size());
-
-            for (int i = 0; i < ppgSize; i++) {
-                JSONObject point = new JSONObject();
-                point.put("index", i);
-                point.put("wave", ppgList.get(i));   // 0~127
-                point.put("bar", barList.get(i));    // 脉搏强度棒图 0~15
-                ppgArray.put(point);
-            }
-            json.put("ppg_data", ppgArray);
-            json.put("ppg_sample_rate_hz", 5);  // 协议固定：5Hz，每200ms一包，每包10个点
-
-            // ========== HRV 数据（RR间期列表）==========
-            JSONArray hrvArray = new JSONArray();
-            for (Integer rr : mOximeterData.getHrvList()) {
-                hrvArray.put(rr);  // 单位：毫秒
-            }
-            json.put("hrv_data", hrvArray);
-            json.put("hrv_sample_rate", "1_pack_per_10_beats"); // 协议：每10次心跳发一包
-
-            // ========== 原始包（用于校验和回溯）==========
-            json.put("total_packet_count", mOximeterData.getCount());
-            json.put("raw_hex_data", mOximeterData.toHexString());
-            json.put("detection_start_time", mOximeterData.getStartTime());
-
-            return json.toString();
-        }
-        /**
-         * 创建时间戳JSON字符串
-         */
-        private String createTimeStampJson() throws JSONException {
-            JSONObject json = new JSONObject();
-            json.put("bluetooth_connect_time", mTimeStamp.getBluetoothConnectTime());
-            json.put("video_start_time", mTimeStamp.getVideoStartTime());
-            json.put("data_start_time", mTimeStamp.getBluetoothDataStartTime());
-            json.put("upload_time", com.example.myapplication.utils.TimeUtils.getPreciseTimeStamp());
-            return json.toString();
         }
 
         /**

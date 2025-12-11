@@ -165,10 +165,10 @@ public class MainActivity extends AppCompatActivity
         // 1. 启动视频录制（CameraX 会自动绑定到 previewView）
         videoRecorder.startRecording(90_000); // 严格90秒
 
-        // 2. 启动蓝牙数据采集（延迟10ms）
+        // 2. 启动蓝牙数据采集（延迟50ms）
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             bluetoothService.startReceivingData();
-        }, 10);
+        }, 50);
     }
 
     // ===================== BluetoothListener =====================
@@ -258,20 +258,13 @@ public class MainActivity extends AppCompatActivity
 
             previewView.setVisibility(android.view.View.GONE);
             tvStatus.append("\n视频录制完成：" + endTime);
-            tvStatus.append("\n\n检测已完成！\n" + timeStamp.toString());
 
-            // 自动上传 + 启用手动上传
             btnManualUpload.setEnabled(true);
             btnManualUpload.setAlpha(1.0f);
-
             // 本地保存
             // ✅ 只有 shouldSaveAndUpload 为 true 才保存和上传！
             if (shouldSaveAndUpload) {
                 tvStatus.append("\n\n检测已完成！\n" + timeStamp.toString());
-
-                btnManualUpload.setEnabled(true);
-                btnManualUpload.setAlpha(1.0f);
-
                 try {
 
                     DataSaver.saveAllData(this, videoPath, oximeterData, timeStamp);
@@ -279,15 +272,14 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     tvStatus.append("\n本地保存失败：" + e.getMessage());
                 }
-
+                // 自动上传
                 uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
             } else {
                 // ❌ 被提前终止（蓝牙断开 / 用户退出），不保存
                 tvStatus.append("\n⚠️ 检测未正常完成，数据已丢弃");
                 Toast.makeText(this, "检测未完成，数据未保存", Toast.LENGTH_SHORT).show();
             }
-            // 自动上传
-            uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
+
         });
     }
 
