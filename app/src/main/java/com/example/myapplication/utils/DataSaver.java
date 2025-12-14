@@ -14,6 +14,19 @@ import java.nio.file.StandardCopyOption;
 
 public class DataSaver {
     private static final String TAG = "DataSaver";
+    // 👇 新增：静态血压字段（不推荐！）
+    private static int systolic = -1;
+    private static int diastolic = -1;
+
+    // 提供设置方法
+    public static void setBloodPressure(int sys, int dia) {
+        systolic = sys;
+        diastolic = dia;
+    }
+    //判断是否已输入
+    public static boolean hasBloodPressure() {
+        return systolic > 0 && diastolic > 0;
+    }
 
     public static void saveAllData(Context context,
                                    String videoPath,
@@ -65,8 +78,6 @@ public class DataSaver {
             json.append("  \"bluetooth_connect_time\": \"").append(safe(ts != null ? ts.getBluetoothConnectTime() : null)).append("\",\n");
             json.append("  \"data_start_time\": \"").append(safe(ts != null ? ts.getBluetoothDataStartTime() : null)).append("\",\n");
             json.append("  \"video_start_time\": \"").append(safe(ts != null ? ts.getVideoStartTime() : null)).append("\",\n");
-            json.append("  \"total_packets\": ").append(data.getCount()).append(",\n");
-            json.append("  \"valid_packets\": ").append(data.getValidCount()).append(",\n");
 
             // ========== 统计值（你原来就有的）==========
             json.append("  \"avg_spo2\": ").append(data.getAvgSpo2() >= 0 ? data.getAvgSpo2() : "null").append(",\n");
@@ -80,6 +91,9 @@ public class DataSaver {
             json.append("  \"respiration_rate\": ").append(data.getRespirationRate() > 0 ? data.getRespirationRate() : "null").append(",\n");
             json.append("  \"probe_status\": \"").append(data.getProbeStatus()).append("\",\n");
             json.append("  \"battery_level\": ").append(data.getBatteryLevel()).append(",\n");
+            // ========== 血压数据（新增）==========
+            json.append(" \"blood_pressure_systolic\": ").append(systolic > 0 ? systolic : "null").append(",\n");
+            json.append(" \"blood_pressure_diastolic\": ").append(diastolic > 0 ? diastolic : "null").append(",\n");
 
             // ========== PPG 完整波形数据（新增，带采样率）==========
             json.append("  \"ppg_sample_rate_hz\": 5,\n");

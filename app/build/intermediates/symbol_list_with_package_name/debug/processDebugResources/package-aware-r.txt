@@ -3158,6 +3158,7 @@ id bounceEnd
 id bounceStart
 id btn_bluetooth_detect
 id btn_exit_preview
+id btn_input_blood_pressure
 id btn_manual_upload
 id btn_rescan
 id btn_start_detection
@@ -3545,6 +3546,7 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tv_countdown
 id tv_scan_status
 id tv_status
 id tv_upload_progress

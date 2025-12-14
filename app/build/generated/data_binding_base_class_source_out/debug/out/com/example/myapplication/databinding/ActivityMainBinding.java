@@ -30,6 +30,9 @@ public final class ActivityMainBinding implements ViewBinding {
   public final MaterialButton btnExitPreview;
 
   @NonNull
+  public final MaterialButton btnInputBloodPressure;
+
+  @NonNull
   public final MaterialButton btnManualUpload;
 
   @NonNull
@@ -45,6 +48,9 @@ public final class ActivityMainBinding implements ViewBinding {
   public final ProgressBar progressUpload;
 
   @NonNull
+  public final TextView tvCountdown;
+
+  @NonNull
   public final TextView tvStatus;
 
   @NonNull
@@ -52,18 +58,21 @@ public final class ActivityMainBinding implements ViewBinding {
 
   private ActivityMainBinding(@NonNull FrameLayout rootView,
       @NonNull MaterialButton btnBluetoothDetect, @NonNull MaterialButton btnExitPreview,
-      @NonNull MaterialButton btnManualUpload, @NonNull MaterialButton btnStartDetection,
-      @NonNull LinearLayout layoutControl, @NonNull PreviewView previewView,
-      @NonNull ProgressBar progressUpload, @NonNull TextView tvStatus,
+      @NonNull MaterialButton btnInputBloodPressure, @NonNull MaterialButton btnManualUpload,
+      @NonNull MaterialButton btnStartDetection, @NonNull LinearLayout layoutControl,
+      @NonNull PreviewView previewView, @NonNull ProgressBar progressUpload,
+      @NonNull TextView tvCountdown, @NonNull TextView tvStatus,
       @NonNull TextView tvUploadProgress) {
     this.rootView = rootView;
     this.btnBluetoothDetect = btnBluetoothDetect;
     this.btnExitPreview = btnExitPreview;
+    this.btnInputBloodPressure = btnInputBloodPressure;
     this.btnManualUpload = btnManualUpload;
     this.btnStartDetection = btnStartDetection;
     this.layoutControl = layoutControl;
     this.previewView = previewView;
     this.progressUpload = progressUpload;
+    this.tvCountdown = tvCountdown;
     this.tvStatus = tvStatus;
     this.tvUploadProgress = tvUploadProgress;
   }
@@ -107,6 +116,12 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btn_input_blood_pressure;
+      MaterialButton btnInputBloodPressure = ViewBindings.findChildViewById(rootView, id);
+      if (btnInputBloodPressure == null) {
+        break missingId;
+      }
+
       id = R.id.btn_manual_upload;
       MaterialButton btnManualUpload = ViewBindings.findChildViewById(rootView, id);
       if (btnManualUpload == null) {
@@ -137,6 +152,12 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tv_countdown;
+      TextView tvCountdown = ViewBindings.findChildViewById(rootView, id);
+      if (tvCountdown == null) {
+        break missingId;
+      }
+
       id = R.id.tv_status;
       TextView tvStatus = ViewBindings.findChildViewById(rootView, id);
       if (tvStatus == null) {
@@ -150,8 +171,8 @@ public final class ActivityMainBinding implements ViewBinding {
       }
 
       return new ActivityMainBinding((FrameLayout) rootView, btnBluetoothDetect, btnExitPreview,
-          btnManualUpload, btnStartDetection, layoutControl, previewView, progressUpload, tvStatus,
-          tvUploadProgress);
+          btnInputBloodPressure, btnManualUpload, btnStartDetection, layoutControl, previewView,
+          progressUpload, tvCountdown, tvStatus, tvUploadProgress);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -61,6 +61,14 @@ public class DetectionTimeStamp {
         this.videoEndTime = videoEndTime;
     }
 
+    public void clear() {
+//        bluetoothConnectTime = null;
+        bluetoothDataStartTime = null;
+        bluetoothDataEndTime = null;
+        videoStartTime = null;
+        videoEndTime = null;
+    }
+
     @Override
     public String toString() {
         return "蓝牙连接成功: " + bluetoothConnectTime + "\n" +

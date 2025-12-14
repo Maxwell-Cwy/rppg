@@ -24,6 +24,23 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:visibility="gone" />
+    <!-- 倒计时显示（仅在预览时可见） -->
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="#80000000"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="90"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <!-- 原始操作界面 -->
     <LinearLayout
@@ -52,6 +69,7 @@
                 android:layout_marginBottom="16dp" />
         </ScrollView>
 
+
         <!-- 按钮区 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,16 +91,37 @@
                 android:enabled="false"
                 android:alpha="0.5"
                 android:layout_marginBottom="12dp" />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_manual_upload"
+            <!-- 手动上传 + 输入血压（同行） -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="手动上传数据"
-                android:textSize="17sp"
-                android:enabled="false"
-                android:alpha="0.5"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_marginBottom="12dp" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_manual_upload"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="手动上传数据"
+                    android:textSize="16sp"
+                    android:enabled="false"
+                    android:alpha="0.5"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_input_blood_pressure"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="输入血压"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            </LinearLayout>
+
+
             <ProgressBar
                 android:id="@+id/progress_upload"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -100,6 +139,8 @@
                 android:textSize="14sp"
                 android:gravity="center"
                 android:visibility="gone" />
+
+
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

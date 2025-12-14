@@ -38,7 +38,7 @@ public class OximeterData {
     private int minPr = 999, maxPr = 0;
 
     private String startTime;
-
+    private static Integer index=0;
 
 
 // ================ 只替换下面这些内容（其余代码保持不变）================
@@ -49,6 +49,8 @@ public class OximeterData {
         if (rawDataList.isEmpty()) {
             startTime = com.example.myapplication.utils.TimeUtils.getPreciseTimeStamp();
         }
+        //########
+//        rawDataList.add(hexData);
 
         String trimmed = hexData.trim();
         if (trimmed.isEmpty()) return;
@@ -71,6 +73,8 @@ public class OximeterData {
                 String devId = cleanNoSpace.substring(8, 10);
                 String cmd   = cleanNoSpace.substring(10, 12);
                 if ("23".equals(devId) && ("96".equals(cmd) || "97".equals(cmd))) {
+                    index++;
+                    Log.w("BLE_RAW",+ index+ " :"+cleanNoSpace);
                     mPendingLongPacket = trimmed;
                     Log.w("BLE_RAW", "开始接收长包 (CMD " + cmd + ") ...");
                     return;
@@ -112,8 +116,7 @@ public class OximeterData {
             if (clean.length() >= totalHexCharsNeeded) {
                 String completeHex = clean.substring(0, totalHexCharsNeeded);
                 String niceFormat = insertSpacesEveryTwoChars(completeHex);
-
-                Log.e("BLE_RAW", "完整包拼接成功！→ " + niceFormat);
+                Log.e("BLE_RAW", "完整包拼接成功！→ " +niceFormat);
 
                 rawDataList.add(niceFormat);
                 parsePacket(niceFormat);   // 关键：这里会走校验和并解析 96/97
@@ -283,12 +286,6 @@ public class OximeterData {
             // 直接用类的成员变量！不要重新声明！
             ppgList.add(wave);
             barList.add(bar);
-
-            // 可选：限制大小，防止内存爆炸
-            if (ppgList.size() > 1000) {
-                ppgList.remove(0);
-                barList.remove(0);
-            }
         }
     }
 

@@ -12,6 +12,7 @@ drawable ic_launcher_background
 drawable ic_launcher_foreground
 id btn_bluetooth_detect
 id btn_exit_preview
+id btn_input_blood_pressure
 id btn_manual_upload
 id btn_rescan
 id btn_start_detection
@@ -19,6 +20,7 @@ id layout_control
 id lv_devices
 id preview_view
 id progress_upload
+id tv_countdown
 id tv_scan_status
 id tv_status
 id tv_upload_progress

@@ -4,10 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,9 +60,12 @@ public class MainActivity extends AppCompatActivity
     private OximeterData oximeterData;
     private String videoFilePath;
 
+    private TextView tvCountdown;
+    private CountDownTimer countDownTimer;
 
     private boolean isDetectionInProgress = false;
     private boolean shouldSaveAndUpload = false;
+    private MaterialButton btnInputBloodPressure; //输入血压按钮
 
     private final String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.BLUETOOTH_SCAN,
@@ -92,9 +98,12 @@ public class MainActivity extends AppCompatActivity
         btnStartDetection = findViewById(R.id.btn_start_detection);
         btnManualUpload = findViewById(R.id.btn_manual_upload);
         btnExitPreview = findViewById(R.id.btn_exit_preview);
+        tvCountdown = findViewById(R.id.tv_countdown);
+        btnInputBloodPressure = findViewById(R.id.btn_input_blood_pressure);
 
         previewView.setVisibility(View.GONE);
         btnExitPreview.setVisibility(View.GONE);
+        tvCountdown.setVisibility(View.GONE);
         tvStatus.setText("请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接");
         btnManualUpload.setEnabled(false);
         btnManualUpload.setAlpha(0.6f);
@@ -105,27 +114,37 @@ public class MainActivity extends AppCompatActivity
 
     private void stopDetectionEarly() {
         isDetectionInProgress = false;
-        // 1. 停止视频录制
+        shouldSaveAndUpload = false;
+
+        oximeterData.clear(); // 👈 你需要确保 OximeterData 有 clear() 方法
+        timeStamp.clear();    // 👈 你需要确保 DetectionTimeStamp 有 clear() 方法
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+        tvCountdown.setVisibility(View.GONE);
+
         if (videoRecorder != null) {
-            videoRecorder.stopRecording(); // 确保 VideoRecorder 有 stopRecording() 方法
+            videoRecorder.stopRecording();
+            videoRecorder.releaseResources(); // 👈 关键：释放资源
         }
 
-        // 2. 停止蓝牙采集
         if (bluetoothService != null) {
             bluetoothService.stopReceivingData();
         }
 
-        // 3. 切回控制界面
+        // 清空路径，避免残留
+        videoFilePath = null;
+
+        // 切回界面
         previewView.setVisibility(View.GONE);
         btnExitPreview.setVisibility(View.GONE);
         findViewById(R.id.layout_control).setVisibility(View.VISIBLE);
 
-        // 4. 更新状态（可选）
         runOnUiThread(() -> {
             tvStatus.append("\n⚠️ 用户提前终止检测");
-            shouldSaveAndUpload = false;
-            // 注意：此时没有完成90秒，所以不触发上传或保存
-            // 如果需要保存部分数据，请在此处调用 DataSaver
+            DataSaver.setBloodPressure(-1, -1);
         });
     }
     private void initServices() {
@@ -138,11 +157,18 @@ public class MainActivity extends AppCompatActivity
 
     private void bindEvents() {
 
+        btnInputBloodPressure.setOnClickListener(v -> showBloodPressureInputDialog());
         btnBluetoothDetect.setOnClickListener(v -> {
             startActivityForResult(new Intent(this, DeviceListActivity.class), REQUEST_SELECT_DEVICE);
         });
 
-        btnStartDetection.setOnClickListener(v -> startDetection());
+        btnStartDetection.setOnClickListener(v -> {
+            if (!DataSaver.hasBloodPressure()) {
+                Toast.makeText(MainActivity.this, "请先输入血压值", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            startDetection();
+        });
 
         btnManualUpload.setOnClickListener(v -> {
             if (videoFilePath != null && oximeterData.hasData()) {
@@ -153,22 +179,104 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void showBloodPressureInputDialog() {
+        // 创建两个 EditText 用于输入 收缩压 和 舒张压
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(40, 20, 40, 20);
+
+        final EditText etSystolic = new EditText(this);
+        etSystolic.setHint("收缩压 (如 120)");
+        etSystolic.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+        layout.addView(etSystolic);
+
+        final EditText etDiastolic = new EditText(this);
+        etDiastolic.setHint("舒张压 (如 80)");
+        etDiastolic.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+        layout.addView(etDiastolic);
+
+        new AlertDialog.Builder(this)
+                .setTitle("请输入血压值")
+                .setView(layout)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String sysStr = etSystolic.getText().toString().trim();
+                    String diaStr = etDiastolic.getText().toString().trim();
+
+                    if (sysStr.isEmpty() || diaStr.isEmpty()) {
+                        Toast.makeText(MainActivity.this, "请输入完整的血压值", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        int systolic = Integer.parseInt(sysStr);
+                        int diastolic = Integer.parseInt(diaStr);
+
+                        // 简单校验范围（可选）
+                        if (systolic < 70 || systolic > 250 || diastolic < 40 || diastolic > 150) {
+                            Toast.makeText(MainActivity.this, "血压值可能异常，请确认", Toast.LENGTH_LONG).show();
+                        }
+
+                        DataSaver.setBloodPressure(systolic, diastolic);
+
+                        // 更新状态栏显示
+                        runOnUiThread(() -> {
+                            tvStatus.append("\n✅ 血压已录入：" + systolic + "/" + diastolic + " mmHg");
+                        });
+
+
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(MainActivity.this, "请输入有效的数字", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
     private void startDetection() {
+        // 释放旧的 recorder（如果存在）
+        if (videoRecorder != null) {
+            videoRecorder.releaseResources(); // 确保内部释放 CameraX 绑定等资源
+        }
+        // 重新创建
+        videoRecorder = new VideoRecorder(this, this, previewView);
+
+
         // 标记检测开始
         isDetectionInProgress = true;
         shouldSaveAndUpload = true;
         // === 切换到全屏预览模式 ===
         previewView.setVisibility(View.VISIBLE);
         btnExitPreview.setVisibility(View.VISIBLE);
+        tvCountdown.setVisibility(View.VISIBLE);
         findViewById(R.id.layout_control).setVisibility(View.GONE);
+
+        // 启动 90 秒倒计时
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        countDownTimer = new CountDownTimer(90_000, 1_000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                tvCountdown.setText(String.valueOf(seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                tvCountdown.setVisibility(View.GONE);
+                // 注意：VideoRecorder 应该会在 90 秒后自动调用 onVideoFinished
+                // 所以此处无需手动停止，除非你想提前触发
+            }
+        }.start();
+
 
         // 1. 启动视频录制（CameraX 会自动绑定到 previewView）
         videoRecorder.startRecording(90_000); // 严格90秒
 
-        // 2. 启动蓝牙数据采集（延迟50ms）
+        // 2. 启动蓝牙数据采集（延迟500ms）
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             bluetoothService.startReceivingData();
-        }, 50);
+        }, 500);
     }
 
     // ===================== BluetoothListener =====================
@@ -210,11 +318,13 @@ public class MainActivity extends AppCompatActivity
 
                 tvStatus.append("\n❌ 蓝牙连接意外断开，检测已终止");
                 Toast.makeText(this, "蓝牙断开，检测已取消", Toast.LENGTH_LONG).show();
+                DataSaver.setBloodPressure(-1, -1);
             });
         }
     }
 
 
+    //收集数据
     @Override
     public void onDataReceived(String hexData) {
         oximeterData.addData(hexData);
@@ -223,7 +333,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDataStartReceiving(String startTime) {
         timeStamp.setBluetoothDataStartTime(startTime);
-        runOnUiThread(() -> tvStatus.append("\n蓝牙数据开始采集：" + startTime));
+//        runOnUiThread(() -> tvStatus.append("\n蓝牙数据开始采集：" + startTime));
     }
 
     @Override
@@ -239,7 +349,7 @@ public class MainActivity extends AppCompatActivity
         timeStamp.setVideoStartTime(startTime);
         runOnUiThread(() -> {
             previewView.setVisibility(android.view.View.VISIBLE);
-            tvStatus.append("\n视频开始录制：" + startTime);
+//            tvStatus.append("\n视频开始录制：" + startTime);
         });
     }
 
@@ -249,7 +359,14 @@ public class MainActivity extends AppCompatActivity
         timeStamp.setVideoEndTime(endTime);
         bluetoothService.stopReceivingData(); // 同步停止蓝牙
 
+
         runOnUiThread(() -> {
+            // 清理倒计时显示
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+                countDownTimer = null;
+            }
+            tvCountdown.setVisibility(View.GONE);
 
             // === 恢复原界面 ===
             previewView.setVisibility(View.GONE);
@@ -257,20 +374,21 @@ public class MainActivity extends AppCompatActivity
             findViewById(R.id.layout_control).setVisibility(View.VISIBLE);
 
             previewView.setVisibility(android.view.View.GONE);
-            tvStatus.append("\n视频录制完成：" + endTime);
+//            tvStatus.append("\n视频录制完成：" + endTime);
 
             btnManualUpload.setEnabled(true);
             btnManualUpload.setAlpha(1.0f);
             // 本地保存
             // ✅ 只有 shouldSaveAndUpload 为 true 才保存和上传！
             if (shouldSaveAndUpload) {
-                tvStatus.append("\n\n检测已完成！\n" + timeStamp.toString());
+                tvStatus.append("\n\n检测已完成！\n");
+                tvStatus.append("\n检测报告：\n"+oximeterData.generateReport());
                 try {
 
                     DataSaver.saveAllData(this, videoPath, oximeterData, timeStamp);
-                    tvStatus.append("\n本地保存成功");
+//                    tvStatus.append("\n本地保存成功");
                 } catch (Exception e) {
-                    tvStatus.append("\n本地保存失败：" + e.getMessage());
+//                    tvStatus.append("\n本地保存失败：" + e.getMessage());
                 }
                 // 自动上传
                 uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
@@ -279,6 +397,7 @@ public class MainActivity extends AppCompatActivity
                 tvStatus.append("\n⚠️ 检测未正常完成，数据已丢弃");
                 Toast.makeText(this, "检测未完成，数据未保存", Toast.LENGTH_SHORT).show();
             }
+            DataSaver.setBloodPressure(-1, -1);
 
         });
     }
@@ -301,7 +420,7 @@ public class MainActivity extends AppCompatActivity
     public void onUploadSuccess(String response) {
         runOnUiThread(() -> {
             hideUploadProgress();
-            tvStatus.append("\n上传成功！\n服务器响应：" + response);
+//            tvStatus.append("\n上传成功！\n服务器响应：" + response);
             Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
         });
     }

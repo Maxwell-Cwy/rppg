@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +19,8 @@ import com.example.myapplication.utils.HexUtils;
 import com.example.myapplication.utils.BluetoothUtils;
 import com.example.myapplication.utils.TimeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class BluetoothService {
@@ -51,6 +54,8 @@ public class BluetoothService {
     private boolean isConnected = false;
     private String bluetoothDataStartTime;
     private String bluetoothDataEndTime;
+
+    private static Integer index=0;
 
     public interface BluetoothListener {
         void onBluetoothConnected(String deviceName, String deviceAddress);
@@ -101,28 +106,28 @@ public class BluetoothService {
             return;
         }
 
-        new Thread(() -> {
-            try {
-                // 发送100个0x00唤醒设备
-                for (int i = 0; i < 100; i++) {
-                    sendData(new byte[]{0x00});
-                    Thread.sleep(300);
-                }
-
-                sendData(DEVICE_READY_CMD);
-                Thread.sleep(500);
-
-                sendData(START_MEASURE_CMD);
-                Thread.sleep(500);
-
-                isReceivingData = true;  // 只设置一次
-
-            } catch (InterruptedException e) {
-                Log.e(TAG, "发送命令线程中断: " + e.getMessage());
-                mMainHandler.post(() -> mListener.onBluetoothConnectFailed("发送测量命令失败"));
-            }
-        }).start();
-
+//        new Thread(() -> {
+//            try {
+//                // 发送100个0x00唤醒设备
+//                for (int i = 0; i < 100; i++) {
+//                    sendData(new byte[]{0x00});
+//                    Thread.sleep(300);
+//                }
+//
+//                sendData(DEVICE_READY_CMD);
+//                Thread.sleep(500);
+//
+//                sendData(START_MEASURE_CMD);
+//                Thread.sleep(500);
+//
+//                isReceivingData = true;  // 只设置一次
+//
+//            } catch (InterruptedException e) {
+//                Log.e(TAG, "发送命令线程中断: " + e.getMessage());
+//                mMainHandler.post(() -> mListener.onBluetoothConnectFailed("发送测量命令失败"));
+//            }
+//        }).start();
+        isReceivingData = true;
         bluetoothDataStartTime = TimeUtils.getPreciseTimeStamp();  // 记录开始
         Log.e("Time","记录时间："+bluetoothDataStartTime);
         mMainHandler.post(() -> mListener.onDataStartReceiving(bluetoothDataStartTime));  // 只调用有参数版本
@@ -239,6 +244,8 @@ public class BluetoothService {
                 // 只有在正式开始检测后才显示到界面
                 if (isReceivingData) {
                     mMainHandler.post(() -> mListener.onDataReceived(hexData));
+                    index++;
+                    Log.w("数据总数：","第"+index+":"+hexData);
                 }
 
             }
