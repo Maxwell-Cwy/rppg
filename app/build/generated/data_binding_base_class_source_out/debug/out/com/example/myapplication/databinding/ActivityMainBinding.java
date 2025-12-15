@@ -48,21 +48,38 @@ public final class ActivityMainBinding implements ViewBinding {
   public final ProgressBar progressUpload;
 
   @NonNull
+  public final TextView tvBloodPressureStatus;
+
+  @NonNull
+  public final TextView tvBluetoothStatus;
+
+  @NonNull
   public final TextView tvCountdown;
 
   @NonNull
-  public final TextView tvStatus;
+  public final TextView tvDetectionResult;
+
+  @NonNull
+  public final TextView tvUploadAndEnd;
 
   @NonNull
   public final TextView tvUploadProgress;
+
+  @NonNull
+  public final TextView tvUploadingHint;
+
+  @NonNull
+  public final LinearLayout uploadOverlay;
 
   private ActivityMainBinding(@NonNull FrameLayout rootView,
       @NonNull MaterialButton btnBluetoothDetect, @NonNull MaterialButton btnExitPreview,
       @NonNull MaterialButton btnInputBloodPressure, @NonNull MaterialButton btnManualUpload,
       @NonNull MaterialButton btnStartDetection, @NonNull LinearLayout layoutControl,
       @NonNull PreviewView previewView, @NonNull ProgressBar progressUpload,
-      @NonNull TextView tvCountdown, @NonNull TextView tvStatus,
-      @NonNull TextView tvUploadProgress) {
+      @NonNull TextView tvBloodPressureStatus, @NonNull TextView tvBluetoothStatus,
+      @NonNull TextView tvCountdown, @NonNull TextView tvDetectionResult,
+      @NonNull TextView tvUploadAndEnd, @NonNull TextView tvUploadProgress,
+      @NonNull TextView tvUploadingHint, @NonNull LinearLayout uploadOverlay) {
     this.rootView = rootView;
     this.btnBluetoothDetect = btnBluetoothDetect;
     this.btnExitPreview = btnExitPreview;
@@ -72,9 +89,14 @@ public final class ActivityMainBinding implements ViewBinding {
     this.layoutControl = layoutControl;
     this.previewView = previewView;
     this.progressUpload = progressUpload;
+    this.tvBloodPressureStatus = tvBloodPressureStatus;
+    this.tvBluetoothStatus = tvBluetoothStatus;
     this.tvCountdown = tvCountdown;
-    this.tvStatus = tvStatus;
+    this.tvDetectionResult = tvDetectionResult;
+    this.tvUploadAndEnd = tvUploadAndEnd;
     this.tvUploadProgress = tvUploadProgress;
+    this.tvUploadingHint = tvUploadingHint;
+    this.uploadOverlay = uploadOverlay;
   }
 
   @Override
@@ -152,15 +174,33 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tv_blood_pressure_status;
+      TextView tvBloodPressureStatus = ViewBindings.findChildViewById(rootView, id);
+      if (tvBloodPressureStatus == null) {
+        break missingId;
+      }
+
+      id = R.id.tv_bluetooth_status;
+      TextView tvBluetoothStatus = ViewBindings.findChildViewById(rootView, id);
+      if (tvBluetoothStatus == null) {
+        break missingId;
+      }
+
       id = R.id.tv_countdown;
       TextView tvCountdown = ViewBindings.findChildViewById(rootView, id);
       if (tvCountdown == null) {
         break missingId;
       }
 
-      id = R.id.tv_status;
-      TextView tvStatus = ViewBindings.findChildViewById(rootView, id);
-      if (tvStatus == null) {
+      id = R.id.tv_detection_result;
+      TextView tvDetectionResult = ViewBindings.findChildViewById(rootView, id);
+      if (tvDetectionResult == null) {
+        break missingId;
+      }
+
+      id = R.id.tv_upload_and_end;
+      TextView tvUploadAndEnd = ViewBindings.findChildViewById(rootView, id);
+      if (tvUploadAndEnd == null) {
         break missingId;
       }
 
@@ -170,9 +210,22 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tv_uploading_hint;
+      TextView tvUploadingHint = ViewBindings.findChildViewById(rootView, id);
+      if (tvUploadingHint == null) {
+        break missingId;
+      }
+
+      id = R.id.upload_overlay;
+      LinearLayout uploadOverlay = ViewBindings.findChildViewById(rootView, id);
+      if (uploadOverlay == null) {
+        break missingId;
+      }
+
       return new ActivityMainBinding((FrameLayout) rootView, btnBluetoothDetect, btnExitPreview,
           btnInputBloodPressure, btnManualUpload, btnStartDetection, layoutControl, previewView,
-          progressUpload, tvCountdown, tvStatus, tvUploadProgress);
+          progressUpload, tvBloodPressureStatus, tvBluetoothStatus, tvCountdown, tvDetectionResult,
+          tvUploadAndEnd, tvUploadProgress, tvUploadingHint, uploadOverlay);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

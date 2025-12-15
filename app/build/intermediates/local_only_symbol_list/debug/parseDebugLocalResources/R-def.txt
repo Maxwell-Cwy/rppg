@@ -20,10 +20,15 @@ id layout_control
 id lv_devices
 id preview_view
 id progress_upload
+id tv_blood_pressure_status
+id tv_bluetooth_status
 id tv_countdown
+id tv_detection_result
 id tv_scan_status
-id tv_status
+id tv_upload_and_end
 id tv_upload_progress
+id tv_uploading_hint
+id upload_overlay
 layout activity_device_list
 layout activity_main
 mipmap ic_launcher

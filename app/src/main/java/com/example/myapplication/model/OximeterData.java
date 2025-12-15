@@ -33,6 +33,7 @@ public class OximeterData {
 
     // 统计值
     private int validCount = 0;
+    private int totalCount = 0; // 所有原始输入包数量（包括异常）
     private int sumSpo2 = 0, sumPr = 0;
     private int minSpo2 = 999, maxSpo2 = 0;
     private int minPr = 999, maxPr = 0;
@@ -46,11 +47,11 @@ public class OximeterData {
     private String mPendingLongPacket = null; // 正在拼接的 96/97 长包
 
     public void addData(String hexData) {
+        totalCount++;
         if (rawDataList.isEmpty()) {
             startTime = com.example.myapplication.utils.TimeUtils.getPreciseTimeStamp();
         }
-        //########
-//        rawDataList.add(hexData);
+
 
         String trimmed = hexData.trim();
         if (trimmed.isEmpty()) return;
@@ -89,6 +90,7 @@ public class OximeterData {
 
         // 情况2：后续分片（不以 FFFE 开头）
         if (mPendingLongPacket != null) {
+            totalCount--;
             mPendingLongPacket += " " + trimmed;
             Log.w("BLE_RAW", "继续拼接 → 当前累积: " + mPendingLongPacket.replaceAll("\\s+", " "));
             tryCompletePendingPacket();
@@ -324,6 +326,7 @@ public class OximeterData {
     public boolean hasData() { return !rawDataList.isEmpty(); }
 
     public int getValidCount() { return validCount; }
+    public int getTotalCount() { return totalCount; }
 
     // 新增的三个 getter（UI层画波形直接调这三个就行）
     public List<Integer> getPpgList() { return ppgList; }
@@ -336,8 +339,8 @@ public class OximeterData {
         sb.append("指夹式血氧检测报告\n");
         sb.append("══════════════════════════\n");
         sb.append("检测时间：").append(getStartTime()).append("\n");
-        sb.append("数据包总数：").append(rawDataList.size()).append(" 条\n");
-        sb.append("有效数据：").append(validCount).append(" 条\n");
+        sb.append("数据包总数：").append(totalCount).append(" 条\n");
+        sb.append("有效数据：").append(rawDataList.size()).append(" 条\n");
         sb.append("探头状态：").append(probeStatus).append("\n\n");
 
         if (spo2 >= 0) {
@@ -401,5 +404,6 @@ public class OximeterData {
         validCount = sumSpo2 = sumPr = 0;
         minSpo2 = minPr = 999;
         maxSpo2 = maxPr = 0;
+        totalCount = 0;
     }
 }

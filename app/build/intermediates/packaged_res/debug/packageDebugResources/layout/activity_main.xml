@@ -50,23 +50,76 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- 状态显示区 -->
+        <!-- 状态显示区（四分区） -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:fillViewport="true">
-            <TextView
-                android:id="@+id/tv_status"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:lineSpacingExtra="4dp"
-                android:padding="12dp"
-                android:background="#F5F5F5"
-                android:layout_marginBottom="16dp" />
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <!-- 1. 蓝牙状态区 -->
+                <TextView
+                    android:id="@+id/tv_bluetooth_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="请点击「蓝牙检测」按钮选择设备\n当前状态：蓝牙未连接"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:lineSpacingExtra="4dp"
+                    android:background="#E3F2FD"
+                    android:padding="12dp"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- 2. 血压录入区 -->
+                <TextView
+                    android:id="@+id/tv_blood_pressure_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:lineSpacingExtra="4dp"
+                    android:background="#F3E5F5"
+                    android:padding="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <!-- 3. 本轮检测结果区 -->
+                <TextView
+                    android:id="@+id/tv_detection_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:lineSpacingExtra="4dp"
+                    android:background="#F1F8E9"
+                    android:padding="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <!-- 4. 上传与结束信息区 -->
+                <TextView
+                    android:id="@+id/tv_upload_and_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:lineSpacingExtra="4dp"
+                    android:background="#FFF3E0"
+                    android:padding="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
         </ScrollView>
 
 
@@ -122,25 +175,66 @@
             </LinearLayout>
 
 
-            <ProgressBar
-                android:id="@+id/progress_upload"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:max="100"
-                android:progress="0"
-                android:visibility="gone"
-                android:layout_marginTop="8dp" />
-            <TextView
-                android:id="@+id/tv_upload_progress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="14sp"
-                android:gravity="center"
-                android:visibility="gone" />
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progress_upload"-->
+<!--                style="?android:attr/progressBarStyleHorizontal"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="8dp"-->
+<!--                android:max="100"-->
+<!--                android:progress="0"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="8dp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/tv_upload_progress"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text=""-->
+<!--                android:textSize="14sp"-->
+<!--                android:gravity="center"-->
+<!--                android:visibility="gone" />-->
 
 
         </LinearLayout>
+    </LinearLayout>
+    <!-- 上传中蒙层（全屏半透明遮罩） -->
+    <!-- 上传中蒙层容器 -->
+    <LinearLayout
+        android:id="@+id/upload_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/tv_uploading_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上传中，请稍候..."
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <ProgressBar
+            android:id="@+id/progress_upload"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="240dp"
+            android:layout_height="8dp"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_upload_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
     </LinearLayout>
 </FrameLayout>
