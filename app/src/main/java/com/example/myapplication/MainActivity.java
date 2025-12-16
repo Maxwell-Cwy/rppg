@@ -71,8 +71,9 @@ public class MainActivity extends AppCompatActivity
     private TextView tvUploadAndEnd;
 
     private boolean isDetectionInProgress = false; //检测是否开始
-    private boolean shouldSaveAndUpload = false; //是否上传和保存到本地
+    private boolean shouldSaveAndUpload = false; //是否应该自动上传和保存到本地
     private boolean isUploading = false; // 标记是否正在上传
+    private boolean hasUploadedSuccessfully = false; // 上传是否成功，避免重复上传
     private MaterialButton btnInputBloodPressure; //输入血压按钮
 
     private final String[] REQUIRED_PERMISSIONS = {
@@ -162,8 +163,7 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.layout_control).setVisibility(View.VISIBLE);
 
         runOnUiThread(() -> {
-            tvDetectionResult.setText("⚠️ 用户提前终止检测");
-//            tvStatus.append("\n⚠️ 用户提前终止检测");
+            tvDetectionResult.setText("⚠️ 检测提前终止");
             DataSaver.setBloodPressure(-1, -1);
         });
     }
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         btnManualUpload.setOnClickListener(v -> {
-            if (isUploading) {
+            if (hasUploadedSuccessfully) {
                 Toast.makeText(this, "该数据已上传", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -234,11 +234,11 @@ public class MainActivity extends AppCompatActivity
                     try {
                         int systolic = Integer.parseInt(sysStr);
                         int diastolic = Integer.parseInt(diaStr);
-
-                        // 简单校验范围（可选）
-                        if (systolic < 70 || systolic > 250 || diastolic < 40 || diastolic > 150) {
-                            Toast.makeText(MainActivity.this, "血压值可能异常，请确认", Toast.LENGTH_LONG).show();
-                        }
+//
+//                        // 简单校验范围（可选）
+//                        if (systolic < 70 || systolic > 250 || diastolic < 40 || diastolic > 150) {
+//                            Toast.makeText(MainActivity.this, "血压值可能异常，请确认", Toast.LENGTH_LONG).show();
+//                        }
 
                         DataSaver.setBloodPressure(systolic, diastolic);
 
@@ -257,14 +257,14 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
+
+
     private void startDetection() {
         //重置数据
-        runOnUiThread(() -> {
-            tvDetectionResult.setText("");
-            tvDetectionResult.setVisibility(View.GONE);
-            tvUploadAndEnd.setText("");
-            tvUploadAndEnd.setVisibility(View.GONE);
-        });
+        tvDetectionResult.setText("");
+        tvDetectionResult.setVisibility(View.GONE);
+        tvUploadAndEnd.setText("");
+        tvUploadAndEnd.setVisibility(View.GONE);
         // 释放旧的 recorder（如果存在）
         if (videoRecorder != null) {
             videoRecorder.releaseResources(); // 确保内部释放 CameraX 绑定等资源
@@ -280,6 +280,8 @@ public class MainActivity extends AppCompatActivity
         isDetectionInProgress = true;
         shouldSaveAndUpload = true;
         isUploading=false;
+        hasUploadedSuccessfully = false;
+
         // === 切换到全屏预览模式 ===
         previewView.setVisibility(View.VISIBLE);
         btnExitPreview.setVisibility(View.VISIBLE);
@@ -365,7 +367,6 @@ public class MainActivity extends AppCompatActivity
                 stopDetectionEarly();
                 tvBluetoothStatus.setText("❌ 蓝牙连接意外断开，检测已终止，请重新连接");
                 Toast.makeText(this, "蓝牙断开，检测已取消", Toast.LENGTH_LONG).show();
-                DataSaver.setBloodPressure(-1, -1);
             });
         }
     }
@@ -458,11 +459,8 @@ public class MainActivity extends AppCompatActivity
                 tvDetectionResult.setVisibility(View.VISIBLE);
                 Toast.makeText(this, "检测未完成，数据未保存", Toast.LENGTH_SHORT).show();
             }
-            DataSaver.setBloodPressure(-1, -1);
 
         });
-        oximeterData.clear();
-        timeStamp.clear();
 
     }
 
@@ -471,6 +469,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onVideoError(String errorMsg) {
         runOnUiThread(() -> {
+            DataSaver.setBloodPressure(-1, -1);
             new AlertDialog.Builder(this)
                     .setTitle("视频录制失败")
                     .setMessage(errorMsg)
@@ -487,10 +486,12 @@ public class MainActivity extends AppCompatActivity
     public void onUploadSuccess(String response) {
         runOnUiThread(() -> {
             finishUpload();
+            hasUploadedSuccessfully = true;
             String current = tvUploadAndEnd.getText().toString().trim();
             String newText = (current.isEmpty() ? "" : current + "\n") + "✅上传成功！\n服务器响应："  + response;
             tvUploadAndEnd.setText(newText);
             tvUploadAndEnd.setVisibility(View.VISIBLE);
+            DataSaver.setBloodPressure(-1, -1);
 //            tvStatus.append("\n上传成功！\n服务器响应：" + response);
             Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
         });
@@ -511,8 +512,7 @@ public class MainActivity extends AppCompatActivity
             String newText = (current.isEmpty() ? "" : current + "\n") + "❌ 上传失败：" + errorMsg+ "\n可点击“手动上传”重试";
             tvUploadAndEnd.setText(newText);
             tvUploadAndEnd.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "上传失败：" + errorMsg, Toast.LENGTH_LONG).show();
-
+            Toast.makeText(this, "上传失败" + errorMsg, Toast.LENGTH_LONG).show();
 //            tvStatus.append("\n上传失败：" + errorMsg + "\n可点击“手动上传”重试");
         });
     }

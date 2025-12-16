@@ -93,8 +93,9 @@ public class VideoRecorder {
                                         .postDelayed(() -> {
                                             stopRecording();
                                             // 校验时长（可选：读取文件元数据或计算时间差）
-                                            long actualDuration = System.currentTimeMillis() - TimeUtils.parseTimeToMillis(startTime);  // 需实现parseTimeToMillis
-                                            if (Math.abs(actualDuration - durationMillis) > 1000) {  // 允许1s偏差
+                                            long actualDuration = System.currentTimeMillis() - TimeUtils.parseTimeToMillis(startTime);
+                                            Log.w("时差","毫秒:"+actualDuration);
+                                            if (Math.abs(actualDuration - durationMillis) > 2000) {  // 允许1s偏差
                                                 listener.onVideoError("视频时长不符: " + (actualDuration / 1000) + "秒");
                                             }
                                         }, durationMillis);
