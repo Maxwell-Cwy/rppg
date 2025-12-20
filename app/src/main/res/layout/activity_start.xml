@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f8ff">
+
+    <!-- 背景边框（全屏） -->
+    <ImageView
+        android:id="@+id/bg_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/home_bg"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 顶部标题栏 -->
+    <ImageView
+        android:id="@+id/title_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home_title"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 中心图标 -->
+    <ImageView
+        android:id="@+id/center_icon"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/home_logo"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        app:layout_constraintBottom_toTopOf="@id/btn_start_detection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="20dp" />
+
+    <!-- ========== 上排三个按钮 ========== -->
+    <ImageView
+        android:id="@+id/btn_heart_rate"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon1"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_positive_emotion"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <ImageView
+        android:id="@+id/btn_positive_emotion"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon2"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        app:layout_constraintStart_toEndOf="@id/btn_heart_rate"
+        app:layout_constraintEnd_toStartOf="@id/btn_negative_emotion"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <ImageView
+        android:id="@+id/btn_negative_emotion"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon3"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        app:layout_constraintStart_toEndOf="@id/btn_positive_emotion"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <!-- ========== 下排三个按钮 ========== -->
+    <ImageView
+        android:id="@+id/btn_hrvariability"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon4"
+        app:layout_constraintBottom_toTopOf="@id/btn_start_detection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_physiological"
+        android:layout_marginBottom="40dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <ImageView
+        android:id="@+id/btn_physiological"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon5"
+        app:layout_constraintBottom_toTopOf="@id/btn_start_detection"
+        app:layout_constraintStart_toEndOf="@id/btn_hrvariability"
+        app:layout_constraintEnd_toStartOf="@id/btn_psychological"
+        android:layout_marginBottom="40dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <ImageView
+        android:id="@+id/btn_psychological"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon6"
+        app:layout_constraintBottom_toTopOf="@id/btn_start_detection"
+        app:layout_constraintStart_toEndOf="@id/btn_physiological"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="40dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <!-- 底部“开始检测”按钮 -->
+    <Button
+        android:id="@+id/btn_start_detection"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:text="开始检测"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

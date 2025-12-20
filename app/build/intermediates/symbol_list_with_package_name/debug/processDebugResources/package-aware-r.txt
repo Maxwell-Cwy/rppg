@@ -2962,6 +2962,9 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable home_bg
+drawable home_logo
+drawable home_title
 drawable ic_arrow_back_black_24
 drawable ic_call_answer
 drawable ic_call_answer_low
@@ -2982,6 +2985,12 @@ drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_search_black_24
+drawable icon1
+drawable icon2
+drawable icon3
+drawable icon4
+drawable icon5
+drawable icon6
 drawable m3_appbar_background
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
@@ -2994,6 +3003,7 @@ drawable m3_tabs_background
 drawable m3_tabs_line_indicator
 drawable m3_tabs_rounded_line_indicator
 drawable m3_tabs_transparent_background
+drawable main
 drawable material_cursor_drawable
 drawable material_ic_calendar_black_24dp
 drawable material_ic_clear_black_24dp
@@ -3150,6 +3160,7 @@ id baseline
 id beginOnFirstDraw
 id beginning
 id bestChoice
+id bg_frame
 id blocking
 id bottom
 id bounce
@@ -3158,8 +3169,14 @@ id bounceEnd
 id bounceStart
 id btn_bluetooth_detect
 id btn_exit_preview
+id btn_heart_rate
+id btn_hrvariability
 id btn_input_blood_pressure
 id btn_manual_upload
+id btn_negative_emotion
+id btn_physiological
+id btn_positive_emotion
+id btn_psychological
 id btn_rescan
 id btn_start_detection
 id buttonPanel
@@ -3171,6 +3188,7 @@ id center
 id centerCrop
 id centerInside
 id center_horizontal
+id center_icon
 id center_vertical
 id chain
 id chain2
@@ -3479,6 +3497,7 @@ id snapMargins
 id south
 id spacer
 id special_effects_controller_view_tag
+id splashImageView
 id spline
 id split_action_bar
 id spread
@@ -3533,6 +3552,7 @@ id textinput_suffix_text
 id time
 id title
 id titleDividerNoCustom
+id title_bar
 id title_template
 id toggle
 id top
@@ -3694,6 +3714,8 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_device_list
 layout activity_main
+layout activity_splash
+layout activity_start
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog

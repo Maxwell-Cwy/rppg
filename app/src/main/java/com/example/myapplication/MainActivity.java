@@ -28,7 +28,6 @@ import com.google.android.material.button.MaterialButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity

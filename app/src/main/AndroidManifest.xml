@@ -42,22 +42,33 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="35">
 
-        <!-- 主界面（启动页） -->
+        <!-- 启动页 -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- 蓝牙设备选择页面（必须声明！否则点击“蓝牙检测”会直接崩溃） -->
+        <!-- 主检测界面（之前缺失！） -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".StartActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- 蓝牙设备选择页面 -->
         <activity
             android:name=".DeviceListActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity">
-            <!-- 可选：返回箭头能回到 MainActivity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
