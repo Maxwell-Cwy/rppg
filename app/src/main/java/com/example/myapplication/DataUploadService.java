@@ -1,3 +1,4 @@
+// Modified DataUploadService.java (only change: generateJson with false for uploaded)
 package com.example.myapplication;
 
 import android.content.Context;
@@ -44,6 +45,116 @@ public class DataUploadService {
     // 构造方法
     public DataUploadService(Context context) {
         this.mContext = context;
+    }
+
+    /**
+     * 使用自定义 JSON 字符串上传（用于手动上传，避免数据丢失）
+     */
+    public void uploadWithJsonString(String extendJson, String videoPath, UploadListener listener) {
+        if (extendJson == null || extendJson.trim().isEmpty()) {
+            listener.onUploadFailed("扩展数据为空");
+            return;
+        }
+        if (videoPath == null || !new File(videoPath).exists()) {
+            listener.onUploadFailed("视频文件不存在");
+            return;
+        }
+
+        new CustomJsonUploadTask(extendJson, videoPath, listener).execute();
+    }
+
+    private class CustomJsonUploadTask extends AsyncTask<Void, Integer, String> {
+        private final String mExtendJson;
+        private final String mVideoPath;
+        private final UploadListener mListener;
+
+        public CustomJsonUploadTask(String extendJson, String videoPath, UploadListener listener) {
+            this.mExtendJson = extendJson;
+            this.mVideoPath = videoPath;
+            this.mListener = listener;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(UPLOAD_API_URL);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setUseCaches(false);
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("Charset", "UTF-8");
+                conn.setRequestProperty("Content-Type", CONTENT_TYPE);
+
+                DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+
+                // 写入 extendData（自定义 JSON）
+                dos.writeBytes("--" + BOUNDARY + LINE_END);
+                dos.writeBytes("Content-Disposition: form-data; name=\"extendData\"" + LINE_END);
+                dos.writeBytes("Content-Type: application/json; charset=UTF-8" + LINE_END);
+                dos.writeBytes(LINE_END);
+                dos.write(mExtendJson.getBytes("UTF-8"));
+                dos.writeBytes(LINE_END);
+
+                // 写入视频文件
+                File videoFile = new File(mVideoPath);
+                dos.writeBytes("--" + BOUNDARY + LINE_END);
+                dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + videoFile.getName() + "\"" + LINE_END);
+                dos.writeBytes("Content-Type: video/mp4" + LINE_END);
+                dos.writeBytes(LINE_END);
+
+                FileInputStream fis = new FileInputStream(videoFile);
+                byte[] buffer = new byte[4096];
+                long total = videoFile.length();
+                long uploaded = 0;
+                int len;
+                while ((len = fis.read(buffer)) != -1) {
+                    dos.write(buffer, 0, len);
+                    uploaded += len;
+                    publishProgress((int) (uploaded * 100 / total));
+                }
+                fis.close();
+                dos.writeBytes(LINE_END);
+
+                dos.writeBytes("--" + BOUNDARY + "--" + LINE_END);
+                dos.flush();
+                dos.close();
+
+                int code = conn.getResponseCode();
+                if (code == HttpURLConnection.HTTP_OK) {
+                    String resp = readStream(conn.getInputStream());
+                    return "success|" + resp;
+                } else {
+                    return "error|HTTP " + code;
+                }
+            } catch (Exception e) {
+                return "error|" + e.getMessage();
+            }
+        }
+
+        private String readStream(InputStream is) throws IOException {
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) sb.append(line);
+            br.close();
+            return sb.toString();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            if (values.length > 0) mListener.onUploadProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.startsWith("success|")) {
+                mListener.onUploadSuccess(result.substring("success|".length()));
+            } else {
+                mListener.onUploadFailed(result.substring("error|".length()));
+            }
+        }
     }
 
     /**
@@ -109,8 +220,8 @@ public class DataUploadService {
                 // 获取输出流（写入请求体）
                 DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
 
-                // 1. 写入扩展JSON数据（与本地保存一致）
-                String extendJson = DataSaver.generateJson(mOximeterData, mTimeStamp);
+                // 1. 写入扩展JSON数据（与本地保存一致，但不带 uploaded）
+                String extendJson = DataSaver.generateJson(mOximeterData, mTimeStamp, false); // 不带 uploaded
                 writeDataPart(outputStream, "extendData", extendJson.getBytes("UTF-8"));
 
                 // 2. 写入视频文件（带进度）

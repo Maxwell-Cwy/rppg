@@ -44,7 +44,7 @@
 
         <!-- 启动页 -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -55,7 +55,11 @@
 
         <!-- 主检测界面（之前缺失！） -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".DataSelectionActivity"
             android:exported="false"
             android:screenOrientation="landscape" />
 

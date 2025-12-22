@@ -7,25 +7,20 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import com.example.myapplication.model.DetectionTimeStamp;
 import com.example.myapplication.model.OximeterData;
 import com.example.myapplication.utils.DataSaver;
 import com.example.myapplication.utils.TimeUtils;
-
 import androidx.camera.view.PreviewView;
 import com.google.android.material.button.MaterialButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -41,9 +36,7 @@ public class MainActivity extends AppCompatActivity
 
     // UI
     private PreviewView previewView;
-//    private TextView tvStatus;
-    private TextView tvUploadProgress;
-    private ProgressBar progressUpload;
+
     private MaterialButton btnBluetoothDetect;
     private MaterialButton btnStartDetection;
     private MaterialButton btnManualUpload;
@@ -52,7 +45,7 @@ public class MainActivity extends AppCompatActivity
     // 服务
     private BluetoothService bluetoothService;
     private VideoRecorder videoRecorder;
-    private DataUploadService uploadService;
+//    private DataUploadService uploadService;
 
     // 数据
     private DetectionTimeStamp timeStamp;
@@ -61,8 +54,6 @@ public class MainActivity extends AppCompatActivity
 
     private TextView tvCountdown;
     private CountDownTimer countDownTimer;
-    private View uploadOverlay;
-    private TextView tvUploadingHint;
 
     private TextView tvBluetoothStatus;
     private TextView tvBloodPressureStatus;
@@ -71,8 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     private boolean isDetectionInProgress = false; //检测是否开始
     private boolean shouldSaveAndUpload = false; //是否应该自动上传和保存到本地
-    private boolean isUploading = false; // 标记是否正在上传
-    private boolean hasUploadedSuccessfully = false; // 上传是否成功，避免重复上传
+
     private MaterialButton btnInputBloodPressure; //输入血压按钮
 
     private final String[] REQUIRED_PERMISSIONS = {
@@ -99,17 +89,13 @@ public class MainActivity extends AppCompatActivity
 
     private void initViews() {
         previewView = findViewById(R.id.preview_view);
-//        tvStatus = findViewById(R.id.tv_status);
-        tvUploadProgress = findViewById(R.id.tv_upload_progress);
-        progressUpload = findViewById(R.id.progress_upload);
+
         btnBluetoothDetect = findViewById(R.id.btn_bluetooth_detect);
         btnStartDetection = findViewById(R.id.btn_start_detection);
         btnManualUpload = findViewById(R.id.btn_manual_upload);
         btnExitPreview = findViewById(R.id.btn_exit_preview);
         tvCountdown = findViewById(R.id.tv_countdown);
         btnInputBloodPressure = findViewById(R.id.btn_input_blood_pressure);
-        uploadOverlay = findViewById(R.id.upload_overlay);
-        tvUploadingHint = findViewById(R.id.tv_uploading_hint);
         tvBluetoothStatus = findViewById(R.id.tv_bluetooth_status);
         tvBloodPressureStatus = findViewById(R.id.tv_blood_pressure_status);
         tvDetectionResult = findViewById(R.id.tv_detection_result);
@@ -124,8 +110,8 @@ public class MainActivity extends AppCompatActivity
         tvDetectionResult.setVisibility(View.GONE);
         tvUploadAndEnd.setVisibility(View.GONE);
         tvBloodPressureStatus.setVisibility(View.GONE);
-        btnManualUpload.setEnabled(false);
-        btnManualUpload.setAlpha(0.6f);
+//        btnManualUpload.setEnabled(false);
+//        btnManualUpload.setAlpha(0.6f);
 
         // 设置返回按钮点击事件
         btnExitPreview.setOnClickListener(v -> stopDetectionEarly());
@@ -169,7 +155,7 @@ public class MainActivity extends AppCompatActivity
     private void initServices() {
         bluetoothService = new BluetoothService(this, this);
         videoRecorder = new VideoRecorder(this, this, previewView);
-        uploadService = new DataUploadService(this);
+//        uploadService = new DataUploadService(this);
         timeStamp = new DetectionTimeStamp();
         oximeterData = new OximeterData();
     }
@@ -190,15 +176,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         btnManualUpload.setOnClickListener(v -> {
-            if (hasUploadedSuccessfully) {
-                Toast.makeText(this, "该数据已上传", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (videoFilePath != null && oximeterData.hasData()) {
-                uploadService.uploadAllData(oximeterData, videoFilePath, timeStamp, this);
-            } else {
-                Toast.makeText(this, "无完整数据可上传", Toast.LENGTH_SHORT).show();
-            }
+            startActivity(new Intent(this, DataSelectionActivity.class));
         });
     }
 
@@ -257,7 +235,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     private void startDetection() {
         //重置数据
         tvDetectionResult.setText("");
@@ -278,8 +255,6 @@ public class MainActivity extends AppCompatActivity
         // 标记检测开始
         isDetectionInProgress = true;
         shouldSaveAndUpload = true;
-        isUploading=false;
-        hasUploadedSuccessfully = false;
 
         // === 切换到全屏预览模式 ===
         previewView.setVisibility(View.VISIBLE);
@@ -331,8 +306,6 @@ public class MainActivity extends AppCompatActivity
     public void onBluetoothConnectFailed(String errorMsg) {
         runOnUiThread(() -> {
             tvBluetoothStatus.setText("蓝牙连接失败：" + errorMsg);
-            btnManualUpload.setEnabled(false);
-            btnManualUpload.setAlpha(0.6f);
             stopDetectionEarly();
             runOnUiThread(() -> Toast.makeText(this, "连接失败：" + errorMsg, Toast.LENGTH_LONG).show());
         });
@@ -344,10 +317,6 @@ public class MainActivity extends AppCompatActivity
 
             isDetectionInProgress = false; // 立即标记为已终止
             shouldSaveAndUpload = false;
-
-            btnManualUpload.setEnabled(false);
-            btnManualUpload.setAlpha(0.6f);
-
 
             // 停止视频和蓝牙
             if (videoRecorder != null) {
@@ -386,18 +355,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDataStopReceiving(String endTime) {
         timeStamp.setBluetoothDataEndTime(endTime);
-        if (isDetectionInProgress || shouldSaveAndUpload) {
-            runOnUiThread(() -> {
-                String text = "蓝牙数据结束采集：" + endTime;
-                String current = tvUploadAndEnd.getText().toString().trim();
-                if (current.isEmpty()) {
-                    tvUploadAndEnd.setText(text);
-                } else {
-                    tvUploadAndEnd.setText(current + "\n" + text);
-                }
-                tvUploadAndEnd.setVisibility(View.VISIBLE);
-            });
-        }
+//        if (isDetectionInProgress || shouldSaveAndUpload) {
+//            runOnUiThread(() -> {
+//                String text = "蓝牙数据结束采集：" + endTime;
+//                String current = tvUploadAndEnd.getText().toString().trim();
+//                if (current.isEmpty()) {
+//                    tvUploadAndEnd.setText(text);
+//                } else {
+//                    tvUploadAndEnd.setText(current + "\n" + text);
+//                }
+//                tvUploadAndEnd.setVisibility(View.VISIBLE);
+//            });
+//        }
     }
 
     // ===================== VideoListener =====================
@@ -446,12 +415,16 @@ public class MainActivity extends AppCompatActivity
                 try {
 
                     DataSaver.saveAllData(this, videoPath, oximeterData, timeStamp);
-//                    tvStatus.append("\n本地保存成功");
+                    tvUploadAndEnd.setText("本地保存成功");
+                    tvUploadAndEnd.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "本地保存成功", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-//                    tvStatus.append("\n本地保存失败：" + e.getMessage());
+                    tvUploadAndEnd.setText("本地保存失败：" + e.getMessage());
+                    tvUploadAndEnd.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "本地保存失败", Toast.LENGTH_SHORT).show();
                 }
                 // 自动上传
-                uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
+//                uploadService.uploadAllData(oximeterData, videoPath, timeStamp, this);
             } else {
                 // ❌ 被提前终止（蓝牙断开 / 用户退出），不保存
                 tvDetectionResult.setText("⚠️ 检测未正常完成，数据已丢弃");
@@ -460,7 +433,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
-
+        DataSaver.setBloodPressure(-1, -1);
     }
 
 
@@ -484,59 +457,34 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onUploadSuccess(String response) {
         runOnUiThread(() -> {
-            finishUpload();
-            hasUploadedSuccessfully = true;
-            String current = tvUploadAndEnd.getText().toString().trim();
-            String newText = (current.isEmpty() ? "" : current + "\n") + "✅上传成功！\n服务器响应："  + response;
-            tvUploadAndEnd.setText(newText);
-            tvUploadAndEnd.setVisibility(View.VISIBLE);
+
+//            String current = tvUploadAndEnd.getText().toString().trim();
+//            String newText = (current.isEmpty() ? "" : current + "\n") + "✅上传成功！\n服务器响应："  + response;
+//            tvUploadAndEnd.setText(newText);
+//            tvUploadAndEnd.setVisibility(View.VISIBLE);
             DataSaver.setBloodPressure(-1, -1);
 //            tvStatus.append("\n上传成功！\n服务器响应：" + response);
             Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
         });
     }
 
-    private void finishUpload() {
-        isUploading = false;
-        uploadOverlay.setVisibility(View.GONE);
-        tvUploadingHint.setVisibility(View.GONE);
-        hideUploadProgress();
-    }
 
     @Override
     public void onUploadFailed(String errorMsg) {
         runOnUiThread(() -> {
-            hideUploadProgress();
-            String current = tvUploadAndEnd.getText().toString().trim();
-            String newText = (current.isEmpty() ? "" : current + "\n") + "❌ 上传失败：" + errorMsg+ "\n可点击“手动上传”重试";
-            tvUploadAndEnd.setText(newText);
-            tvUploadAndEnd.setVisibility(View.VISIBLE);
+//            String current = tvUploadAndEnd.getText().toString().trim();
+//            String newText = (current.isEmpty() ? "" : current + "\n") + "❌ 上传失败：" + errorMsg+ "\n可点击“手动上传”重试";
+//            tvUploadAndEnd.setText(newText);
+//            tvUploadAndEnd.setVisibility(View.VISIBLE);
             Toast.makeText(this, "上传失败" + errorMsg, Toast.LENGTH_LONG).show();
-//            tvStatus.append("\n上传失败：" + errorMsg + "\n可点击“手动上传”重试");
         });
     }
 
     @Override
     public void onUploadProgress(int progress) {
-        runOnUiThread(() -> {
-            if (!isUploading) {
-                // 首次进入上传，显示蒙层
-                isUploading = true;
-                uploadOverlay.setVisibility(View.VISIBLE);
-                tvUploadingHint.setVisibility(View.VISIBLE);
-            }
 
-            progressUpload.setVisibility(android.view.View.VISIBLE);
-            tvUploadProgress.setVisibility(android.view.View.VISIBLE);
-            progressUpload.setProgress(progress);
-            tvUploadProgress.setText("上传中... " + progress + "%");
-        });
     }
 
-    private void hideUploadProgress() {
-        progressUpload.setVisibility(android.view.View.GONE);
-        tvUploadProgress.setVisibility(android.view.View.GONE);
-    }
 
     private void checkAllPermissions() {
         boolean missing = false;

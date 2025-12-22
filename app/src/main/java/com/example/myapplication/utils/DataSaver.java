@@ -1,3 +1,4 @@
+// Modified DataSaver.java
 package com.example.myapplication.utils;
 
 import android.content.Context;
@@ -58,7 +59,7 @@ public class DataSaver {
 
             // 4. 保存 JSON
             File jsonFile = new File(timeDir, "检测信息.json");
-            String json = generateJson(oximeterData, timeStamp);
+            String json = generateJson(oximeterData, timeStamp, true); // 带 uploaded
             Files.write(jsonFile.toPath(), json.getBytes("UTF-8"));
 
             Log.e(TAG, "检测数据已完整保存！\n路径: " + timeDir.getAbsolutePath());
@@ -68,7 +69,7 @@ public class DataSaver {
             throw new RuntimeException("保存失败: " + e.getMessage(), e);
         }
     }
-    public static String generateJson(OximeterData data, DetectionTimeStamp ts) {
+    public static String generateJson(OximeterData data, DetectionTimeStamp ts, boolean includeUploaded) {
         try {
             // ========== 基础信息（你原来就有的）==========
             StringBuilder json = new StringBuilder();
@@ -122,6 +123,9 @@ public class DataSaver {
             json.append("  ],\n");
 
             json.append("  \"raw_hex_data\": \"").append(data.toHexString().replace("\"", "\\\"")).append("\"\n");
+            if (includeUploaded) {
+                json.append(",  \"uploaded\": false\n");
+            }
             json.append("}");
 
             return json.toString();

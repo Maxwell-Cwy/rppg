@@ -5,6 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * 指夹式血氧仪数据解析模型
  * 完全按照《手指血氧协议20230117 英文版》实现
@@ -140,15 +143,15 @@ public class OximeterData {
             // 否则还不够，继续等下一片
         }
     }
-// 工具：每两个字符插入空格（日志好看）
-        private String insertSpacesEveryTwoChars(String hex) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hex.length(); i += 2) {
-                if (i > 0) sb.append(" ");
-                sb.append(hex.substring(i, Math.min(i + 2, hex.length())));
-            }
-            return sb.toString();
+    // 工具：每两个字符插入空格（日志好看）
+    private String insertSpacesEveryTwoChars(String hex) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < hex.length(); i += 2) {
+            if (i > 0) sb.append(" ");
+            sb.append(hex.substring(i, Math.min(i + 2, hex.length())));
         }
+        return sb.toString();
+    }
 
 
     private void parsePacket(String hexData) {
@@ -405,5 +408,73 @@ public class OximeterData {
         minSpo2 = minPr = 999;
         maxSpo2 = maxPr = 0;
         totalCount = 0;
+    }
+
+    public static OximeterData fromJson(JSONObject json) {
+        OximeterData data = new OximeterData();
+
+        // 恢复统计值（设置内部字段以匹配 getter）
+        int avgSpo2 = json.optInt("avg_spo2", -1);
+        data.minSpo2 = json.optInt("min_spo2", 999);  // 如果 -1，则设为999以匹配 getMinSpo2
+        data.maxSpo2 = json.optInt("max_spo2", 0);
+        if (avgSpo2 >= 0) {
+            data.validCount = 1;  // 任意非0值，确保 avg 计算正确
+            data.sumSpo2 = avgSpo2;  // 因为 avg = sum / validCount
+        } else {
+            data.validCount = 0;
+            data.sumSpo2 = 0;
+        }
+
+        int avgPr = json.optInt("avg_pr", -1);
+        data.minPr = json.optInt("min_pr", 999);
+        data.maxPr = json.optInt("max_pr", 0);
+        if (avgPr >= 0) {
+            if (data.validCount == 0) data.validCount = 1;
+            data.sumPr = avgPr;
+        } else {
+            data.sumPr = 0;
+        }
+
+        // 实时值（用 JSON 中的值设置，假设为最后有效值）
+        data.temperature = json.optDouble("temperature", -1.0);
+        data.pi = json.optDouble("pi", -1.0);
+        data.respirationRate = json.optInt("respiration_rate", -1);
+        data.probeStatus = json.optString("probe_status", "未知");
+        data.batteryLevel = json.optInt("battery_level", -1);
+
+        // 恢复 PPG 数据
+        JSONArray ppgArray = json.optJSONArray("ppg_data");
+        if (ppgArray != null) {
+            for (int i = 0; i < ppgArray.length(); i++) {
+                JSONObject obj = ppgArray.optJSONObject(i);
+                if (obj != null) {
+                    data.ppgList.add(obj.optInt("wave", 0));
+                    data.barList.add(obj.optInt("bar", 0));
+                }
+            }
+        }
+
+        // 恢复 HRV 数据
+        JSONArray hrvArray = json.optJSONArray("hrv_data");
+        if (hrvArray != null) {
+            for (int i = 0; i < hrvArray.length(); i++) {
+                data.hrvList.add(hrvArray.optInt(i, 0));
+            }
+        }
+
+        // 恢复原始 hex 数据（rawDataList）
+        String rawHex = json.optString("raw_hex_data", "");
+        if (!rawHex.isEmpty()) {
+            String[] parts = rawHex.split(",");
+            for (String part : parts) {
+                data.rawDataList.add(part.trim());
+            }
+            data.totalCount = data.rawDataList.size();
+        }
+
+        // 可选：用 data_start_time 作为 startTime（如果需要）
+        // data.startTime = json.optString("data_start_time", null);
+
+        return data;
     }
 }

@@ -158,8 +158,6 @@
                     android:layout_weight="1"
                     android:text="手动上传数据"
                     android:textSize="16sp"
-                    android:enabled="false"
-                    android:alpha="0.5"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
                 <com.google.android.material.button.MaterialButton
@@ -174,67 +172,7 @@
 
             </LinearLayout>
 
-
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progress_upload"-->
-<!--                style="?android:attr/progressBarStyleHorizontal"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="8dp"-->
-<!--                android:max="100"-->
-<!--                android:progress="0"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_marginTop="8dp" />-->
-<!--            <TextView-->
-<!--                android:id="@+id/tv_upload_progress"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text=""-->
-<!--                android:textSize="14sp"-->
-<!--                android:gravity="center"-->
-<!--                android:visibility="gone" />-->
-
-
         </LinearLayout>
     </LinearLayout>
-    <!-- 上传中蒙层（全屏半透明遮罩） -->
-    <!-- 上传中蒙层容器 -->
-    <LinearLayout
-        android:id="@+id/upload_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="32dp">
 
-        <TextView
-            android:id="@+id/tv_uploading_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上传中，请稍候..."
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp" />
-
-        <ProgressBar
-            android:id="@+id/progress_upload"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="240dp"
-            android:layout_height="8dp"
-            android:max="100"
-            android:progress="0"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tv_upload_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0%"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-
-    </LinearLayout>
 </FrameLayout>

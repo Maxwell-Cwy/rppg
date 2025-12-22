@@ -12,7 +12,19 @@
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-38:\\layout\\activity_main.xml"
     },
     {
-        "merged": "com.example.myapplication.app-mergeDebugResources-35:/layout/activity_start.xml",
-        "source": "com.example.myapplication.app-main-38:/layout/activity_start.xml"
+        "merged": "com.example.myapplication.app-mergeDebugResources-35:/layout/item_data_directory.xml",
+        "source": "com.example.myapplication.app-main-38:/layout/item_data_directory.xml"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-mergeDebugResources-35:\\layout\\item_data_directory.xml",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-38:\\layout\\item_data_directory.xml"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-mergeDebugResources-35:\\layout\\activity_data_selection.xml",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-38:\\layout\\activity_data_selection.xml"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-mergeDebugResources-35:\\layout\\activity_start.xml",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-38:\\layout\\activity_start.xml"
     }
 ]
