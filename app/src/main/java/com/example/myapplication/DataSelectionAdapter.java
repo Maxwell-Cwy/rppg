@@ -26,6 +26,7 @@ public class DataSelectionAdapter extends RecyclerView.Adapter<DataSelectionAdap
         this.uploadedStatusList = new ArrayList<>(uploadedList);
     }
 
+
     public void updateDirectories(List<File> dirs, List<Boolean> uploadedList) {
         this.directories = new ArrayList<>(dirs);
         this.uploadedStatusList = new ArrayList<>(uploadedList);

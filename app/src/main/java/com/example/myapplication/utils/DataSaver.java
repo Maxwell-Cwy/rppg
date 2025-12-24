@@ -34,31 +34,27 @@ public class DataSaver {
                                    OximeterData oximeterData,
                                    DetectionTimeStamp timeStamp) {
         try {
-            File rootDir = new File(context.getExternalFilesDir(null), "OximeterRecords");
-            if (!rootDir.exists()) rootDir.mkdirs();
-
-            String timeFolderName = TimeUtils.getSimpleTimeStamp(); // 2025-04-05_15-32-28
-            File timeDir = new File(rootDir, timeFolderName);
-            timeDir.mkdirs();
 
             // 1. 复制视频
             File sourceVideo = new File(videoPath);
-            File targetVideo = new File(timeDir, "检测视频_90秒.mp4");
-            if (sourceVideo.exists()) {
-                Files.copy(sourceVideo.toPath(), targetVideo.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Log.i(TAG, "视频保存成功: " + targetVideo.getAbsolutePath());
+            File timeDir = sourceVideo.getParentFile();
+
+            // 【可选】校验目录是否存在（按你之前需求：不存在就报错）
+            if (timeDir == null || !timeDir.exists()) {
+                throw new IllegalStateException("视频所在目录不存在: " + (timeDir != null ? timeDir.getAbsolutePath() : "null"));
             }
 
+
             // 2. 保存原始数据
-            File rawFile = new File(timeDir, "01_原始数据.txt");
+            File rawFile = new File(timeDir, "originData.txt");
             Files.write(rawFile.toPath(), oximeterData.toHexString().getBytes());
 
             // 3. 保存报告
-            File reportFile = new File(timeDir, "02_检测报告.txt");
+            File reportFile = new File(timeDir, "checkReport.txt");
             Files.write(reportFile.toPath(), oximeterData.generateReport().getBytes("UTF-8"));
 
             // 4. 保存 JSON
-            File jsonFile = new File(timeDir, "检测信息.json");
+            File jsonFile = new File(timeDir, "checkInfor.json");
             String json = generateJson(oximeterData, timeStamp, true); // 带 uploaded
             Files.write(jsonFile.toPath(), json.getBytes("UTF-8"));
 

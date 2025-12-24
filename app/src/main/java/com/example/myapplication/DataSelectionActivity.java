@@ -83,7 +83,7 @@ public class DataSelectionActivity extends AppCompatActivity {
             for (File dir : allDirectories) {
                 boolean isUploaded = false;
                 try {
-                    File jsonFile = new File(dir, "检测信息.json");
+                    File jsonFile = new File(dir, "checkInfor.json");
                     if (jsonFile.exists()) {
                         String jsonStr = new String(Files.readAllBytes(jsonFile.toPath()), "UTF-8");
                         JSONObject json = new JSONObject(jsonStr);
@@ -145,8 +145,8 @@ public class DataSelectionActivity extends AppCompatActivity {
 
         for (File dir : selected) {
             try {
-                File videoFile = new File(dir, "检测视频_90秒.mp4");
-                File jsonFile = new File(dir, "检测信息.json");
+                File videoFile = new File(dir, "checkVideo.mp4");
+                File jsonFile = new File(dir, "checkInfor.json");
 
                 if (!videoFile.exists()) {
                     Toast.makeText(this, dir.getName() + " 缺少视频文件", Toast.LENGTH_SHORT).show();

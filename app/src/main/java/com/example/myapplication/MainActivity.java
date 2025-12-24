@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity
             DataSaver.setBloodPressure(-1, -1);
         });
     }
+
     private void initServices() {
         bluetoothService = new BluetoothService(this, this);
         videoRecorder = new VideoRecorder(this, this, previewView);

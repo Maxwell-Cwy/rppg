@@ -77,9 +77,15 @@ public class VideoRecorder {
                         videoCapture
                 );
 
-                File dir = new File(context.getExternalFilesDir("Movies"), "OximeterVideos");
+                File dir = new File(context.getExternalFilesDir(null), "OximeterRecords");
                 if (!dir.exists()) dir.mkdirs();
-                File videoFile = new File(dir, "Oximeter_" + TimeUtils.getFileNameTimeStamp() + ".mp4");
+
+                String timeFolderName = TimeUtils.getSimpleTimeStamp(); // 2025-04-05_15-32-28
+                File timeDir = new File(dir, timeFolderName);
+                timeDir.mkdirs();
+
+                File videoFile = new File(timeDir, "checkVideo.mp4");
+
 
                 FileOutputOptions options = new FileOutputOptions.Builder(videoFile).build();
 
@@ -88,6 +94,7 @@ public class VideoRecorder {
                         .start(ContextCompat.getMainExecutor(context), recordEvent -> {
                             if (recordEvent instanceof VideoRecordEvent.Start) {
                                 String startTime = TimeUtils.getPreciseTimeStamp();
+                                //获取视频绝对路径
                                 listener.onVideoStarted(videoFile.getAbsolutePath(), startTime);
                                 new android.os.Handler(android.os.Looper.getMainLooper())
                                         .postDelayed(() -> {
@@ -119,6 +126,7 @@ public class VideoRecorder {
             }
         }, ContextCompat.getMainExecutor(context));
     }
+
 
     public void stopRecording() {
         if (currentRecording != null) {
