@@ -49,7 +49,7 @@
         android:debuggable="true"
         android:extractNativeLibs="false"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/home_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -59,7 +59,7 @@
 
         <!-- 启动页 -->
         <activity
-            android:name="com.example.myapplication.MainActivity"
+            android:name="com.example.myapplication.SplashActivity"
             android:exported="true"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -71,7 +71,7 @@
 
         <!-- 主检测界面（之前缺失！） -->
         <activity
-            android:name="com.example.myapplication.SplashActivity"
+            android:name="com.example.myapplication.MainActivity"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
@@ -82,12 +82,20 @@
             android:name="com.example.myapplication.StartActivity"
             android:exported="false"
             android:screenOrientation="landscape" />
+        <activity
+            android:name="com.example.myapplication.ResultActivity"
+            android:parentActivityName="com.example.myapplication.StartActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartActivity" />
+        </activity>
 
         <!-- 蓝牙设备选择页面 -->
         <activity
             android:name="com.example.myapplication.DeviceListActivity"
             android:exported="false"
-            android:parentActivityName="com.example.myapplication.MainActivity" >
+            android:parentActivityName="com.example.myapplication.MainActivity"
+            android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

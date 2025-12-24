@@ -21,6 +21,7 @@ drawable icon5
 drawable icon6
 drawable main
 id bg_frame
+id bottom_button_container
 id btn_bluetooth_detect
 id btn_exit_preview
 id btn_heart_rate
@@ -48,11 +49,13 @@ id tv_bluetooth_status
 id tv_countdown
 id tv_detection_result
 id tv_directory_name
+id tv_result
 id tv_scan_status
 id tv_upload_and_end
 layout activity_data_selection
 layout activity_device_list
 layout activity_main
+layout activity_result
 layout activity_splash
 layout activity_start
 layout item_data_directory

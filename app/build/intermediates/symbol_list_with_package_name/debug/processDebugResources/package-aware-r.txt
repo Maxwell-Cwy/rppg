@@ -3163,6 +3163,7 @@ id bestChoice
 id bg_frame
 id blocking
 id bottom
+id bottom_button_container
 id bounce
 id bounceBoth
 id bounceEnd
@@ -3574,6 +3575,7 @@ id tv_bluetooth_status
 id tv_countdown
 id tv_detection_result
 id tv_directory_name
+id tv_result
 id tv_scan_status
 id tv_upload_and_end
 id unchecked
@@ -3716,6 +3718,7 @@ layout abc_tooltip
 layout activity_data_selection
 layout activity_device_list
 layout activity_main
+layout activity_result
 layout activity_splash
 layout activity_start
 layout custom_dialog

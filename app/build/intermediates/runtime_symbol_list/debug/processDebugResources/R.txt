@@ -3162,6 +3162,7 @@ int id bestChoice 0x7f08005b
 int id bg_frame 0x7f08005c
 int id blocking 0x7f08005d
 int id bottom 0x7f08005e
+int id bottom_button_container 0x7f080213
 int id bounce 0x7f08005f
 int id bounceBoth 0x7f080060
 int id bounceEnd 0x7f080061
@@ -3573,6 +3574,7 @@ int id tv_bluetooth_status 0x7f0801f6
 int id tv_countdown 0x7f0801f7
 int id tv_detection_result 0x7f0801f8
 int id tv_directory_name 0x7f0801f9
+int id tv_result 0x7f080214
 int id tv_scan_status 0x7f0801fa
 int id tv_upload_and_end 0x7f0801fb
 int id unchecked 0x7f0801fc
@@ -3715,6 +3717,7 @@ int layout abc_tooltip 0x7f0b001b
 int layout activity_data_selection 0x7f0b001c
 int layout activity_device_list 0x7f0b001d
 int layout activity_main 0x7f0b001e
+int layout activity_result 0x7f0b0071
 int layout activity_splash 0x7f0b001f
 int layout activity_start 0x7f0b0020
 int layout custom_dialog 0x7f0b0021
