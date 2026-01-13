@@ -1,0 +1,2007 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 头部：头像 + 姓名（优化ImageView宽度，避免拉伸） -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/main_title" />
+        </LinearLayout>
+
+        <!-- 第一排健康指标卡片 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <!-- 心脑功能 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="心脑功能"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="低风险"
+                    android:textColor="#00C853"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 心率变异性 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="心率变异性"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="较高"
+                    android:textColor="#FF5722"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 房颤 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="房颤"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="无"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 心率不齐 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="心率不齐"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="无"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 第二排健康指标卡片 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <!-- 早搏 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="早搏"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="无"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 贫血 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon6" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="贫血"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="无贫血"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 血压 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="血压"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="116/68 mmHg"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 心率 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="心率"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="73 次/分钟"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 第三排健康指标卡片 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <!-- 血氧 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon6" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="血氧"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="96 %"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 脉搏率 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="脉搏率"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="73 次/分钟"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 呼吸率 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="呼吸率"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="25 次/分钟"
+                    android:textColor="#FF5722"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 饮酒状况 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon7" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="饮酒状况"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="50%"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 第四排：血红蛋白 + 综合分 + 综合健康 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- 血红蛋白 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="血红蛋白"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="152.58 g/L"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 综合分 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="综合分"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="75 分"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 综合健康 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#2196F3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/result_icon5"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="综合健康"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="优秀"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 分析结果区域 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_bg"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:text="分析结果\n\n您本次的综合评分是49分，说明您的身体健康。当前的心率变异性指数较高，表明心脏对内部和外部事务的适应能力较强。心率变异性越低，就意味着心脏能够联通的适应内部和外部带来的影响，适应对环境变化的适应能力越弱。反之，则表明机体对环境的适应能力越好，可能暗示严重的健康损害。例如：心血管疾病、精神疾病、神经或经验症等等。"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 核心指标表格（关键修复：添加vertical方向） -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical"> <!-- 核心修复：显式指定垂直方向 -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="16dp"
+                android:text="核心指标"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <!-- 表格头部 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="测量指标"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="测量结果"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="参考范围"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="单位"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="结果"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- 表格内容行（以呼吸率为例） -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="呼吸率"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="25"
+                    android:textColor="#FF5722"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="12-20"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="次/分钟"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="异常"
+                    android:textColor="#FF5722"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- 其他行可参考此结构重复添加 -->
+        </LinearLayout>
+        <!-- 新增：核心指标异常解读 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_bg"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="核心指标异常解读\n\n呼吸率:呼吸率偏高。当交感神经兴奋度增加时，容易导致呼吸中枢的激活，使呼吸频率和深度增加，机会表现出呼吸率偏高的表现。"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
+        </LinearLayout>
+
+        <!-- 新增：心率变异性及相关指标分析 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 标题 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="心率变异性及相关指标分析"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <!-- 心率变异性趋势图（用ImageView占位） -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="心率变异性趋势图"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginTop="12dp" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/home_bg"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitXY" />
+
+            <!-- 心率变异性总趋势说明 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\n心率变异性总趋势说明\n\n您的心率变异性指数较高。一般情况下，心率变异性与自主神经系统的灵活性和适应性相关。心率变异性越高，就意味着心脏能够越越好的适应内部和外部带来的影响，机体对环境变化的适应能力越越好。反之，则表明机体对环境的适应能力越差，并可能暗示严重的健康损害。例如：心血管疾病、精神疾病、神经或焦虑症等等。"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="12dp" />
+
+            <!-- 心率变异性知识 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\n心率变异性知识\n\n心率变异性(HRV)可以评估自主神经冲动的均衡性以及心血管系统活动的影响，是预测心性猝死和心律失常等心脏疾病及情绪状态的一个有价值的指标。\n\n心脑及身体健康分析:\n您当前发生心脑相关疾病的风险较低，请继续保持。\n\n情绪心情分析:\n您的情绪风险等级为较低，其中升高，SD2，RMSSD，SDSD下降。"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="12dp" />
+
+            <!-- 情绪状态标签栏 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心脑风险"
+                    android:textSize="12sp"
+                    android:textColor="#333333" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="低风险"
+                    android:textSize="12sp"
+                    android:textColor="#00C853"
+                    android:layout_marginStart="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="睡眠"
+                    android:textSize="12sp"
+                    android:textColor="#333333"
+                    android:layout_marginStart="20dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="睡眠充足"
+                    android:textSize="12sp"
+                    android:textColor="#00C853"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="疲劳"
+                    android:textSize="12sp"
+                    android:textColor="#333333" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="轻度疲劳"
+                    android:textSize="12sp"
+                    android:textColor="#FFC107"
+                    android:layout_marginStart="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="焦虑"
+                    android:textSize="12sp"
+                    android:textColor="#333333"
+                    android:layout_marginStart="20dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="无焦虑"
+                    android:textSize="12sp"
+                    android:textColor="#00C853"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="抑郁"
+                    android:textSize="12sp"
+                    android:textColor="#333333" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="轻度抑郁"
+                    android:textSize="12sp"
+                    android:textColor="#FFC107"
+                    android:layout_marginStart="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="压力"
+                    android:textSize="12sp"
+                    android:textColor="#333333"
+                    android:layout_marginStart="20dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="无压力"
+                    android:textSize="12sp"
+                    android:textColor="#00C853"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 新增：建议 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="建议"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\n心脑建议:\n·均衡膳食，摄入充足的膳食纤维、维生素和蛋白质。\n·保持良好的生活习惯，戒绝吸烟、酗酒、熬夜等不良嗜好，规律作息。\n·坚持适度的有氧运动，提高身体代谢能力，避免肥胖。\n\n情绪建议:\n正确认识和对待负情绪，尝试通过倾诉、冥想等方式缓解。"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="12dp" />
+        </LinearLayout>
+    <!-- 新增：HRV心脑及身体健康分析 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/card_bg"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="HRV心脑及身体健康分析"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <!-- 心脑风险 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n心脑风险"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp" />
+        <!-- 心脑风险进度条（简化为文本+数值） -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="心脑风险指数"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="32.52"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="低风险"
+                android:textSize="12sp"
+                android:textColor="#00C853" />
+        </LinearLayout>
+        <!-- 心脑风险解读 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="解读:您可能存在轻度的心肌功能异常，这种心率变异性的下降和自主神经调节性降低，导致心脏电活动不稳定性或主导优势增加，以及肾脏的思维迟缓或注意力分散，提高了患病风险。"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- 心脑风险指标表格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:weightSum="6">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LF/HF"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN50"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SD1"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SD1/SD2"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SDSD"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN20"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.03\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.44\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="51.85\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2.11\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="41.61\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1.00\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- 失眠模块 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n失眠"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp" />
+        <!-- 失眠进度条 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="失眠指数"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.8"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="睡眠充足"
+                android:textSize="12sp"
+                android:textColor="#00C853" />
+        </LinearLayout>
+        <!-- 失眠解读 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="解读:您的交感神经和副交感神经活动均衡，几乎没有失眠的困扰。\n副交感神经系统的活跃有助于降低心率、减缓呼吸，开放放松机制，身体更容易从现实清醒状态的反应。这种状态下，并且肌肉紧张等生理状态反映身体获得了休息，脑的能量消耗增加，进而影响体力和精力的恢复。"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginTop="8dp" />
+        <!-- 失眠指标表格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:weightSum="6">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SDNN"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN20"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN50"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SDSD"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="P_TOTAL"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LF/HFNU"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="43.28\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1.00\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.44\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="41.61\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="430.44\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2.57\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- 疲劳模块 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n疲劳"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp" />
+        <!-- 疲劳进度条 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="疲劳指数"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="48.2"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="轻度疲劳"
+                android:textSize="12sp"
+                android:textColor="#FFC107" />
+        </LinearLayout>
+        <!-- 疲劳解读 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="解读:您目前处于轻度疲劳的状态。正常情况下当交感神经系统活动增加时，身体会进入警觉的状态。这种状态下，并且肌肉紧张等生理反应反映身体获得了休息，脑的能量消耗增加，进而影响体力和精力的恢复。"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginTop="8dp" />
+        <!-- 疲劳指标表格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:weightSum="6">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RMSSD"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LF"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LF/HF"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SD1"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="HR_MAD"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN50"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="76.83\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="11.04\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.03\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="51.85\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="33.33\n正常"
+                android:textSize="12sp"
+                android:textColor="#00C853"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.44\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 新增：HRV精神指数 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/card_bg"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="HRV精神指数"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+    <!-- 自主神经状态图（占位） -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n自主神经状态图"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:layout_marginTop="12dp" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/home_bg" />
+
+    <!-- 自主神经说明 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n自主神经说明\n\n也称植物神经的功能与作用。交感神经是一种快速反应的系统，在身体处于紧急或应激状态时，会加速心率、提高血压、增加呼吸频率，以帮助身体应对危险。而副交感神经则是一种身体活动的放松系统，负责在身体处于休息或消化状态时，降低心率、血压和呼吸频率，促进消化和排泄。当这两种系统平衡时，会使人保持轻松、愉悦和不安；当副交感神经活性过高时，会使人感到昏昏欲睡、昏昏欲睡。"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="12dp" />
+
+    <!-- 焦虑模块 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n焦虑"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp" />
+    <!-- 焦虑进度条 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="焦虑指数"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18.2"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无焦虑"
+            android:textSize="12sp"
+            android:textColor="#00C853" />
+    </LinearLayout>
+    <!-- 焦虑解读 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解读:您的交感神经系统较为活跃，无明显的焦虑情绪。副交感神经使人平静和放松的感觉。当交感神经占主导时，人就会进入警觉状态，身体会出现心跳加快、血压升高等生理反应。"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="8dp" />
+    <!-- 焦虑指标表格 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:weightSum="6">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SDNN"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PNN20"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PNN50"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SDSD"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="P_TOTAL"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LF/HFNU"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:layout_marginTop="4dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="43.28\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1.00\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.44\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="41.61\n偏高"
+            android:textSize="12sp"
+            android:textColor="#FF5722"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="430.44\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2.57\n偏高"
+            android:textSize="12sp"
+            android:textColor="#FF5722"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- 抑郁模块 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n抑郁"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp" />
+    <!-- 抑郁进度条 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="抑郁指数"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="26.8"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无抑郁"
+            android:textSize="12sp"
+            android:textColor="#00C853" />
+    </LinearLayout>
+    <!-- 抑郁解读 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解读:您有轻微的抑郁倾向，当处于抑郁倾向时，副交感神经占主导，容易出现情绪低落和兴趣减退等症状。这种过多的副交感神经活动会导致身体出现疲劳、睡眠障碍等问题。"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="8dp" />
+    <!-- 抑郁指标表格 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:weightSum="6">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SDNN"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LF"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LF/HFNU"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CVNN"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PNN50"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SD1/SD2"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:layout_marginTop="4dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="43.28\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="11.04\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2.57\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.05\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.44\n偏低"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2.11\n偏高"
+            android:textSize="12sp"
+            android:textColor="#FF5722"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- 压力模块 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n压力"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp" />
+    <!-- 压力进度条 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="压力指数"
+            android:textSize="12sp"
+            android:textColor="#333333" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6.6"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无压力"
+            android:textSize="12sp"
+            android:textColor="#00C853" />
+    </LinearLayout>
+    <!-- 压力解读 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解读:您的心理压力较小，交感神经活性较低。通常情况下，当人处于压力状态时，交感神经会被激活，导致心率加快、血压升高等生理反应。而您的副交感神经活动较为活跃，说明您处于放松状态。"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="8dp" />
+    <!-- 压力指标表格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:weightSum="6">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SDNN"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN20"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PNN50"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SDSD"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="P_TOTAL"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LF/HFNU"
+                android:textSize="12sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="43.28\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1.00\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.44\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="41.61\n偏高"
+                android:textSize="12sp"
+                android:textColor="#FF5722"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="430.44\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2.57\n偏低"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+        <!-- 新增：疾病风险指数 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 顶部标签栏（修复边框问题：用View实现底部边框） -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="12dp">
+
+                <!-- 标题和标签 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="疾病风险指数"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginEnd="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心律失常"
+                    android:textSize="14sp"
+                    android:textColor="#333333" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="冠心病"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:layout_marginStart="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="二尖瓣狭窄"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:layout_marginStart="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="肺炎"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:layout_marginStart="16dp" />
+            </LinearLayout>
+
+            <!-- 底部边框（替代borderBottomWidth/color） -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEEEEE"
+                android:layout_marginTop="-4dp"/>
+
+            <!-- 疾病概述 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="疾病概述"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="自主神经系统的平衡是维持心脏健康的关键，交感神经和副交感神经的平衡失调会导致心脏电活动不稳定，引发心律失常。交感神经活性的增加可导致心率变异性降低，引发心肌缺血。建议交感神经活性下降后再进行剧烈的运动，防止心跳速率。"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- 风险趋势预测分析 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="风险趋势预测分析"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="16dp" />
+            <!-- 图表占位 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="8dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="#F5F5F5"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="疾病风险趋势图(压力)\n(图表占位)"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:gravity="center" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="#F5F5F5"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="疾病风险趋势图(年龄)\n(图表占位)"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:gravity="center" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 预防措施 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="预防措施"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1、定期到医院做检查，以心脏疾病。\n2、坚持做一些户外运动，坚持锻炼身体，以提高力，有利于增强免疫力。\n3、保持好的生活习惯，不要抽烟，避免熬夜的习惯。\n4、缓解压力，天气好的时候多出去走走，使我保持良好的，对于预防冠心病心肌梗塞具有很好作用。"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- 再测一次按钮（修复圆角：用background实现） -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="再测一次"
+                android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

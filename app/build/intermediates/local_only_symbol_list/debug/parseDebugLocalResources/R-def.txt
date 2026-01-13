@@ -8,6 +8,7 @@ color colorPrimaryContainer
 color colorPrimaryDark
 color success_green
 color white
+drawable card_bg
 drawable home_bg
 drawable home_logo
 drawable home_title
@@ -20,6 +21,19 @@ drawable icon4
 drawable icon5
 drawable icon6
 drawable main
+drawable main_title
+drawable result_icon1
+drawable result_icon10
+drawable result_icon11
+drawable result_icon12
+drawable result_icon2
+drawable result_icon3
+drawable result_icon4
+drawable result_icon5
+drawable result_icon6
+drawable result_icon7
+drawable result_icon8
+drawable result_icon9
 id bg_frame
 id bottom_button_container
 id btn_bluetooth_detect
@@ -55,6 +69,7 @@ id tv_upload_and_end
 layout activity_data_selection
 layout activity_device_list
 layout activity_main
+layout activity_report
 layout activity_result
 layout activity_splash
 layout activity_start

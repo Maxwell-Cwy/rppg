@@ -2957,6 +2957,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable card_bg
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
@@ -3004,6 +3005,7 @@ drawable m3_tabs_line_indicator
 drawable m3_tabs_rounded_line_indicator
 drawable m3_tabs_transparent_background
 drawable main
+drawable main_title
 drawable material_cursor_drawable
 drawable material_ic_calendar_black_24dp
 drawable material_ic_clear_black_24dp
@@ -3065,6 +3067,18 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable result_icon1
+drawable result_icon10
+drawable result_icon11
+drawable result_icon12
+drawable result_icon2
+drawable result_icon3
+drawable result_icon4
+drawable result_icon5
+drawable result_icon6
+drawable result_icon7
+drawable result_icon8
+drawable result_icon9
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -3719,6 +3733,7 @@ layout abc_tooltip
 layout activity_data_selection
 layout activity_device_list
 layout activity_main
+layout activity_report
 layout activity_result
 layout activity_splash
 layout activity_start
