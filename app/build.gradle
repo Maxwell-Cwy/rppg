@@ -53,4 +53,26 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
     implementation "androidx.camera:camera-video:$camerax_version"
+
+    implementation(files("libs/wzaisdk-release.aar"))
+
+    // 导入tensorflow lite 来调用我们的模型
+    implementation("org.tensorflow:tensorflow-lite:2.15.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.15.0")
+    implementation("org.tensorflow:tensorflow-lite-select-tf-ops:2.15.0")
+    // 通过camera2来快捷调用设备相机
+    implementation ("androidx.camera:camera-core:1.4.0-alpha04")
+    implementation ("androidx.camera:camera-camera2:1.4.0-alpha04")
+    implementation ("androidx.camera:camera-lifecycle:1.4.0-alpha04")
+    // 通过camera-view 来进行相机画面预览展示
+    implementation ("androidx.camera:camera-view:1.4.0-alpha04")
+    //    okhttp
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    //    gson
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.20.0'
+
 }

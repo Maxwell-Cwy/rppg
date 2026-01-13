@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,7 +22,12 @@ import com.example.myapplication.utils.DataSaver;
 import com.example.myapplication.utils.TimeUtils;
 import androidx.camera.view.PreviewView;
 import com.google.android.material.button.MaterialButton;
+import com.wuzhengai.examination.validate.CVInitialize;
+import com.wuzhengai.examination.validate.CVInitializeLisener;
 import android.widget.TextView;
+
+
+
 
 
 
@@ -80,16 +86,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initViews();
         initServices();
         checkAllPermissions();
         bindEvents();
+
     }
 
     private void initViews() {
         previewView = findViewById(R.id.preview_view);
-
         btnBluetoothDetect = findViewById(R.id.btn_bluetooth_detect);
         btnStartDetection = findViewById(R.id.btn_start_detection);
         btnManualUpload = findViewById(R.id.btn_manual_upload);
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity
 
         // 设置返回按钮点击事件
         btnExitPreview.setOnClickListener(v -> stopDetectionEarly());
+
     }
 
     private void stopDetectionEarly() {

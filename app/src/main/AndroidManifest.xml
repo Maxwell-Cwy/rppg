@@ -5,6 +5,7 @@
     <!-- ==================== 所有需要的权限（完美适配 Android 6~15） ==================== -->
 
     <!-- Android 12+ 新蓝牙权限（推荐写法，不会吓人提示“访问位置”） -->
+
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
@@ -19,6 +20,7 @@
 
     <!-- 网络（上传数据） -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- Android 13+ 读取视频文件 -->
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
