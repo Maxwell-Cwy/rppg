@@ -9,6 +9,15 @@ android {
         version = release(36) // 与你的minSdk 35、targetSdk 36兼容
     }
 
+    signingConfigs {
+        debug {
+            storeFile file("C:/Users/407-34/Desktop/MyApplication/debug(1).keystore")
+            storePassword 'android'
+            keyAlias 'AndroidDebugKey'
+            keyPassword 'android'
+        }
+    }
+
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdk 35
@@ -24,6 +33,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -74,5 +86,7 @@ dependencies {
     //    gson
     implementation("com.google.code.gson:gson:2.10.1")
     implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.20.0'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }

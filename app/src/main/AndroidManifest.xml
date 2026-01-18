@@ -55,11 +55,13 @@
             </intent-filter>
         </activity>
 
-        <!-- 主检测界面（之前缺失！） -->
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:screenOrientation="landscape" />
+
+        <activity android:name=".CameraActivity" />
+
         <activity
             android:name=".DataSelectionActivity"
             android:exported="false"

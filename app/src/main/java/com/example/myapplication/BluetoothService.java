@@ -5,12 +5,11 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;   // 新增这行！
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 import androidx.core.app.ActivityCompat;
@@ -19,12 +18,16 @@ import com.example.myapplication.utils.HexUtils;
 import com.example.myapplication.utils.BluetoothUtils;
 import com.example.myapplication.utils.TimeUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class BluetoothService {
     private static final String TAG = "BluetoothService";
+
+    // ########### 核心改造1：静态单例相关 ###########
+    // 1. 静态单例实例（volatile保证多线程可见性）
+    private static volatile BluetoothService INSTANCE;
+    // 新增：全局监听器（替换原有构造方法传入的listener）
+    private BluetoothListener mGlobalListener;
 
     // 血氧仪协议UUID
     private static final UUID OXIMETER_SERVICE_UUID =
@@ -34,7 +37,6 @@ public class BluetoothService {
     private static final UUID CLIENT_CONFIG_DESCRIPTOR_UUID =
             UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
-
     // 协议命令（全部加了强制转换，彻底解决 byte 报错）
     private static final byte[] DEVICE_READY_CMD = {
             (byte) 0xFF, (byte) 0xFE, 0x04, (byte) 0x87, 0x22, 0x61
@@ -43,8 +45,8 @@ public class BluetoothService {
             (byte) 0xFF, (byte) 0xFE, 0x04, (byte) 0xB5, 0x01, (byte) 0xB0
     };
 
-    private final Context mContext;
-    private final BluetoothListener mListener;
+    // ########### 核心改造2：上下文改为全局Application上下文 ###########
+    private final Context mAppContext; // 全局上下文，避免内存泄漏
     private final BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
     private BluetoothGattCharacteristic mCharacteristic;
@@ -54,8 +56,7 @@ public class BluetoothService {
     private boolean isConnected = false;
     private String bluetoothDataStartTime;
     private String bluetoothDataEndTime;
-
-    private static Integer index=0;
+    private static Integer index = 0;
 
     public interface BluetoothListener {
         void onBluetoothConnected(String deviceName, String deviceAddress);
@@ -66,90 +67,108 @@ public class BluetoothService {
         void onDataStopReceiving(String endTime);
     }
 
-    public BluetoothService(Context context, BluetoothListener listener) {
-        this.mContext = context;
-        this.mListener = listener;
+    // ########### 核心改造3：私有化构造方法 ###########
+    // 禁止外部new，只能通过getInstance获取实例
+    private BluetoothService(Context context) {
+        // 关键：使用Application上下文，避免Activity销毁导致内存泄漏
+        this.mAppContext = context.getApplicationContext();
         this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         this.mOximeterData = new OximeterData();
     }
 
+    // ########### 核心改造4：全局唯一获取实例的方法 ###########
+    // 双重校验锁，保证线程安全
+    public static BluetoothService getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (BluetoothService.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new BluetoothService(context);
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    // ########### 新增：设置全局监听器（供不同Activity切换） ###########
+    public void setBluetoothListener(BluetoothListener listener) {
+        this.mGlobalListener = listener;
+    }
+
+    // 原有方法：连接设备（仅修改监听器调用为mGlobalListener）
     public void connectToDevice(String deviceAddress) {
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
-            mListener.onBluetoothConnectFailed("蓝牙未开启，请先开启蓝牙");
+            if (mGlobalListener != null) {
+                mGlobalListener.onBluetoothConnectFailed("蓝牙未开启，请先开启蓝牙");
+            }
             return;
         }
 
         if (!BluetoothUtils.isBluetoothAddressValid(deviceAddress)) {
-            mListener.onBluetoothConnectFailed("蓝牙地址不合法");
+            if (mGlobalListener != null) {
+                mGlobalListener.onBluetoothConnectFailed("蓝牙地址不合法");
+            }
             return;
         }
 
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
         if (device == null) {
-            mListener.onBluetoothConnectFailed("无法获取蓝牙设备");
+            if (mGlobalListener != null) {
+                mGlobalListener.onBluetoothConnectFailed("无法获取蓝牙设备");
+            }
             return;
         }
 
         mMainHandler.post(() -> {
-            if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.BLUETOOTH_CONNECT)
+            if (ActivityCompat.checkSelfPermission(mAppContext, android.Manifest.permission.BLUETOOTH_CONNECT)
                     != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                mListener.onBluetoothConnectFailed("缺少蓝牙连接权限");
+                if (mGlobalListener != null) {
+                    mGlobalListener.onBluetoothConnectFailed("缺少蓝牙连接权限");
+                }
                 return;
             }
-            mBluetoothGatt = device.connectGatt(mContext, false, mGattCallback);
+            mBluetoothGatt = device.connectGatt(mAppContext, false, mGattCallback);
         });
     }
 
+    // 原有方法：开始接收数据（仅修改监听器调用）
     public void startReceivingData() {
         if (!isConnected || mCharacteristic == null) {
-            mListener.onBluetoothConnectFailed("蓝牙未连接，无法开始接收数据");
+            if (mGlobalListener != null) {
+                mGlobalListener.onBluetoothConnectFailed("蓝牙未连接，无法开始接收数据");
+            }
             return;
         }
-
-//        new Thread(() -> {
-//            try {
-//                // 发送100个0x00唤醒设备
-//                for (int i = 0; i < 100; i++) {
-//                    sendData(new byte[]{0x00});
-//                    Thread.sleep(300);
-//                }
-//
-//                sendData(DEVICE_READY_CMD);
-//                Thread.sleep(500);
-//
-//                sendData(START_MEASURE_CMD);
-//                Thread.sleep(500);
-//
-//                isReceivingData = true;  // 只设置一次
-//
-//            } catch (InterruptedException e) {
-//                Log.e(TAG, "发送命令线程中断: " + e.getMessage());
-//                mMainHandler.post(() -> mListener.onBluetoothConnectFailed("发送测量命令失败"));
-//            }
-//        }).start();
         isReceivingData = true;
         bluetoothDataStartTime = TimeUtils.getPreciseTimeStamp();  // 记录开始
-        Log.e("Time","记录时间："+bluetoothDataStartTime);
-        mMainHandler.post(() -> mListener.onDataStartReceiving(bluetoothDataStartTime));  // 只调用有参数版本
+        Log.e("Time", "记录时间：" + bluetoothDataStartTime);
+        mMainHandler.post(() -> {
+            if (mGlobalListener != null) {
+                mGlobalListener.onDataStartReceiving(bluetoothDataStartTime);
+            }
+        });
     }
 
-
-    // 新增停止方法
+    // 原有方法：停止接收数据（仅修改监听器调用）
     public void stopReceivingData() {
         bluetoothDataEndTime = TimeUtils.getPreciseTimeStamp();  // 记录结束
         isReceivingData = false;
         // 可发送停止命令给设备（如果协议支持）
-        sendData(new byte[] { /* 停止命令 */ });
-        mMainHandler.post(() -> mListener.onDataStopReceiving(bluetoothDataEndTime));  // 新回调
+        sendData(new byte[]{});
+        mMainHandler.post(() -> {
+            if (mGlobalListener != null) {
+                mGlobalListener.onDataStopReceiving(bluetoothDataEndTime);
+            }
+        });
     }
 
+    // 原有私有方法：发送数据（无修改）
     private void sendData(byte[] data) {
         if (mBluetoothGatt == null || mCharacteristic == null) {
             Log.e(TAG, "发送数据失败：GATT或特征值为空");
             return;
         }
 
-        if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.BLUETOOTH_CONNECT)
+        if (ActivityCompat.checkSelfPermission(mAppContext, android.Manifest.permission.BLUETOOTH_CONNECT)
                 != android.content.pm.PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -158,9 +177,10 @@ public class BluetoothService {
         mBluetoothGatt.writeCharacteristic(mCharacteristic);
     }
 
+    // 原有方法：断开连接（无核心修改）
     public void disconnect() {
         if (mBluetoothGatt != null) {
-            if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.BLUETOOTH_CONNECT)
+            if (ActivityCompat.checkSelfPermission(mAppContext, android.Manifest.permission.BLUETOOTH_CONNECT)
                     != android.content.pm.PackageManager.PERMISSION_GRANTED) {
                 return;
             }
@@ -173,21 +193,24 @@ public class BluetoothService {
         mCharacteristic = null;
     }
 
+    // 原有方法：获取采集数据（无修改）
     public OximeterData getCollectedData() {
         return mOximeterData;
     }
 
+    // 原有方法：获取连接状态（无修改）
     public boolean isConnected() {
         return isConnected;
     }
 
+    // ########### 核心改造5：GATT回调中调用全局监听器 ###########
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
 
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.BLUETOOTH_CONNECT)
+                if (ActivityCompat.checkSelfPermission(mAppContext, android.Manifest.permission.BLUETOOTH_CONNECT)
                         != android.content.pm.PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
@@ -195,7 +218,11 @@ public class BluetoothService {
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 isConnected = false;
-                mMainHandler.post(mListener::onBluetoothDisconnected);
+                mMainHandler.post(() -> {
+                    if (mGlobalListener != null) {
+                        mGlobalListener.onBluetoothDisconnected();
+                    }
+                });
                 gatt.close();
                 mBluetoothGatt = null;
             }
@@ -206,19 +233,31 @@ public class BluetoothService {
             super.onServicesDiscovered(gatt, status);
 
             if (status != BluetoothGatt.GATT_SUCCESS) {
-                mMainHandler.post(() -> mListener.onBluetoothConnectFailed("服务发现失败，错误码：" + status));
+                mMainHandler.post(() -> {
+                    if (mGlobalListener != null) {
+                        mGlobalListener.onBluetoothConnectFailed("服务发现失败，错误码：" + status);
+                    }
+                });
                 return;
             }
 
             BluetoothGattService service = gatt.getService(OXIMETER_SERVICE_UUID);
             if (service == null) {
-                mMainHandler.post(() -> mListener.onBluetoothConnectFailed("未找到血氧仪服务"));
+                mMainHandler.post(() -> {
+                    if (mGlobalListener != null) {
+                        mGlobalListener.onBluetoothConnectFailed("未找到血氧仪服务");
+                    }
+                });
                 return;
             }
 
             mCharacteristic = service.getCharacteristic(OXIMETER_CHARACTERISTIC_UUID);
             if (mCharacteristic == null) {
-                mMainHandler.post(() -> mListener.onBluetoothConnectFailed("未找到血氧仪特征值"));
+                mMainHandler.post(() -> {
+                    if (mGlobalListener != null) {
+                        mGlobalListener.onBluetoothConnectFailed("未找到血氧仪特征值");
+                    }
+                });
                 return;
             }
 
@@ -230,7 +269,11 @@ public class BluetoothService {
             String displayName = (deviceName == null || deviceName.isEmpty())
                     ? "未知血氧仪设备" : deviceName;
 
-            mMainHandler.post(() -> mListener.onBluetoothConnected(displayName, deviceAddress));
+            mMainHandler.post(() -> {
+                if (mGlobalListener != null) {
+                    mGlobalListener.onBluetoothConnected(displayName, deviceAddress);
+                }
+            });
         }
 
         @Override
@@ -243,11 +286,14 @@ public class BluetoothService {
 
                 // 只有在正式开始检测后才显示到界面
                 if (isReceivingData) {
-                    mMainHandler.post(() -> mListener.onDataReceived(hexData));
+                    mMainHandler.post(() -> {
+                        if (mGlobalListener != null) {
+                            mGlobalListener.onDataReceived(hexData);
+                        }
+                    });
                     index++;
-                    Log.w("数据总数：","第"+index+":"+hexData);
+                    Log.w("数据总数：", "第" + index + ":" + hexData);
                 }
-
             }
         }
 
@@ -259,13 +305,13 @@ public class BluetoothService {
         }
     };
 
-    // 关键修复：使用 BluetoothGattDescriptor 完整类名 + 去掉 var
+    // 原有方法：设置特征值通知（无修改）
     private void setCharacteristicNotification(boolean enable) {
         if (mBluetoothGatt == null || mCharacteristic == null) {
             return;
         }
 
-        if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.BLUETOOTH_CONNECT)
+        if (ActivityCompat.checkSelfPermission(mAppContext, android.Manifest.permission.BLUETOOTH_CONNECT)
                 != android.content.pm.PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -279,5 +325,13 @@ public class BluetoothService {
                     : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
             mBluetoothGatt.writeDescriptor(descriptor);
         }
+    }
+
+    // ########### 新增：获取已连接设备地址（可选，供Activity传递校验） ###########
+    public String getConnectedDeviceAddress() {
+        if (mBluetoothGatt != null && isConnected) {
+            return mBluetoothGatt.getDevice().getAddress();
+        }
+        return null;
     }
 }

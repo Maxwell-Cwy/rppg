@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-93:12
-INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-93:12
-INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-93:12
-INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-93:12
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-95:12
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-95:12
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-95:12
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:2:1-95:12
 MERGED from [wzaisdk-release.aar] C:\Users\407-34\.gradle\caches\8.13\transforms\a6e19a6439f6fb4759d2ea1c4bcaca02\transformed\wzaisdk-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:viewbinding:8.13.1] C:\Users\407-34\.gradle\caches\8.13\transforms\34a393ae25230c309ed80d32748b08cd\transformed\viewbinding-8.13.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:17:1-24:12
@@ -22,6 +22,7 @@ MERGED from [org.tensorflow:tensorflow-lite:2.15.0] C:\Users\407-34\.gradle\cach
 MERGED from [org.tensorflow:tensorflow-lite-gpu:2.15.0] C:\Users\407-34\.gradle\caches\8.13\transforms\aee65fe316d8418ab1724e27c47c3058\transformed\tensorflow-lite-gpu-2.15.0\AndroidManifest.xml:2:1-11:12
 MERGED from [org.tensorflow:tensorflow-lite-select-tf-ops:2.15.0] C:\Users\407-34\.gradle\caches\8.13\transforms\453301006d62589997517d5c5ecc2ced\transformed\tensorflow-lite-select-tf-ops-2.15.0\AndroidManifest.xml:2:1-8:12
 MERGED from [com.microsoft.onnxruntime:onnxruntime-android:1.20.0] C:\Users\407-34\.gradle\caches\8.13\transforms\95fc8f7a77729801dffad283e007db4e\transformed\onnxruntime-android-1.20.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] C:\Users\407-34\.gradle\caches\8.13\transforms\d2fb7f6f8c4de09d78625d5901fc8031\transformed\MPAndroidChart-v3.1.0\AndroidManifest.xml:2:1-20:12
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\407-34\.gradle\caches\8.13\transforms\95ed355c2903db0e1ccd21dc028c9daf\transformed\savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\407-34\.gradle\caches\8.13\transforms\2b5b3c8e59e376d9ac946506bd6d3e15\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\407-34\.gradle\caches\8.13\transforms\481da0bfa45fd77d07e1ed32e1937987\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -113,8 +114,8 @@ ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xm
 	android:name
 		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:29:22-77
 application
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:35:5-91:19
-INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:35:5-91:19
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:35:5-93:19
+INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:35:5-93:19
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\407-34\.gradle\caches\8.13\transforms\da7bf66283cbe9c63e0170eaa355fbde\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\407-34\.gradle\caches\8.13\transforms\2b4fd5c3825f5ddf57119c98d6814122\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -186,51 +187,55 @@ ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xm
 	android:name
 		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:54:27-74
 activity#com.example.myapplication.MainActivity
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:59:9-62:53
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:58:9-61:53
 	android:screenOrientation
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:62:13-50
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:61:13-50
 	android:exported
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:61:13-37
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:60:13-37
 	android:name
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:60:13-41
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:59:13-41
+activity#com.example.myapplication.CameraActivity
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:63:9-52
+	android:name
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:63:19-49
 activity#com.example.myapplication.DataSelectionActivity
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:63:9-66:53
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:65:9-68:53
 	android:screenOrientation
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:68:13-50
+	android:exported
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:67:13-37
+	android:name
 		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:66:13-50
-	android:exported
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:65:13-37
-	android:name
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:64:13-50
 activity#com.example.myapplication.StartActivity
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:68:9-71:53
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:70:9-73:53
 	android:screenOrientation
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:71:13-50
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:73:13-50
 	android:exported
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:70:13-37
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:72:13-37
 	android:name
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:69:13-42
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:71:13-42
 activity#com.example.myapplication.ResultActivity
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:72:9-78:20
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:74:9-80:20
 	android:parentActivityName
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:74:13-56
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:76:13-56
 	android:name
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:73:13-43
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:75:13-43
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:75:13-77:50
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:77:13-79:50
 	android:value
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:77:17-47
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:79:17-47
 	android:name
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:76:17-63
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:78:17-63
 activity#com.example.myapplication.DeviceListActivity
-ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:81:9-89:20
+ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:83:9-91:20
 	android:screenOrientation
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:84:13-50
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:86:13-50
 	android:parentActivityName
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:85:13-55
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:87:13-55
 	android:exported
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:83:13-37
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:85:13-37
 	android:name
-		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:82:13-47
+		ADDED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml:84:13-47
 uses-sdk
 INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\407-34\Desktop\MyApplication\app\src\main\AndroidManifest.xml
@@ -271,6 +276,8 @@ MERGED from [org.tensorflow:tensorflow-lite-select-tf-ops:2.15.0] C:\Users\407-3
 MERGED from [org.tensorflow:tensorflow-lite-select-tf-ops:2.15.0] C:\Users\407-34\.gradle\caches\8.13\transforms\453301006d62589997517d5c5ecc2ced\transformed\tensorflow-lite-select-tf-ops-2.15.0\AndroidManifest.xml:4:5-44
 MERGED from [com.microsoft.onnxruntime:onnxruntime-android:1.20.0] C:\Users\407-34\.gradle\caches\8.13\transforms\95fc8f7a77729801dffad283e007db4e\transformed\onnxruntime-android-1.20.0\AndroidManifest.xml:5:5-44
 MERGED from [com.microsoft.onnxruntime:onnxruntime-android:1.20.0] C:\Users\407-34\.gradle\caches\8.13\transforms\95fc8f7a77729801dffad283e007db4e\transformed\onnxruntime-android-1.20.0\AndroidManifest.xml:5:5-44
+MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] C:\Users\407-34\.gradle\caches\8.13\transforms\d2fb7f6f8c4de09d78625d5901fc8031\transformed\MPAndroidChart-v3.1.0\AndroidManifest.xml:16:5-18:41
+MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] C:\Users\407-34\.gradle\caches\8.13\transforms\d2fb7f6f8c4de09d78625d5901fc8031\transformed\MPAndroidChart-v3.1.0\AndroidManifest.xml:16:5-18:41
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\407-34\.gradle\caches\8.13\transforms\95ed355c2903db0e1ccd21dc028c9daf\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\407-34\.gradle\caches\8.13\transforms\95ed355c2903db0e1ccd21dc028c9daf\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\407-34\.gradle\caches\8.13\transforms\2b5b3c8e59e376d9ac946506bd6d3e15\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44

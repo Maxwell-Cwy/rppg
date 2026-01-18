@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"> <!-- 黑色背景，便于相机预览 -->
+
+    <!-- 移除独立的PreviewView，因为AuxiliaryCameraView内部已处理预览 -->
+
+    <!-- AuxiliaryCameraView（SDK相机） -->
+    <com.example.myapplication.MyAuxiliaryCameraView
+        android:id="@+id/acv1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <!-- MyVIew（用于绘制人脸框） -->
+    <com.example.myapplication.view.MyVIew
+        android:id="@+id/myview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- VerticalMarqueeView（从参考添加） -->
+    <com.example.myapplication.view.VerticalMarqueeView
+        android:id="@+id/marquee_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="center" />
+
+    <!-- HRV显示区（从参考添加） -->
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="290dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/shape_white_frame"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请您在光线充足的地方进行检测，避免曝光或背光"
+            android:textColor="#17191A"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/shape_tag_007aff"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_hrv" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="HRV"
+                android:textColor="@color/app_blue"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_vale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/app_blue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="次/分钟"
+                android:textColor="@color/app_blue"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="144dp" />
+
+        <TextView
+            android:id="@+id/tv_cur_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_blue"
+            android:textSize="16sp" />
+
+        <!-- 进度条（从参考添加） -->
+        <ProgressBar
+            android:id="@+id/pb1"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/progress_background"
+            android:progressDrawable="@drawable/progress_foreground" />
+
+    </LinearLayout>
+
+    <!-- 倒计时文本（顶部居中） -->
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="90"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:background="#80000000"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="16dp" />
+
+    <!-- 返回按钮（左上角） -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_exit_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="返回"
+        android:textColor="@android:color/white"
+        app:backgroundTint="#80000000"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:layout_gravity="top|start"
+        android:layout_margin="16dp" />
+
+</FrameLayout>

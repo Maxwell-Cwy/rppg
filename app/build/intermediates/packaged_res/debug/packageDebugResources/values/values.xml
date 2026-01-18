@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="app_blue">#0E7DEC</color>
+    <color name="app_blue_16">#1A0E7DEC</color>
     <color name="black">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentContainer">#FFCCE5</color>

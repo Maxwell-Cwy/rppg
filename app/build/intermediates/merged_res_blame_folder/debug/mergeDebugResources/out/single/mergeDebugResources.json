@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_main_title.png.flat",
-        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\main_title.png"
-    },
-    {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_icon3.png.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\icon3.png"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_main_title.png.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\main_title.png"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_result_icon5.png.flat",
@@ -26,6 +26,10 @@
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\layout_activity_main.xml.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_shape_white_frame.xml.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\shape_white_frame.xml"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\mipmap-mdpi_ic_launcher_round.webp.flat",
@@ -52,12 +56,24 @@
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\icon6.png"
     },
     {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_img.png.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\img.png"
+    },
+    {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_icon2.png.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\icon2.png"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_result_icon4.png.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\result_icon4.png"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_shape_tag_007aff.xml.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\shape_tag_007aff.xml"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\layout_activity_camera.xml.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\layout\\activity_camera.xml"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_ic_launcher_foreground.xml.flat",
@@ -68,8 +84,16 @@
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\mipmap-anydpi\\ic_launcher.xml"
     },
     {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_progress_foreground.xml.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\progress_foreground.xml"
+    },
+    {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_result_icon1.png.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\result_icon1.png"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_shape_blue_line_chart_fill.xml.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\shape_blue_line_chart_fill.xml"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_icon5.png.flat",
@@ -102,6 +126,10 @@
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_home_bg.png.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\home_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_img_1.png.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\img_1.png"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_ic_launcher_background.xml.flat",
@@ -156,12 +184,20 @@
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\layout\\activity_data_selection.xml"
     },
     {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_progress_background.xml.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\progress_background.xml"
+    },
+    {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_icon4.png.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\icon4.png"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\drawable_ic_hrv.png.flat",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\drawable\\ic_hrv.png"
     },
     {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-debug-37:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",

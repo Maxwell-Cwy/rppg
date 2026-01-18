@@ -8,6 +8,10 @@
         "source": "com.example.myapplication.app-main-39:/layout/activity_report.xml"
     },
     {
+        "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-mergeDebugResources-36:\\layout\\activity_camera.xml",
+        "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\layout\\activity_camera.xml"
+    },
+    {
         "merged": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-mergeDebugResources-36:\\layout\\activity_start.xml",
         "source": "C:\\Users\\407-34\\.gradle\\daemon\\8.13\\com.example.myapplication.app-main-39:\\layout\\activity_start.xml"
     },
