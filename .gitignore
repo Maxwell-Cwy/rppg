@@ -17,3 +17,8 @@ local.properties
 *.apk
 *.aar
 app/build/
+
+# Ignore build outputs
+/app/build/
+*.apk
+
